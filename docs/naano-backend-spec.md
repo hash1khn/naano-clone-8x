@@ -7,6 +7,7 @@ Supabase (Postgres + Auth + Storage) + Next.js API routes / Server Actions. Stri
 - Roles: `brand`, `creator` (stored on `users` table, set at registration)
 - Supabase Auth (email/password minimum; OAuth optional/stretch)
 - Routes consumed by frontend: `/register?role=influencer` → creator signup, `/register?role=saas` → brand signup
+- Email signup also collects `first_name`, `last_name`, and `heard_about` on `public.users` (and Auth `user_metadata`)
 
 ## Schema
 
@@ -15,6 +16,9 @@ users
   id uuid pk
   email text
   role text  -- 'brand' | 'creator'
+  first_name text
+  last_name text
+  heard_about text  -- 'linkedin' | 'word_of_mouth' | 'google' | 'creator' | 'other'
   created_at timestamp
 
 companies

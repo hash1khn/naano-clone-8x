@@ -37,18 +37,8 @@ function MailIcon() {
   );
 }
 
-export function RegisterSignup({
-  role,
-  copy,
-  oauthError,
-}: {
-  role: AppRole;
-  copy: AuthCopy;
-  oauthError?: boolean;
-}) {
-  const [emailMode, setEmailMode] = useState(false);
+function SignupHeading({ role, copy }: { role: AppRole; copy: AuthCopy }) {
   const isCreator = role === "creator";
-
   return (
     <>
       {isCreator ? (
@@ -65,17 +55,37 @@ export function RegisterSignup({
           <p className="mt-2 text-[15px] leading-relaxed text-[#6B7280]">{copy.brandSignupLead}</p>
         </>
       )}
+    </>
+  );
+}
+
+export function RegisterSignup({
+  role,
+  copy,
+  oauthError,
+}: {
+  role: AppRole;
+  copy: AuthCopy;
+  oauthError?: boolean;
+}) {
+  const [emailMode, setEmailMode] = useState(false);
+
+  return (
+    <>
+      {emailMode ? (
+        <button
+          type="button"
+          className="mb-6 cursor-pointer text-sm font-medium text-[#6B7280] hover:text-[#111827]"
+          onClick={() => setEmailMode(false)}
+        >
+          {copy.backToSignupOptions}
+        </button>
+      ) : null}
+      <SignupHeading role={role} copy={copy} />
       {oauthError ? <p className="mt-4 text-sm text-red-600">{copy.oauthFailed}</p> : null}
       {emailMode ? (
         <div className="mt-8">
           <RegisterForm role={role} copy={copy} />
-          <button
-            type="button"
-            className="mt-4 w-full cursor-pointer text-center text-sm font-medium text-[#6B7280] hover:text-[#111827]"
-            onClick={() => setEmailMode(false)}
-          >
-            {copy.backToSignupOptions}
-          </button>
         </div>
       ) : (
         <div className="mt-8 space-y-3">

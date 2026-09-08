@@ -53,6 +53,19 @@ export type AuthCopy = {
   signUpWithEmail: string;
   signInHere: string;
   backToSignupOptions: string;
+  firstName: string;
+  lastName: string;
+  businessEmail: string;
+  businessEmailPlaceholder: string;
+  passwordPlaceholder: string;
+  heardAbout: string;
+  heardAboutLinkedIn: string;
+  heardAboutWordOfMouth: string;
+  heardAboutGoogle: string;
+  heardAboutCreator: string;
+  heardAboutOther: string;
+  heardAboutRequired: string;
+  continue: string;
   marketplaceCardLabel: string;
   marketplaceCardTitle: string;
   marketplaceCardBody: string;
@@ -170,7 +183,20 @@ const authEn: AuthCopy = {
   signUpWithGoogle: "Sign up with Google",
   signUpWithEmail: "Sign up with email",
   signInHere: "Sign in here",
-  backToSignupOptions: "Back",
+  backToSignupOptions: "Back to sign-up options",
+  firstName: "First name",
+  lastName: "Last name",
+  businessEmail: "Business email",
+  businessEmailPlaceholder: "you@company.com",
+  passwordPlaceholder: "Create a strong password",
+  heardAbout: "How did you hear about us?",
+  heardAboutLinkedIn: "LinkedIn",
+  heardAboutWordOfMouth: "Word of mouth",
+  heardAboutGoogle: "Google search",
+  heardAboutCreator: "Another creator",
+  heardAboutOther: "Other",
+  heardAboutRequired: "Please choose how you heard about us.",
+  continue: "Continue",
   marketplaceCardLabel: "Your Marketplace card",
   marketplaceCardTitle: "Build a card brands can trust.",
   marketplaceCardBody: "It updates live with your profile, analytics, positioning and price.",
@@ -187,7 +213,7 @@ const authEn: AuthCopy = {
   alreadyHaveAccount: "Already have an account?",
   email: "Email",
   password: "Password",
-  emailPlaceholder: "john@company.com",
+  emailPlaceholder: "you@email.com",
   brand: "Brand",
   creator: "Creator",
   accountType: "Account type",
@@ -235,7 +261,20 @@ const authFr: AuthCopy = {
   signUpWithGoogle: "S'inscrire avec Google",
   signUpWithEmail: "S'inscrire par e-mail",
   signInHere: "Connectez-vous ici",
-  backToSignupOptions: "Retour",
+  backToSignupOptions: "Retour aux options d'inscription",
+  firstName: "Prénom",
+  lastName: "Nom",
+  businessEmail: "E-mail professionnel",
+  businessEmailPlaceholder: "vous@entreprise.com",
+  passwordPlaceholder: "Créez un mot de passe solide",
+  heardAbout: "Comment avez-vous entendu parler de nous ?",
+  heardAboutLinkedIn: "LinkedIn",
+  heardAboutWordOfMouth: "Bouche à oreille",
+  heardAboutGoogle: "Recherche Google",
+  heardAboutCreator: "Un autre créateur",
+  heardAboutOther: "Autre",
+  heardAboutRequired: "Indiquez comment vous avez entendu parler de nous.",
+  continue: "Continuer",
   marketplaceCardLabel: "Votre carte marketplace",
   marketplaceCardTitle: "Créez une carte en laquelle les marques peuvent avoir confiance.",
   marketplaceCardBody: "Elle se met à jour en direct avec votre profil, vos analytics, votre positionnement et votre tarif.",
@@ -252,7 +291,7 @@ const authFr: AuthCopy = {
   alreadyHaveAccount: "Vous avez déjà un compte ?",
   email: "E-mail",
   password: "Mot de passe",
-  emailPlaceholder: "jean@entreprise.com",
+  emailPlaceholder: "vous@email.com",
   brand: "Marque",
   creator: "Créateur",
   accountType: "Type de compte",

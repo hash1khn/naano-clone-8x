@@ -24,8 +24,8 @@ export function RegisterLayout({
           </Link>
           <LocaleToggle locale={locale} label={switchLanguage} />
         </div>
-        <div className="flex flex-1 items-center justify-center py-10">
-          <div className="w-full max-w-md">{children}</div>
+        <div className="flex flex-1 items-start justify-center overflow-y-auto py-10 lg:items-center">
+          <div className="w-full max-w-md py-2">{children}</div>
         </div>
       </div>
       {panel}

@@ -4,6 +4,9 @@ create table users (
   id uuid primary key,
   email text,
   role text, -- 'brand' | 'creator'
+  first_name text,
+  last_name text,
+  heard_about text, -- 'linkedin' | 'word_of_mouth' | 'google' | 'creator' | 'other'
   created_at timestamp
 );
 

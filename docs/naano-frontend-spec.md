@@ -30,8 +30,8 @@
 |---|---|---|
 | `/login` | `POST /api/auth/login` | supports `?reauth=1` |
 | `/register` | none | role picker → `/register?role=influencer` or `/register?role=saas` |
-| `/register?role=influencer` | `POST /api/auth/register`, OAuth start with `role=creator` | creator signup (step 1 of 4) |
-| `/register?role=saas` | `POST /api/auth/register`, OAuth start with `role=brand` | brand signup |
+| `/register?role=influencer` | `POST /api/auth/register`, OAuth start with `role=creator` | creator signup (step 1 of 4); email form: name, email, password, source |
+| `/register?role=saas` | `POST /api/auth/register`, OAuth start with `role=brand` | brand signup; email form: name, business email, password, source |
 
 ## App — `/brand` (single page, tab state = `window.location.hash`)
 

@@ -3,9 +3,23 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
 type Role = "brand" | "creator";
+const HEARD_ABOUT = ["linkedin", "word_of_mouth", "google", "creator", "other"] as const;
+type HeardAbout = (typeof HEARD_ABOUT)[number];
 
 function isRole(value: unknown): value is Role {
   return value === "brand" || value === "creator";
+}
+
+function isHeardAbout(value: unknown): value is HeardAbout {
+  return typeof value === "string" && (HEARD_ABOUT as readonly string[]).includes(value);
+}
+
+function optionalName(value: unknown): string | undefined {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : undefined;
 }
 
 export async function POST(request: Request) {
@@ -20,7 +34,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
 
-  const { email, password, role } = body as Record<string, unknown>;
+  const { email, password, role, first_name, last_name, heard_about } = body as Record<string, unknown>;
 
   if (typeof email !== "string" || email.length === 0) {
     return NextResponse.json({ error: "email is required" }, { status: 400 });
@@ -31,6 +45,14 @@ export async function POST(request: Request) {
   if (!isRole(role)) {
     return NextResponse.json({ error: 'role must be "brand" or "creator"' }, { status: 400 });
   }
+  if (heard_about !== undefined && heard_about !== null && heard_about !== "" && !isHeardAbout(heard_about)) {
+    return NextResponse.json({ error: "heard_about is invalid" }, { status: 400 });
+  }
+
+  const firstName = optionalName(first_name);
+  const lastName = optionalName(last_name);
+  const heardAbout = isHeardAbout(heard_about) ? heard_about : undefined;
+  const fullName = [firstName, lastName].filter(Boolean).join(" ") || undefined;
 
   try {
     const supabase = await createServerSupabaseClient();
@@ -39,6 +61,14 @@ export async function POST(request: Request) {
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          first_name: firstName,
+          last_name: lastName,
+          full_name: fullName,
+          heard_about: heardAbout,
+        },
+      },
     });
 
     if (signUpError) {
@@ -59,6 +89,9 @@ export async function POST(request: Request) {
       id: authUser.id,
       email: authUser.email ?? email,
       role,
+      first_name: firstName ?? null,
+      last_name: lastName ?? null,
+      heard_about: heardAbout ?? null,
       created_at: new Date().toISOString(),
     });
 

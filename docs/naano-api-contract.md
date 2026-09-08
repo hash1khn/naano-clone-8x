@@ -5,8 +5,9 @@ Keep this in sync if either side changes shape. This is the single source of tru
 ## Auth
 ```
 POST /api/auth/register
-  body: { email: string, password: string, role: "brand" | "creator" }
+  body: { email: string, password: string, role: "brand" | "creator", first_name?: string, last_name?: string, heard_about?: "linkedin" | "word_of_mouth" | "google" | "creator" | "other" }
   returns: { user: { id, email, role } }
+  notes: first_name / last_name / heard_about are stored on public.users and Auth user_metadata
 
 POST /api/auth/login
   body: { email: string, password: string }
