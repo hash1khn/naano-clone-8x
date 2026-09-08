@@ -831,6 +831,527 @@ export const billingCopy: Record<Locale, BillingCopy> = {
   fr: billingFr,
 };
 
+export type CollaborationsCopy = {
+  title: string;
+  collaborationsLabel: string;
+  committed: string;
+  toDo: string;
+  allCampaigns: string;
+  openCampaign: string;
+  searchPh: string;
+  tabAll: string;
+  tabActive: string;
+  tabReceived: string;
+  tabInvited: string;
+  tabAction: string;
+  tabCompleted: string;
+  colCreator: string;
+  colCampaign: string;
+  colStatus: string;
+  colNext: string;
+  colDue: string;
+  colAmount: string;
+  colUpdated: string;
+  followers: string;
+  emptyAll: string;
+  emptyTab: string;
+  showing: string;
+  showingNone: string;
+  rowsPerPage: string;
+  campaignFallback: string;
+  creatorFallback: string;
+  stAwait: string;
+  stAccepted: string;
+  stLive: string;
+  stDone: string;
+  stDraft: string;
+  stApp: string;
+  nextAwait: string;
+  nextAccepted: string;
+  nextDraft: string;
+  nextLive: string;
+  nextApp: string;
+  review: string;
+  approve: string;
+  advance: string;
+  messageCreator: string;
+  copyLink: string;
+  linkCopied: string;
+  close: string;
+  detailTitle: string;
+  trackingLink: string;
+  goMarketplace: string;
+};
+
+const collaborationsEn: CollaborationsCopy = {
+  title: "Collaborations",
+  collaborationsLabel: "collaborations",
+  committed: "committed",
+  toDo: "to do",
+  allCampaigns: "All campaigns",
+  openCampaign: "Open campaign",
+  searchPh: "Search creators, campaigns…",
+  tabAll: "All",
+  tabActive: "Active",
+  tabReceived: "Invitations received",
+  tabInvited: "Invitations sent",
+  tabAction: "To do",
+  tabCompleted: "Completed",
+  colCreator: "Creator",
+  colCampaign: "Campaign",
+  colStatus: "Status",
+  colNext: "Next action",
+  colDue: "Due date",
+  colAmount: "Amount",
+  colUpdated: "Updated",
+  followers: "followers",
+  emptyAll: "No collaborations yet, invite a creator from the Marketplace.",
+  emptyTab: "Nothing in this tab yet.",
+  showing: "Showing {from} to {to} of {total} collaborations",
+  showingNone: "0 collaborations",
+  rowsPerPage: "Rows per page:",
+  campaignFallback: "Campaign",
+  creatorFallback: "Creator",
+  stAwait: "Awaiting creator",
+  stAccepted: "Awaiting the post",
+  stLive: "Posted",
+  stDone: "Completed",
+  stDraft: "Draft to review",
+  stApp: "Application received",
+  nextAwait: "Waiting for the creator",
+  nextAccepted: "Waiting for the post",
+  nextDraft: "Review the draft",
+  nextLive: "Approve & release payout",
+  nextApp: "Review application",
+  review: "Review",
+  approve: "Approve",
+  advance: "Advance status",
+  messageCreator: "Message creator",
+  copyLink: "Copy tracking link",
+  linkCopied: "Copied",
+  close: "Close",
+  detailTitle: "Collaboration detail",
+  trackingLink: "Tracking link",
+  goMarketplace: "Open Marketplace",
+};
+
+const collaborationsFr: CollaborationsCopy = {
+  title: "Collaborations",
+  collaborationsLabel: "collaborations",
+  committed: "engagé",
+  toDo: "à faire",
+  allCampaigns: "Toutes les campagnes",
+  openCampaign: "Ouvrir la campagne",
+  searchPh: "Rechercher créateurs, campagnes…",
+  tabAll: "Toutes",
+  tabActive: "Actives",
+  tabReceived: "Invitations reçues",
+  tabInvited: "Invitations envoyées",
+  tabAction: "À faire",
+  tabCompleted: "Terminées",
+  colCreator: "Créateur",
+  colCampaign: "Campagne",
+  colStatus: "Statut",
+  colNext: "Prochaine action",
+  colDue: "Échéance",
+  colAmount: "Montant",
+  colUpdated: "Mis à jour",
+  followers: "abonnés",
+  emptyAll: "Pas encore de collaborations, invitez un créateur depuis la Marketplace.",
+  emptyTab: "Rien dans cet onglet pour le moment.",
+  showing: "Affichage de {from} à {to} sur {total} collaborations",
+  showingNone: "0 collaborations",
+  rowsPerPage: "Lignes par page :",
+  campaignFallback: "Campagne",
+  creatorFallback: "Créateur",
+  stAwait: "En attente du créateur",
+  stAccepted: "En attente du post",
+  stLive: "Publié",
+  stDone: "Terminée",
+  stDraft: "Brouillon à valider",
+  stApp: "Candidature reçue",
+  nextAwait: "En attente du créateur",
+  nextAccepted: "En attente du post",
+  nextDraft: "Valider le brouillon",
+  nextLive: "Approuver et libérer le paiement",
+  nextApp: "Examiner la candidature",
+  review: "Examiner",
+  approve: "Approuver",
+  advance: "Avancer le statut",
+  messageCreator: "Message au créateur",
+  copyLink: "Copier le lien de tracking",
+  linkCopied: "Copié",
+  close: "Fermer",
+  detailTitle: "Détail de la collaboration",
+  trackingLink: "Lien de tracking",
+  goMarketplace: "Ouvrir la Marketplace",
+};
+
+export const collaborationsCopy: Record<Locale, CollaborationsCopy> = {
+  en: collaborationsEn,
+  fr: collaborationsFr,
+};
+
+export type ResultsCopy = {
+  title: string;
+  tabAnalytics: string;
+  tabLeads: string;
+  tabPosts: string;
+  allCampaigns: string;
+  campaignFilter: string;
+  estReach: string;
+  noPublishedPosts: string;
+  qualifiedClicks: string;
+  last30Days: string;
+  clicksTip: string;
+  committedBudget: string;
+  bookingsNote: string;
+  spendTip: string;
+  perfTitle: string;
+  periodWeek: string;
+  periodMonth: string;
+  periodYear: string;
+  legendHint: string;
+  postPerformance: string;
+  withoutPixel: string;
+  nativePostMetrics: string;
+  postsCount: string;
+  reactions: string;
+  comments: string;
+  viewPosts: string;
+  siteConversions: string;
+  siteConversionsBody: string;
+  installPixel: string;
+  people: string;
+  inIcp: string;
+  companies: string;
+  highPriority: string;
+  peopleTab: string;
+  companiesTab: string;
+  searchLeads: string;
+  allPriorities: string;
+  prioWarm: string;
+  prioNew: string;
+  icpOnly: string;
+  colPerson: string;
+  colCompany: string;
+  colEngagement: string;
+  colSource: string;
+  colPriority: string;
+  emptyPeople: string;
+  emptyCompanies: string;
+  noFilterMatch: string;
+  publishedContent: string;
+  viewTable: string;
+  viewFeed: string;
+  exportLabel: string;
+  tabAllPosts: string;
+  tabLinkedin: string;
+  tabX: string;
+  colPost: string;
+  colCampaign: string;
+  colPublished: string;
+  colReactions: string;
+  colComments: string;
+  colStatus: string;
+  emptyPosts: string;
+  emptyX: string;
+  rowsPerPage: string;
+  exportIcp: string;
+};
+
+const resultsEn: ResultsCopy = {
+  title: "Results",
+  tabAnalytics: "Analytics",
+  tabLeads: "Leads",
+  tabPosts: "Posts",
+  allCampaigns: "All campaigns",
+  campaignFilter: "Campaign",
+  estReach: "Est. reach",
+  noPublishedPosts: "No published posts yet",
+  qualifiedClicks: "Qualified clicks",
+  last30Days: "last 30 days",
+  clicksTip: "Qualified clicks tracked on your creators' links.",
+  committedBudget: "Committed budget",
+  bookingsNote: "{n} bookings",
+  spendTip: "Budget committed in escrow on your creator bookings.",
+  perfTitle: "Performance over time",
+  periodWeek: "Week",
+  periodMonth: "Month",
+  periodYear: "Year",
+  legendHint: "Click a card or the legend to zoom",
+  postPerformance: "Post performance",
+  withoutPixel: "Without a pixel",
+  nativePostMetrics: "Latest metrics collected from your posts.",
+  postsCount: "Posts",
+  reactions: "reactions",
+  comments: "comments",
+  viewPosts: "View posts",
+  siteConversions: "Measure site conversions",
+  siteConversionsBody: "Connect the pixel to add visits, sign-ups and revenue to your post results.",
+  installPixel: "Install the pixel",
+  people: "people",
+  inIcp: "In ICP",
+  companies: "companies",
+  highPriority: "High priority",
+  peopleTab: "People",
+  companiesTab: "Companies",
+  searchLeads: "Search leads",
+  allPriorities: "All priorities",
+  prioWarm: "Warm",
+  prioNew: "New",
+  icpOnly: "In your ICP",
+  colPerson: "Person",
+  colCompany: "Company",
+  colEngagement: "Engagement",
+  colSource: "Source",
+  colPriority: "Priority",
+  emptyPeople: "No one yet, the people who engage with your posts land here.",
+  emptyCompanies: "No companies identified yet.",
+  noFilterMatch: "No leads match these filters.",
+  publishedContent: "Published content",
+  viewTable: "Table",
+  viewFeed: "Feed",
+  exportLabel: "Export",
+  tabAllPosts: "All posts",
+  tabLinkedin: "LinkedIn",
+  tabX: "X (Twitter)",
+  colPost: "Post",
+  colCampaign: "Campaign",
+  colPublished: "Published",
+  colReactions: "Reactions",
+  colComments: "Comments",
+  colStatus: "Status",
+  emptyPosts: "No posts published yet.",
+  emptyX: "No X posts. The X integration is coming, your LinkedIn posts live in the LinkedIn tab.",
+  rowsPerPage: "Rows per page:",
+  exportIcp: "Export ICP leads",
+};
+
+const resultsFr: ResultsCopy = {
+  title: "Résultats",
+  tabAnalytics: "Analytique",
+  tabLeads: "Leads",
+  tabPosts: "Posts",
+  allCampaigns: "Toutes les campagnes",
+  campaignFilter: "Campagne",
+  estReach: "Portée estimée",
+  noPublishedPosts: "Aucun post publié pour le moment",
+  qualifiedClicks: "Clics qualifiés",
+  last30Days: "30 derniers jours",
+  clicksTip: "Clics qualifiés suivis sur les liens de vos créateurs.",
+  committedBudget: "Budget engagé",
+  bookingsNote: "{n} bookings",
+  spendTip: "Budget engagé en séquestre sur vos bookings créateurs.",
+  perfTitle: "Performance dans le temps",
+  periodWeek: "Semaine",
+  periodMonth: "Mois",
+  periodYear: "Année",
+  legendHint: "Cliquez une carte ou la légende pour zoomer",
+  postPerformance: "Performance des posts",
+  withoutPixel: "Sans pixel",
+  nativePostMetrics: "Dernières métriques collectées sur vos posts.",
+  postsCount: "Posts",
+  reactions: "réactions",
+  comments: "commentaires",
+  viewPosts: "Voir les posts",
+  siteConversions: "Mesurer les conversions du site",
+  siteConversionsBody: "Connectez le pixel pour ajouter visites, inscriptions et revenu aux résultats de vos posts.",
+  installPixel: "Installer le pixel",
+  people: "personnes",
+  inIcp: "Dans l’ICP",
+  companies: "entreprises",
+  highPriority: "haute priorité",
+  peopleTab: "Personnes",
+  companiesTab: "Entreprises",
+  searchLeads: "Rechercher des leads",
+  allPriorities: "Toutes les priorités",
+  prioWarm: "Tiède",
+  prioNew: "Nouveau",
+  icpOnly: "Dans votre ICP",
+  colPerson: "Personne",
+  colCompany: "Entreprise",
+  colEngagement: "Engagement",
+  colSource: "Source",
+  colPriority: "Priorité",
+  emptyPeople: "Personne pour le moment, les profils qui engagent vos posts apparaissent ici.",
+  emptyCompanies: "Aucune entreprise identifiée pour le moment.",
+  noFilterMatch: "Aucun lead ne correspond à ces filtres.",
+  publishedContent: "Contenu publié",
+  viewTable: "Tableau",
+  viewFeed: "Fil",
+  exportLabel: "Exporter",
+  tabAllPosts: "Tous les posts",
+  tabLinkedin: "LinkedIn",
+  tabX: "X (Twitter)",
+  colPost: "Post",
+  colCampaign: "Campagne",
+  colPublished: "Publié",
+  colReactions: "Réactions",
+  colComments: "Commentaires",
+  colStatus: "Statut",
+  emptyPosts: "Aucun post publié pour le moment.",
+  emptyX: "Aucun post X. L’intégration X arrive, vos posts LinkedIn sont dans l’onglet LinkedIn.",
+  rowsPerPage: "Lignes par page :",
+  exportIcp: "Exporter les leads ICP",
+};
+
+export const resultsCopy: Record<Locale, ResultsCopy> = {
+  en: resultsEn,
+  fr: resultsFr,
+};
+
+export type CampaignsCopy = {
+  title: string;
+  createCampaign: string;
+  createCampaignHelp: string;
+  createCampaignCta: string;
+  createCampaignEmpty: string;
+  creatorsLabel: string;
+  publishedCount: string;
+  budgetCommitted: string;
+  campaignsLabel: string;
+  scopeAria: string;
+  scopeAll: string;
+  scopeActive: string;
+  scopeDraft: string;
+  scopeCompleted: string;
+  noCampaignsFilter: string;
+  noCampaignsFilterHelp: string;
+  createdOn: string;
+  noBriefSummary: string;
+  statusDraft: string;
+  statusLive: string;
+  statusPaused: string;
+  statusCompleted: string;
+  launchAria: string;
+  howToLaunch: string;
+  howToLaunchSub: string;
+  teamTitle: string;
+  teamDesc: string;
+  teamCta: string;
+  teamSlot: string;
+  aiTitle: string;
+  aiDesc: string;
+  aiCta: string;
+  aiTime: string;
+  aiBubble: string;
+  linkTitle: string;
+  linkDesc: string;
+  linkCta: string;
+  linkTime: string;
+  linkChip: string;
+  linkSubmit: string;
+  linkPlaceholder: string;
+  chatHero: string;
+  chatPlaceholder: string;
+  send: string;
+  back: string;
+};
+
+const campaignsEn: CampaignsCopy = {
+  title: "Campaigns",
+  createCampaign: "Create a campaign",
+  createCampaignHelp: "Launch a new campaign in 2 minutes — with AI, the Naano team, or an existing link.",
+  createCampaignCta: "Get started",
+  createCampaignEmpty: "+ Create campaign",
+  creatorsLabel: "Creators",
+  publishedCount: "Published",
+  budgetCommitted: "Committed budget",
+  campaignsLabel: "campaigns",
+  scopeAria: "Filters",
+  scopeAll: "All",
+  scopeActive: "Active",
+  scopeDraft: "Draft",
+  scopeCompleted: "Completed",
+  noCampaignsFilter: "No campaigns in this view",
+  noCampaignsFilterHelp: "Change the filter or create a new campaign.",
+  createdOn: "Created on {date}",
+  noBriefSummary: "Brief to complete",
+  statusDraft: "Draft",
+  statusLive: "Active",
+  statusPaused: "Paused",
+  statusCompleted: "Completed",
+  launchAria: "Launch a campaign",
+  howToLaunch: "How do you want to launch your campaign?",
+  howToLaunchSub: "Choose your method. You can change everything before launch.",
+  teamTitle: "Launch free with the Naano team",
+  teamDesc:
+    "A campaign manager turns your selection into a ready-to-launch campaign. You validate, they handle the rest.",
+  teamCta: "Book my onboarding  →",
+  teamSlot: "Today · 14:30 · 15 min",
+  aiTitle: "Create with AI",
+  aiDesc: "AI asks the right questions and prepares a fully editable brief.",
+  aiCta: "Create with AI",
+  aiTime: "5 min",
+  aiBubble: "I want to reach VP Sales in B2B SaaS in France.",
+  linkTitle: "Start from your link",
+  linkDesc: "Paste an influence campaign you already ran: Naano reuses the brief and structure.",
+  linkCta: "Start from my link",
+  linkTime: "1 min",
+  linkChip: "Brief recovered",
+  linkSubmit: "Create →",
+  linkPlaceholder: "https://notion.site/brief…",
+  chatHero: "Generate your campaign in one click",
+  chatPlaceholder: "Let’s build this campaign together…",
+  send: "Send",
+  back: "Back",
+};
+
+const campaignsFr: CampaignsCopy = {
+  title: "Campagnes",
+  createCampaign: "Créer une campagne",
+  createCampaignHelp: "Lancez une nouvelle campagne en 2 minutes — avec l’IA, l’équipe Naano, ou un lien existant.",
+  createCampaignCta: "Commencer",
+  createCampaignEmpty: "+ Créer une campagne",
+  creatorsLabel: "Créateurs",
+  publishedCount: "Publiés",
+  budgetCommitted: "Budget engagé",
+  campaignsLabel: "campagnes",
+  scopeAria: "Filtres",
+  scopeAll: "Tous",
+  scopeActive: "Actives",
+  scopeDraft: "Brouillon",
+  scopeCompleted: "Terminées",
+  noCampaignsFilter: "Aucune campagne dans cette vue",
+  noCampaignsFilterHelp: "Changez le filtre ou créez une nouvelle campagne.",
+  createdOn: "Créée le {date}",
+  noBriefSummary: "Brief à compléter",
+  statusDraft: "Brouillon",
+  statusLive: "Active",
+  statusPaused: "En pause",
+  statusCompleted: "Terminée",
+  launchAria: "Lancer une campagne",
+  howToLaunch: "Comment voulez-vous lancer votre campagne ?",
+  howToLaunchSub: "Choisissez votre méthode. Vous pourrez tout modifier avant le lancement.",
+  teamTitle: "Lancez gratuitement avec l’équipe Naano",
+  teamDesc:
+    "Un campaign manager transforme votre sélection en campagne prête à lancer. Vous validez, ils s’occupent du reste.",
+  teamCta: "Réserver mon onboarding  →",
+  teamSlot: "Aujourd’hui · 14:30 · 15 min",
+  aiTitle: "Créer avec l’IA",
+  aiDesc: "L’IA pose les bonnes questions et prépare un brief entièrement modifiable.",
+  aiCta: "Créer avec l’IA",
+  aiTime: "5 min",
+  aiBubble: "Je veux atteindre des VP Sales en SaaS B2B en France.",
+  linkTitle: "Partir de votre lien",
+  linkDesc: "Collez une campagne d’influence déjà réalisée : Naano réutilise le brief et la structure.",
+  linkCta: "Partir de mon lien",
+  linkTime: "1 min",
+  linkChip: "Brief récupéré",
+  linkSubmit: "Créer →",
+  linkPlaceholder: "https://notion.site/brief…",
+  chatHero: "Générez votre campagne en un clic",
+  chatPlaceholder: "Construisons cette campagne ensemble…",
+  send: "Envoyer",
+  back: "Retour",
+};
+
+export const campaignsCopy: Record<Locale, CampaignsCopy> = {
+  en: campaignsEn,
+  fr: campaignsFr,
+};
+
 export function fill(template: string, values: Record<string, string>): string {
   return template.replace(/\{(\w+)\}/g, (_, key: string) => values[key] ?? "");
 }
