@@ -1,3 +1,4 @@
+import { ensureCreatorProfile } from "@/lib/auth/oauth";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
@@ -41,7 +42,7 @@ export async function POST(request: Request) {
 
     const { data: profile, error: profileError } = await admin
       .from("users")
-      .select("id, email, role")
+      .select("id, email, role, first_name, last_name")
       .eq("id", data.user.id)
       .maybeSingle();
 
@@ -54,6 +55,17 @@ export async function POST(request: Request) {
         { error: "Account is incomplete. Please register again." },
         { status: 409 },
       );
+    }
+
+    if (profile.role === "creator") {
+      try {
+        await ensureCreatorProfile(data.user, {
+          firstName: profile.first_name,
+          lastName: profile.last_name,
+        });
+      } catch {
+        // Profile backfill failure should not block login; marketplace data may be empty.
+      }
     }
 
     return NextResponse.json({

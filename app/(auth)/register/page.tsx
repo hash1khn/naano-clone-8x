@@ -2,7 +2,7 @@ import { CreatorMarketplacePreview } from "@/components/auth/CreatorMarketplaceP
 import { RegisterLayout } from "@/components/auth/RegisterLayout";
 import { RegisterRoleSelect } from "@/components/auth/RegisterRoleSelect";
 import { RegisterSignup } from "@/components/auth/RegisterSignup";
-import { appRoleFromRegisterParam } from "@/lib/auth/oauth";
+import { appRoleFromRegisterParam, safeNextPath } from "@/lib/auth/oauth";
 import { getRequestLocale } from "@/lib/i18n/locale";
 import { authCopy, chromeCopy } from "@/lib/i18n/messages";
 
@@ -22,6 +22,8 @@ export default async function RegisterPage({ searchParams }: PageProps<"/registe
   const query = await searchParams;
   const role = appRoleFromRegisterParam(typeof query.role === "string" ? query.role : undefined);
   const oauthError = query.error === "oauth";
+  const complete = query.complete === "1";
+  const nextPath = safeNextPath(typeof query.next === "string" ? query.next : null);
   const locale = await getRequestLocale();
   const t = authCopy[locale];
   const chrome = chromeCopy[locale];
@@ -29,7 +31,13 @@ export default async function RegisterPage({ searchParams }: PageProps<"/registe
   if (!role) {
     return (
       <RegisterLayout locale={locale} switchLanguage={chrome.switchLanguage} panel={<BluePanel title={t.onePlatform} body={t.onePlatformBody} />}>
-        <RegisterRoleSelect copy={t} signInLabel={chrome.signIn} />
+        <RegisterRoleSelect
+          copy={t}
+          signInLabel={chrome.signIn}
+          complete={complete}
+          nextPath={nextPath}
+          oauthError={oauthError}
+        />
       </RegisterLayout>
     );
   }

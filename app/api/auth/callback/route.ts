@@ -4,6 +4,7 @@ import {
   dashboardPath,
   ensurePublicUser,
   getAuthOrigin,
+  getPublicUserRole,
   isAppRole,
   safeNextPath,
 } from "@/lib/auth/oauth";
@@ -37,11 +38,35 @@ export async function GET(request: NextRequest) {
   }
 
   const cookieRole = request.cookies.get(OAUTH_ROLE_COOKIE)?.value;
-  const fallbackRole = isAppRole(cookieRole) ? cookieRole : "brand";
+  const intendedRole = isAppRole(cookieRole) ? cookieRole : null;
 
   let role;
   try {
-    role = await ensurePublicUser(user, fallbackRole);
+    const existingRole = await getPublicUserRole(user.id);
+    if (existingRole) {
+      role = await ensurePublicUser(user, existingRole);
+    } else if (intendedRole) {
+      role = await ensurePublicUser(user, intendedRole);
+    } else {
+      // Session exists but no app role yet — ask the user (do not silently create a brand).
+      const next = safeNextPath(url.searchParams.get("next"));
+      const completeUrl = new URL("/register", origin);
+      completeUrl.searchParams.set("complete", "1");
+      if (next) {
+        completeUrl.searchParams.set("next", next);
+      }
+      const response = NextResponse.redirect(completeUrl);
+      pending.cookies.getAll().forEach((cookie) => {
+        response.cookies.set(cookie);
+      });
+      response.cookies.set(OAUTH_ROLE_COOKIE, "", {
+        path: "/",
+        maxAge: 0,
+        sameSite: "lax",
+        secure: origin.startsWith("https"),
+      });
+      return response;
+    }
   } catch {
     return fail();
   }

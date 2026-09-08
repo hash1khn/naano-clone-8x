@@ -90,6 +90,106 @@ export function dashboardPath(role: AppRole): "/brand" | "/creator" {
   return role === "creator" ? "/creator" : "/brand";
 }
 
+function displayNameFromAuthUser(authUser: User, email: string): string {
+  const meta = authUser.user_metadata ?? {};
+  const fullName = typeof meta.full_name === "string" ? meta.full_name.trim() : "";
+  if (fullName) {
+    return fullName;
+  }
+  const first = typeof meta.first_name === "string" ? meta.first_name.trim() : "";
+  const last = typeof meta.last_name === "string" ? meta.last_name.trim() : "";
+  const combined = [first, last].filter(Boolean).join(" ");
+  if (combined) {
+    return combined;
+  }
+  const local = email.split("@")[0]?.trim();
+  return local || "Creator";
+}
+
+function slugBaseFromName(name: string): string {
+  const slug = name
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 48);
+  return slug || "creator";
+}
+
+/** Creates a marketplace profile if this creator does not already have one. */
+export async function ensureCreatorProfile(
+  authUser: User,
+  options?: { firstName?: string | null; lastName?: string | null },
+): Promise<void> {
+  const admin = createAdminSupabaseClient();
+  const { data: existing, error: lookupError } = await admin
+    .from("creator_profiles")
+    .select("id")
+    .eq("user_id", authUser.id)
+    .maybeSingle();
+
+  if (lookupError) {
+    throw new Error(lookupError.message);
+  }
+  if (existing) {
+    return;
+  }
+
+  const email = authUser.email ?? "";
+  const named =
+    [options?.firstName, options?.lastName].filter(Boolean).join(" ").trim() ||
+    displayNameFromAuthUser(authUser, email);
+  const base = slugBaseFromName(named);
+  const avatar =
+    typeof authUser.user_metadata?.avatar_url === "string"
+      ? authUser.user_metadata.avatar_url
+      : typeof authUser.user_metadata?.picture === "string"
+        ? authUser.user_metadata.picture
+        : null;
+
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const suffix = attempt === 0 ? "" : `-${crypto.randomUUID().slice(0, 8)}`;
+    const slug = `${base}${suffix}`;
+    const { error: insertError } = await admin.from("creator_profiles").insert({
+      id: crypto.randomUUID(),
+      user_id: authUser.id,
+      slug,
+      name: named,
+      bio: null,
+      niche_tags: [],
+      country: null,
+      follower_count: 0,
+      price_per_post: 0,
+      avatar_url: avatar,
+      created_at: new Date().toISOString(),
+    });
+
+    if (!insertError) {
+      return;
+    }
+    // Unique slug collision — retry with a suffix.
+    if (insertError.code === "23505") {
+      continue;
+    }
+    throw new Error(insertError.message);
+  }
+
+  throw new Error("Could not allocate a unique creator slug");
+}
+
+export async function getPublicUserRole(authUserId: string): Promise<AppRole | null> {
+  const admin = createAdminSupabaseClient();
+  const { data, error } = await admin.from("users").select("role").eq("id", authUserId).maybeSingle();
+  if (error) {
+    throw new Error(error.message);
+  }
+  if (data?.role === "creator" || data?.role === "brand") {
+    return data.role;
+  }
+  return null;
+}
+
 export async function ensurePublicUser(authUser: User, fallbackRole: AppRole): Promise<AppRole> {
   const admin = createAdminSupabaseClient();
   const email = authUser.email;
@@ -108,6 +208,9 @@ export async function ensurePublicUser(authUser: User, fallbackRole: AppRole): P
   }
 
   if (existing?.role === "creator" || existing?.role === "brand") {
+    if (existing.role === "creator") {
+      await ensureCreatorProfile(authUser);
+    }
     return existing.role;
   }
 
@@ -122,12 +225,17 @@ export async function ensurePublicUser(authUser: User, fallbackRole: AppRole): P
     throw new Error(insertError.message);
   }
 
+  let role: AppRole = fallbackRole;
   if (insertError?.code === "23505") {
     const { data: raced } = await admin.from("users").select("role").eq("id", authUser.id).maybeSingle();
     if (raced?.role === "creator" || raced?.role === "brand") {
-      return raced.role;
+      role = raced.role;
     }
   }
 
-  return fallbackRole;
+  if (role === "creator") {
+    await ensureCreatorProfile(authUser);
+  }
+
+  return role;
 }

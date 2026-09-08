@@ -36,6 +36,8 @@ export type AuthCopy = {
   createAccount: string;
   createAccountLead: string;
   whoAreYou: string;
+  finishSignup: string;
+  finishSignupLead: string;
   imACreator: string;
   creatorRoleLead: string;
   imABrand: string;
@@ -165,6 +167,8 @@ const authEn: AuthCopy = {
   createAccount: "Create your account",
   createAccountLead: "Start running creator campaigns, or start earning.",
   whoAreYou: "First, who are you here as?",
+  finishSignup: "Finish signing up",
+  finishSignupLead: "Choose how you want to use Naano with this Google account.",
   imACreator: "I'm a creator",
   creatorRoleLead: "Get paid to create LinkedIn content for B2B brands you actually use.",
   imABrand: "I'm a brand",
@@ -243,6 +247,8 @@ const authFr: AuthCopy = {
   createAccount: "Créez votre compte",
   createAccountLead: "Lancez des campagnes créateurs, ou commencez à être payé.",
   whoAreYou: "D'abord, vous êtes ici en tant que ?",
+  finishSignup: "Terminer l'inscription",
+  finishSignupLead: "Choisissez comment utiliser Naano avec ce compte Google.",
   imACreator: "Je suis créateur",
   creatorRoleLead: "Soyez payé pour créer du contenu LinkedIn pour des marques B2B que vous utilisez vraiment.",
   imABrand: "Je suis une marque",

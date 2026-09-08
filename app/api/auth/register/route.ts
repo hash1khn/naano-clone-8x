@@ -1,3 +1,4 @@
+import { ensureCreatorProfile } from "@/lib/auth/oauth";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
@@ -114,6 +115,17 @@ export async function POST(request: Request) {
       }
 
       return NextResponse.json({ error: "Registration failed" }, { status: 500 });
+    }
+
+    if (role === "creator") {
+      try {
+        await ensureCreatorProfile(authUser, { firstName, lastName });
+      } catch {
+        return NextResponse.json(
+          { error: "Account created but creator profile setup failed. Try signing in again." },
+          { status: 500 },
+        );
+      }
     }
 
     return NextResponse.json({
