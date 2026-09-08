@@ -57,6 +57,48 @@ export type CreatorHomeCopy = {
   nichesFallback: string;
 };
 
+export type CreatorEarningsCopy = {
+  title: string;
+  sub: string;
+  filterPaid: string;
+  totalEarned: string;
+  totalEarnedMeta: string;
+  inTransitLabel: string;
+  inTransitBody: string;
+  availableLabel: string;
+  availableBody: string;
+  chartTitle: string;
+  chartSub: string;
+  chartTotal: string;
+  withdrawTitle: string;
+  withdrawSub: string;
+  payoutMethod: string;
+  bankTransfer: string;
+  bankEmptyHolder: string;
+  bankEmptyDetails: string;
+  bankEdit: string;
+  bankModalTitle: string;
+  bankHolderLabel: string;
+  bankIbanLabel: string;
+  bankSave: string;
+  cancel: string;
+  stripe: string;
+  stripeStatus: string;
+  stripeNotConnected: string;
+  stripeConnected: string;
+  stripeHint: string;
+  connectStripe: string;
+  disconnectStripe: string;
+  amountLabel: string;
+  withdrawAll: string;
+  confirmWithdraw: string;
+  minNote: string;
+  noticeNeedMethod: string;
+  noticeMin: string;
+  noticeOk: string;
+  noticeZero: string;
+};
+
 const en: CreatorCopy = {
   home: "Overview",
   profile: "My card",
@@ -171,9 +213,100 @@ const homeFr: CreatorHomeCopy = {
   nichesFallback: "B2B",
 };
 
+const earningsEn: CreatorEarningsCopy = {
+  title: "Earnings",
+  sub: "Track revenue from your paid collaborations and withdraw available funds.",
+  filterPaid: "Paid collaborations",
+  totalEarned: "Total earned",
+  totalEarnedMeta: "{count} paid collaborations · {avg} average",
+  inTransitLabel: "In transit",
+  inTransitBody:
+    "In transit. International transfers usually arrive within 1–7 days, depending on the destination and banking network.",
+  availableLabel: "Available now",
+  availableBody: "Available now. Ready to withdraw to your selected payout method.",
+  chartTitle: "Earnings over time",
+  chartSub: "Net collaboration earnings from the last six months.",
+  chartTotal: "{amount} over 6 months",
+  withdrawTitle: "Withdraw earnings",
+  withdrawSub: "Choose where your available balance should be sent.",
+  payoutMethod: "Payout method",
+  bankTransfer: "Bank transfer",
+  bankEmptyHolder: "No account holder on file",
+  bankEmptyDetails: "No bank details on file",
+  bankEdit: "Edit",
+  bankModalTitle: "Bank details",
+  bankHolderLabel: "Account holder",
+  bankIbanLabel: "IBAN",
+  bankSave: "Save details",
+  cancel: "Cancel",
+  stripe: "Stripe",
+  stripeStatus: "Status:",
+  stripeNotConnected: "Not connected",
+  stripeConnected: "Connected",
+  stripeHint: "Instant transfer to your connected Stripe account.",
+  connectStripe: "Connect Stripe",
+  disconnectStripe: "Disconnect",
+  amountLabel: "Amount",
+  withdrawAll: "Withdraw all",
+  confirmWithdraw: "Confirm withdrawal",
+  minNote: "Minimum withdrawal is €100. Funds are sent to your selected payout method.",
+  noticeNeedMethod: "Connect Stripe or add bank details before withdrawing.",
+  noticeMin: "Minimum withdrawal is €100.",
+  noticeOk: "Withdrawal of {amount} requested. Demo only — no real transfer.",
+  noticeZero: "No available balance to withdraw.",
+};
+
+const earningsFr: CreatorEarningsCopy = {
+  title: "Gains",
+  sub: "Suivez les revenus de vos collaborations payées et retirez vos fonds disponibles.",
+  filterPaid: "Collaborations payées",
+  totalEarned: "Total gagné",
+  totalEarnedMeta: "{count} collaborations payées · {avg} en moyenne",
+  inTransitLabel: "En transit",
+  inTransitBody:
+    "En transit. Les virements internationaux arrivent généralement sous 1 à 7 jours, selon la destination et le réseau bancaire.",
+  availableLabel: "Disponible maintenant",
+  availableBody: "Disponible maintenant. Prêt à être retiré vers votre méthode de paiement.",
+  chartTitle: "Gains dans le temps",
+  chartSub: "Revenus nets des collaborations sur les six derniers mois.",
+  chartTotal: "{amount} sur 6 mois",
+  withdrawTitle: "Retirer les gains",
+  withdrawSub: "Choisissez où envoyer votre solde disponible.",
+  payoutMethod: "Méthode de paiement",
+  bankTransfer: "Virement bancaire",
+  bankEmptyHolder: "Aucun titulaire enregistré",
+  bankEmptyDetails: "Aucun RIB enregistré",
+  bankEdit: "Modifier",
+  bankModalTitle: "Coordonnées bancaires",
+  bankHolderLabel: "Titulaire du compte",
+  bankIbanLabel: "IBAN",
+  bankSave: "Enregistrer",
+  cancel: "Annuler",
+  stripe: "Stripe",
+  stripeStatus: "Statut :",
+  stripeNotConnected: "Non connecté",
+  stripeConnected: "Connecté",
+  stripeHint: "Virement instantané vers votre compte Stripe connecté.",
+  connectStripe: "Connecter Stripe",
+  disconnectStripe: "Déconnecter",
+  amountLabel: "Montant",
+  withdrawAll: "Tout retirer",
+  confirmWithdraw: "Confirmer le retrait",
+  minNote: "Le retrait minimum est de 100 €. Les fonds sont envoyés vers votre méthode sélectionnée.",
+  noticeNeedMethod: "Connectez Stripe ou ajoutez un RIB avant de retirer.",
+  noticeMin: "Le retrait minimum est de 100 €.",
+  noticeOk: "Retrait de {amount} demandé. Démo uniquement — aucun virement réel.",
+  noticeZero: "Aucun solde disponible à retirer.",
+};
+
 export const creatorCopy: Record<Locale, CreatorCopy> = { en, fr };
 export const creatorHomeCopy: Record<Locale, CreatorHomeCopy> = { en: homeEn, fr: homeFr };
+export const creatorEarningsCopy: Record<Locale, CreatorEarningsCopy> = { en: earningsEn, fr: earningsFr };
 
 export function fillHome(template: string, vars: Record<string, string>) {
+  return Object.entries(vars).reduce((text, [key, value]) => text.replaceAll(`{${key}}`, value), template);
+}
+
+export function fillEarnings(template: string, vars: Record<string, string>) {
   return Object.entries(vars).reduce((text, [key, value]) => text.replaceAll(`{${key}}`, value), template);
 }

@@ -14,13 +14,14 @@ import { ProfilePanel } from "@/components/creator/ProfilePanel";
 import { useCreatorTab } from "@/components/creator/useCreatorTab";
 import type { OnboardingProfile } from "@/lib/creator/onboarding";
 import type { CollaborationsCopy, MessagesCopy } from "@/lib/i18n/brand";
-import type { CreatorCopy, CreatorHomeCopy } from "@/lib/i18n/creator";
+import type { CreatorCopy, CreatorEarningsCopy, CreatorHomeCopy } from "@/lib/i18n/creator";
 import type { Locale } from "@/lib/i18n/locale";
 
 export function CreatorDashboard({
   locale,
   copy,
   home,
+  earnings,
   collaborations,
   messages,
   userId,
@@ -34,6 +35,7 @@ export function CreatorDashboard({
   locale: Locale;
   copy: CreatorCopy;
   home: CreatorHomeCopy;
+  earnings: CreatorEarningsCopy;
   collaborations: CollaborationsCopy;
   messages: MessagesCopy;
   userId: string;
@@ -72,7 +74,7 @@ export function CreatorDashboard({
         ) : tab === "community" ? (
           <CommunityPanel copy={copy} />
         ) : tab === "earnings" ? (
-          <EarningsPanel copy={copy} />
+          <EarningsPanel locale={locale} copy={earnings} />
         ) : tab === "messages" ? (
           <MessagesPanel locale={locale} copy={messages} userId={userId} />
         ) : (

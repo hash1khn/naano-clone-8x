@@ -3,7 +3,7 @@ import { requireCreatorUser } from "@/lib/auth/session";
 import { CREATOR_ONBOARDING_PATH, isCreatorOnboardingComplete } from "@/lib/creator/onboarding";
 import { getCreatorProfile } from "@/lib/creator/require-onboarding";
 import { collaborationsCopy, messagesCopy } from "@/lib/i18n/brand";
-import { creatorCopy, creatorHomeCopy } from "@/lib/i18n/creator";
+import { creatorCopy, creatorEarningsCopy, creatorHomeCopy } from "@/lib/i18n/creator";
 import { getRequestLocale } from "@/lib/i18n/locale";
 import { chromeCopy } from "@/lib/i18n/messages";
 import { redirect } from "next/navigation";
@@ -26,6 +26,7 @@ export default async function CreatorDashboardPage() {
       locale={locale}
       copy={creatorCopy[locale]}
       home={creatorHomeCopy[locale]}
+      earnings={creatorEarningsCopy[locale]}
       collaborations={collaborationsCopy[locale]}
       messages={messagesCopy[locale]}
       userId={user.id}
