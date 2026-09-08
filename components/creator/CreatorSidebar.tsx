@@ -7,8 +7,8 @@ import {
   ChartColumn,
   MessagesSquare,
   Wallet,
+  Link2,
   MessageSquare,
-  Plug,
 } from "lucide-react";
 import type { CreatorCopy } from "@/lib/i18n/creator";
 import type { CreatorTab } from "@/components/creator/useCreatorTab";
@@ -21,8 +21,8 @@ const NAV: { hash: CreatorTab; label: keyof CreatorCopy; Icon: LucideIcon }[] = 
   { hash: "analytics", label: "analytics", Icon: ChartColumn },
   { hash: "community", label: "community", Icon: MessagesSquare },
   { hash: "earnings", label: "earnings", Icon: Wallet },
+  { hash: "referrals", label: "referrals", Icon: Link2 },
   { hash: "messages", label: "messages", Icon: MessageSquare },
-  { hash: "integrations", label: "integrations", Icon: Plug },
 ];
 
 export function CreatorSidebar({

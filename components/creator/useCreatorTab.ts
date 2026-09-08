@@ -10,6 +10,7 @@ export const CREATOR_TABS = [
   "analytics",
   "community",
   "earnings",
+  "referrals",
   "messages",
   "integrations",
 ] as const;

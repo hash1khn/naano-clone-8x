@@ -11,17 +11,26 @@ import { IntegrationsPanel } from "@/components/creator/IntegrationsPanel";
 import { MessagesPanel } from "@/components/creator/MessagesPanel";
 import { OpportunitiesPanel } from "@/components/creator/OpportunitiesPanel";
 import { ProfilePanel } from "@/components/creator/ProfilePanel";
+import { ReferralsPanel } from "@/components/creator/ReferralsPanel";
 import { useCreatorTab } from "@/components/creator/useCreatorTab";
 import type { OnboardingProfile } from "@/lib/creator/onboarding";
 import type { CollaborationsCopy, MessagesCopy } from "@/lib/i18n/brand";
-import type { CreatorCopy, CreatorEarningsCopy, CreatorHomeCopy } from "@/lib/i18n/creator";
+import type {
+  CreatorCopy,
+  CreatorCommunityCopy,
+  CreatorEarningsCopy,
+  CreatorHomeCopy,
+  CreatorReferralsCopy,
+} from "@/lib/i18n/creator";
 import type { Locale } from "@/lib/i18n/locale";
 
 export function CreatorDashboard({
   locale,
   copy,
   home,
+  community,
   earnings,
+  referrals,
   collaborations,
   messages,
   userId,
@@ -35,7 +44,9 @@ export function CreatorDashboard({
   locale: Locale;
   copy: CreatorCopy;
   home: CreatorHomeCopy;
+  community: CreatorCommunityCopy;
   earnings: CreatorEarningsCopy;
+  referrals: CreatorReferralsCopy;
   collaborations: CollaborationsCopy;
   messages: MessagesCopy;
   userId: string;
@@ -72,9 +83,11 @@ export function CreatorDashboard({
         ) : tab === "analytics" ? (
           <AnalyticsPanel copy={copy} />
         ) : tab === "community" ? (
-          <CommunityPanel copy={copy} />
+          <CommunityPanel locale={locale} copy={community} home={home} profile={profile} />
         ) : tab === "earnings" ? (
           <EarningsPanel locale={locale} copy={earnings} />
+        ) : tab === "referrals" ? (
+          <ReferralsPanel locale={locale} copy={referrals} slug={profile.slug} />
         ) : tab === "messages" ? (
           <MessagesPanel locale={locale} copy={messages} userId={userId} />
         ) : (
