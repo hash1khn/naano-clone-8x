@@ -55,6 +55,9 @@ export type AuthCopy = {
   show: string;
   submitSignIn: string;
   submitCreateAccount: string;
+  continueWithLinkedIn: string;
+  continueWithGoogle: string;
+  orContinueWithEmail: string;
 };
 
 const chromeEn: ChromeCopy = {
@@ -140,6 +143,9 @@ const authEn: AuthCopy = {
   show: "Show",
   submitSignIn: "Sign in",
   submitCreateAccount: "Create account",
+  continueWithLinkedIn: "Continue with LinkedIn",
+  continueWithGoogle: "Continue with Google",
+  orContinueWithEmail: "Or continue with email",
 };
 
 const authFr: AuthCopy = {
@@ -171,6 +177,9 @@ const authFr: AuthCopy = {
   show: "Afficher",
   submitSignIn: "Connexion",
   submitCreateAccount: "Créer un compte",
+  continueWithLinkedIn: "Continuer avec LinkedIn",
+  continueWithGoogle: "Continuer avec Google",
+  orContinueWithEmail: "Ou continuer par e-mail",
 };
 
 export const chromeCopy: Record<Locale, ChromeCopy> = {

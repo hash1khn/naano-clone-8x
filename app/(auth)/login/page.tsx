@@ -15,7 +15,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
   return (
     <div className="flex min-h-screen">
       <div className="flex flex-1 items-center justify-center bg-white p-8">
-        <div className="w-full max-w-sm">
+        <div className="w-full max-w-md">
           <div className="mb-8 flex items-center justify-between">
             <Link href="/">
               <Image src="/logo.svg" alt="naano" width={96} height={28} className="h-7 w-auto" />
