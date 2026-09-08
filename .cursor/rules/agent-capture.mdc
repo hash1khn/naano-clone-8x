@@ -1,0 +1,13 @@
+---
+description: Automatic agent prompt/response capture for the 8x assignment
+alwaysApply: true
+---
+
+# Agent capture
+
+Prompt and final-response capture is automatic via Cursor hooks in `.cursor/hooks.json`. Do not log turns by hand.
+
+- Write captures only through `.cursor/hooks/capture.sh`.
+- Do not edit, tidy, summarise, or delete entries in `.agent-logs/` after they are written.
+- Do not add `.agent-logs/` to `.gitignore`.
+- Do not put thinking, tool calls, diffs, or intermediate steps into the session log.
