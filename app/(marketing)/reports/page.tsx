@@ -1,8 +1,5 @@
+import { ScrapedPage } from "@/components/marketing/ScrapedPage";
+
 export default function ReportsPage() {
-  return (
-    <article>
-      <h1>Reports</h1>
-      <p>Placeholder gated reports content.</p>
-    </article>
-  );
+  return <ScrapedPage file="reports.html" />;
 }

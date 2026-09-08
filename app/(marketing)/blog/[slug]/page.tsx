@@ -1,15 +1,23 @@
 import { notFound } from "next/navigation";
 import { BlogPostBody } from "@/components/blog/BlogPostBody";
-import { PLACEHOLDER_POSTS } from "@/lib/marketing/placeholder";
+import { MarketingShell } from "@/components/layout/MarketingShell";
+import { BLOG_POSTS } from "@/lib/marketing/blog-content";
+
+export function generateStaticParams() {
+  return BLOG_POSTS.map((post) => ({ slug: post.slug }));
+}
 
 export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">) {
   const { slug } = await params;
-  // TODO: replace PLACEHOLDER_POSTS once a blog endpoint is added to docs/naano-api-contract.md.
-  const post = PLACEHOLDER_POSTS.find((item) => item.slug === slug);
+  const post = BLOG_POSTS.find((item) => item.slug === slug);
 
   if (!post) {
     notFound();
   }
 
-  return <BlogPostBody post={post} />;
+  return (
+    <MarketingShell>
+      <BlogPostBody post={post} />
+    </MarketingShell>
+  );
 }

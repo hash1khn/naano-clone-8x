@@ -1,8 +1,5 @@
+import { ScrapedPage } from "@/components/marketing/ScrapedPage";
+
 export default function BookPage() {
-  return (
-    <article>
-      <h1>Book a call</h1>
-      <div>Third-party scheduling embed placeholder</div>
-    </article>
-  );
+  return <ScrapedPage file="book.html" />;
 }

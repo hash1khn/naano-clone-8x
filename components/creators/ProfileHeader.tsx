@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export type ProfileHeaderProps = {
   name: string;
   avatarUrl: string;
@@ -7,13 +9,12 @@ export type ProfileHeaderProps = {
 
 export function ProfileHeader({ name, avatarUrl, country, followerCount }: ProfileHeaderProps) {
   return (
-    <header className="flex">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={avatarUrl} alt={name} />
+    <header className="flex items-center gap-4">
+      <Image src={avatarUrl} alt={name} width={72} height={72} className="rounded-full object-cover" />
       <div>
-        <h1>{name}</h1>
-        <p>{country}</p>
-        <p>{followerCount} followers</p>
+        <h1 className="font-heading text-2xl text-ink">{name}</h1>
+        <p className="text-copy">{country}</p>
+        <p className="text-copy">{followerCount.toLocaleString()} followers</p>
       </div>
     </header>
   );

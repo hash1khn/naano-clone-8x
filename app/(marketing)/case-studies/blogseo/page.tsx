@@ -1,15 +1,5 @@
-import { CaseStudyTemplate } from "@/components/case-studies/CaseStudyTemplate";
+import { ScrapedPage } from "@/components/marketing/ScrapedPage";
 
 export default function BlogseoCaseStudyPage() {
-  return (
-    <CaseStudyTemplate
-      title="BlogSEO case study"
-      summary="Placeholder case study summary."
-      sections={[
-        { heading: "Challenge", body: "Placeholder challenge copy." },
-        { heading: "Approach", body: "Placeholder approach copy." },
-        { heading: "Results", body: "Placeholder results copy." },
-      ]}
-    />
-  );
+  return <ScrapedPage file="case-studies/blogseo.html" />;
 }

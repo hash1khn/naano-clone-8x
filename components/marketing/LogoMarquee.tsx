@@ -1,19 +1,21 @@
+import Image from "next/image";
+
 export type LogoMarqueeProps = {
+  caption?: string;
   logos: { name: string; src?: string }[];
 };
 
-export function LogoMarquee({ logos }: LogoMarqueeProps) {
+export function LogoMarquee({ caption, logos }: LogoMarqueeProps) {
   return (
-    <section>
-      <h2>Logos</h2>
-      <ul className="flex flex-wrap">
+    <section className="mx-auto max-w-[1504px] px-6 py-10">
+      {caption ? <p className="mb-6 text-sm tracking-wide text-muted uppercase">{caption}</p> : null}
+      <ul className="flex flex-wrap items-center gap-10">
         {logos.map((logo) => (
-          <li key={logo.name}>
+          <li key={logo.name} className="flex items-center">
             {logo.src ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={logo.src} alt={logo.name} />
+              <Image src={logo.src} alt={logo.name} width={120} height={32} className="h-8 w-auto object-contain" />
             ) : (
-              <span>{logo.name}</span>
+              <span className="text-copy">{logo.name}</span>
             )}
           </li>
         ))}

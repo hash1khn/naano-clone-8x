@@ -13,18 +13,24 @@ function postLabel(post: SamplePost, index: number): string {
 
 export function SamplePosts({ posts }: SamplePostsProps) {
   return (
-    <section>
-      <h2>Sample posts</h2>
+    <section className="mt-8">
+      <h2 className="font-heading text-xl text-ink">Sample posts</h2>
       {posts.length === 0 ? (
-        <p>No sample posts.</p>
+        <p className="text-copy">No sample posts.</p>
       ) : (
-        <ul>
+        <ul className="mt-4 flex flex-col gap-2">
           {posts.map((post, index) => {
             const label = postLabel(post, index);
             const url = typeof post.linkedin_url === "string" ? post.linkedin_url : undefined;
             return (
-              <li key={url ?? `${index}`}>
-                {url ? <a href={url}>{label}</a> : <span>{label}</span>}
+              <li key={url ?? `${index}`} className="text-copy">
+                {url ? (
+                  <a href={url} className="text-blue">
+                    {label}
+                  </a>
+                ) : (
+                  <span>{label}</span>
+                )}
               </li>
             );
           })}

@@ -1,7 +1,11 @@
 import { BlogCardGrid } from "@/components/blog/BlogCardGrid";
-import { PLACEHOLDER_POSTS } from "@/lib/marketing/placeholder";
+import { MarketingShell } from "@/components/layout/MarketingShell";
+import { BLOG_POSTS } from "@/lib/marketing/blog-content";
 
 export default function BlogPage() {
-  // TODO: replace PLACEHOLDER_POSTS once a blog endpoint is added to docs/naano-api-contract.md.
-  return <BlogCardGrid posts={PLACEHOLDER_POSTS} />;
+  return (
+    <MarketingShell>
+      <BlogCardGrid posts={BLOG_POSTS} />
+    </MarketingShell>
+  );
 }
