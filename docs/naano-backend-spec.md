@@ -101,6 +101,8 @@ messages
 ### Auth
 - `POST /api/auth/register` — { email, password, role }
 - `POST /api/auth/login`
+- `GET /api/auth/oauth/start?provider=google|linkedin_oidc` — begin OAuth (stretch)
+- `GET /api/auth/callback` — OAuth code exchange; creates `users` row if missing
 
 ### Marketplace (brand-facing)
 - `GET /api/creators?niche=&country=&min_followers=&max_followers=` — list/filter

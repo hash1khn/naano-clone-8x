@@ -8,6 +8,7 @@ import { authCopy, chromeCopy } from "@/lib/i18n/messages";
 export default async function LoginPage({ searchParams }: PageProps<"/login">) {
   const query = await searchParams;
   const reauth = query.reauth === "1";
+  const oauthError = query.error === "oauth";
   const locale = await getRequestLocale();
   const t = authCopy[locale];
   const chrome = chromeCopy[locale];
@@ -24,7 +25,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
           </div>
           <h1 className="text-2xl font-bold text-[#111827]">{t.welcomeBack}</h1>
           <p className="mt-1 mb-6 text-sm text-[#6B7280]">{t.signInToAccount}</p>
-          <LoginForm reauth={reauth} copy={t} />
+          <LoginForm reauth={reauth} copy={t} oauthError={oauthError} />
           <p className="mt-6 text-center text-xs text-[#6B7280]">
             {t.noAccount}{" "}
             <Link href="/register" className="font-medium text-[#2563eb]">

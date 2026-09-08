@@ -6,7 +6,15 @@ import type { AuthCopy } from "@/lib/i18n/messages";
 
 type Role = "brand" | "creator";
 
-export function LoginForm({ reauth, copy }: { reauth: boolean; copy: AuthCopy }) {
+export function LoginForm({
+  reauth,
+  copy,
+  oauthError,
+}: {
+  reauth: boolean;
+  copy: AuthCopy;
+  oauthError?: boolean;
+}) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,6 +52,7 @@ export function LoginForm({ reauth, copy }: { reauth: boolean; copy: AuthCopy })
   return (
     <form className="space-y-5" noValidate onSubmit={onSubmit}>
       {reauth ? <p className="text-sm text-[#6B7280]">{copy.pleaseSignInAgain}</p> : null}
+      {oauthError ? <p className="text-sm text-red-600">{copy.oauthFailed}</p> : null}
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
       <div className="space-y-3">
         <a

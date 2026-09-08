@@ -58,6 +58,7 @@ export type AuthCopy = {
   continueWithLinkedIn: string;
   continueWithGoogle: string;
   orContinueWithEmail: string;
+  oauthFailed: string;
 };
 
 const chromeEn: ChromeCopy = {
@@ -146,6 +147,7 @@ const authEn: AuthCopy = {
   continueWithLinkedIn: "Continue with LinkedIn",
   continueWithGoogle: "Continue with Google",
   orContinueWithEmail: "Or continue with email",
+  oauthFailed: "Google sign-in failed. Try again, or use email.",
 };
 
 const authFr: AuthCopy = {
@@ -180,6 +182,7 @@ const authFr: AuthCopy = {
   continueWithLinkedIn: "Continuer avec LinkedIn",
   continueWithGoogle: "Continuer avec Google",
   orContinueWithEmail: "Ou continuer par e-mail",
+  oauthFailed: "La connexion Google a échoué. Réessayez, ou utilisez l'e-mail.",
 };
 
 export const chromeCopy: Record<Locale, ChromeCopy> = {

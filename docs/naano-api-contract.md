@@ -11,6 +11,12 @@ POST /api/auth/register
 POST /api/auth/login
   body: { email: string, password: string }
   returns: { user: { id, email, role }, session }
+
+GET /api/auth/oauth/start?provider=google|linkedin_oidc&role?=brand|creator&next?=
+  → 302 to the provider (Supabase OAuth)
+
+GET /api/auth/callback?code=
+  → exchanges the OAuth code, upserts public.users, 302 to /brand or /creator
 ```
 
 ## Creators / Marketplace
