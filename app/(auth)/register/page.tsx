@@ -1,44 +1,49 @@
-import Image from "next/image";
-import Link from "next/link";
-import { RegisterForm } from "@/components/auth/RegisterForm";
-import { LocaleToggle } from "@/components/i18n/LocaleToggle";
+import { CreatorMarketplacePreview } from "@/components/auth/CreatorMarketplacePreview";
+import { RegisterLayout } from "@/components/auth/RegisterLayout";
+import { RegisterRoleSelect } from "@/components/auth/RegisterRoleSelect";
+import { RegisterSignup } from "@/components/auth/RegisterSignup";
+import { appRoleFromRegisterParam } from "@/lib/auth/oauth";
 import { getRequestLocale } from "@/lib/i18n/locale";
 import { authCopy, chromeCopy } from "@/lib/i18n/messages";
 
+function BluePanel({ title, body, footnote }: { title: string; body: string; footnote?: string }) {
+  return (
+    <div className="hidden flex-1 items-center justify-center p-12 text-white lg:flex" style={{ background: "#2563eb" }}>
+      <div className="max-w-md text-center">
+        <h2 className="font-heading text-4xl leading-tight font-bold">{title}</h2>
+        <p className="mt-4 text-[17px] leading-relaxed text-blue-100">{body}</p>
+        {footnote ? <p className="mt-6 text-sm text-white/70">{footnote}</p> : null}
+      </div>
+    </div>
+  );
+}
+
 export default async function RegisterPage({ searchParams }: PageProps<"/register">) {
   const query = await searchParams;
-  const role = typeof query.role === "string" ? query.role : undefined;
+  const role = appRoleFromRegisterParam(typeof query.role === "string" ? query.role : undefined);
+  const oauthError = query.error === "oauth";
   const locale = await getRequestLocale();
   const t = authCopy[locale];
   const chrome = chromeCopy[locale];
 
+  if (!role) {
+    return (
+      <RegisterLayout locale={locale} switchLanguage={chrome.switchLanguage} panel={<BluePanel title={t.onePlatform} body={t.onePlatformBody} />}>
+        <RegisterRoleSelect copy={t} signInLabel={chrome.signIn} />
+      </RegisterLayout>
+    );
+  }
+
+  const panel =
+    role === "creator" ? (
+      <CreatorMarketplacePreview copy={t} />
+    ) : (
+      <BluePanel title={t.creatorsBrandsResults} body={t.brandPanelBody} footnote={t.builtForB2b} />
+    );
+
   return (
-    <div className="flex min-h-screen">
-      <div className="flex flex-1 items-center justify-center bg-white p-8">
-        <div className="w-full max-w-sm">
-          <div className="mb-8 flex items-center justify-between">
-            <Link href="/">
-              <Image src="/logo.svg" alt="naano" width={96} height={28} className="h-7 w-auto" />
-            </Link>
-            <LocaleToggle locale={locale} label={chrome.switchLanguage} />
-          </div>
-          <h1 className="text-2xl font-bold text-[#111827]">{t.createAccount}</h1>
-          <p className="mt-1 mb-6 text-sm text-[#6B7280]">{t.createAccountLead}</p>
-          <RegisterForm presetRole={role} copy={t} />
-          <p className="mt-6 text-center text-xs text-[#6B7280]">
-            {t.alreadyHaveAccount}{" "}
-            <Link href="/login" className="font-medium text-[#2563eb]">
-              {chrome.signIn}
-            </Link>
-          </p>
-        </div>
-      </div>
-      <div className="hidden flex-1 items-center justify-center p-12 text-white lg:flex" style={{ background: "#2563eb" }}>
-        <div className="max-w-sm">
-          <h2 className="mb-4 text-3xl font-bold">{t.joinMarketplace}</h2>
-          <p className="text-blue-100">{t.joinMarketplaceBody}</p>
-        </div>
-      </div>
-    </div>
+    <RegisterLayout locale={locale} switchLanguage={chrome.switchLanguage} panel={panel}>
+      <RegisterSignup role={role} copy={t} oauthError={oauthError} />
+    </RegisterLayout>
   );
 }

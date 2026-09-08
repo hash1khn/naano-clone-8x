@@ -2,28 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import type { AppRole } from "@/lib/auth/oauth";
 import type { AuthCopy } from "@/lib/i18n/messages";
 
-type Role = "brand" | "creator";
-
-function roleFromSearch(role: string | undefined): Role {
-  if (role === "influencer") {
-    return "creator";
-  }
-  if (role === "saas") {
-    return "brand";
-  }
-  if (role === "creator" || role === "brand") {
-    return role;
-  }
-  return "brand";
-}
-
-export function RegisterForm({ presetRole, copy }: { presetRole?: string; copy: AuthCopy }) {
+export function RegisterForm({ role, copy }: { role: AppRole; copy: AuthCopy }) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState<Role>(roleFromSearch(presetRole));
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -38,7 +23,7 @@ export function RegisterForm({ presetRole, copy }: { presetRole?: string; copy: 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password, role }),
       });
-      const data = (await res.json()) as { error?: string; user?: { role: Role } };
+      const data = (await res.json()) as { error?: string; user?: { role: AppRole } };
       if (!res.ok) {
         setError(data.error ?? copy.registrationFailed);
         return;
@@ -54,17 +39,6 @@ export function RegisterForm({ presetRole, copy }: { presetRole?: string; copy: 
   return (
     <form className="space-y-5" noValidate onSubmit={onSubmit}>
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
-      <fieldset className="grid grid-cols-2 gap-3">
-        <legend className="sr-only">{copy.accountType}</legend>
-        <label className={`cursor-pointer rounded-xl border px-4 py-3 text-sm font-semibold ${role === "brand" ? "border-[#2563eb] bg-[#EFF6FF] text-[#1d4ed8]" : "border-[#E5E7EB] text-[#111827]"}`}>
-          <input className="sr-only" type="radio" name="role" value="brand" checked={role === "brand"} onChange={() => setRole("brand")} />
-          {copy.brand}
-        </label>
-        <label className={`cursor-pointer rounded-xl border px-4 py-3 text-sm font-semibold ${role === "creator" ? "border-[#2563eb] bg-[#EFF6FF] text-[#1d4ed8]" : "border-[#E5E7EB] text-[#111827]"}`}>
-          <input className="sr-only" type="radio" name="role" value="creator" checked={role === "creator"} onChange={() => setRole("creator")} />
-          {copy.creator}
-        </label>
-      </fieldset>
       <div>
         <label htmlFor="register-email" className="mb-1.5 ml-1 block text-xs font-semibold tracking-wide text-[#5C5B57] uppercase">
           {copy.email}

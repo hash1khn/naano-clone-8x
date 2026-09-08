@@ -65,6 +65,16 @@ export function isAppRole(value: string | null | undefined): value is AppRole {
   return value === "brand" || value === "creator";
 }
 
+export function appRoleFromRegisterParam(role: string | undefined): AppRole | null {
+  if (role === "influencer" || role === "creator") {
+    return "creator";
+  }
+  if (role === "saas" || role === "brand") {
+    return "brand";
+  }
+  return null;
+}
+
 export function isOAuthProvider(value: string | null): value is OAuthProvider {
   return value === "google" || value === "linkedin_oidc";
 }

@@ -29,9 +29,9 @@
 | Route | Data needed | Notes |
 |---|---|---|
 | `/login` | `POST /api/auth/login` | supports `?reauth=1` |
-| `/register` | `POST /api/auth/register` | role selector shown in-form |
-| `/register?role=influencer` | same | role pre-set to creator |
-| `/register?role=saas` | same | role pre-set to brand |
+| `/register` | none | role picker → `/register?role=influencer` or `/register?role=saas` |
+| `/register?role=influencer` | `POST /api/auth/register`, OAuth start with `role=creator` | creator signup (step 1 of 4) |
+| `/register?role=saas` | `POST /api/auth/register`, OAuth start with `role=brand` | brand signup |
 
 ## App — `/brand` (single page, tab state = `window.location.hash`)
 

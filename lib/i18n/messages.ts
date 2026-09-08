@@ -35,6 +35,34 @@ export type AuthCopy = {
   noAccount: string;
   createAccount: string;
   createAccountLead: string;
+  whoAreYou: string;
+  imACreator: string;
+  creatorRoleLead: string;
+  imABrand: string;
+  brandRoleLead: string;
+  onePlatform: string;
+  onePlatformBody: string;
+  joinNaano: string;
+  step1Of4: string;
+  creatorsBrandsResults: string;
+  brandSignupLead: string;
+  brandPanelBody: string;
+  builtForB2b: string;
+  signUpWithLinkedIn: string;
+  signUpWithGoogle: string;
+  signUpWithEmail: string;
+  signInHere: string;
+  backToSignupOptions: string;
+  marketplaceCardLabel: string;
+  marketplaceCardTitle: string;
+  marketplaceCardBody: string;
+  yourName: string;
+  headlinePlaceholder: string;
+  dataLabel: string;
+  pending: string;
+  followers: string;
+  estImpressions: string;
+  costPerPost: string;
   joinMarketplace: string;
   joinMarketplaceBody: string;
   alreadyHaveAccount: string;
@@ -123,6 +151,36 @@ const authEn: AuthCopy = {
   noAccount: "Don't have an account?",
   createAccount: "Create your account",
   createAccountLead: "Start running creator campaigns, or start earning.",
+  whoAreYou: "First, who are you here as?",
+  imACreator: "I'm a creator",
+  creatorRoleLead: "Get paid to create LinkedIn content for B2B brands you actually use.",
+  imABrand: "I'm a brand",
+  brandRoleLead: "Find creators, launch campaigns, and trace real pipeline back to each post.",
+  onePlatform: "One platform. Two sides.",
+  onePlatformBody:
+    "Creators get paid to post. B2B brands get real pipeline. Pick where you fit and we'll set the rest up in a couple of minutes.",
+  joinNaano: "Join Naano",
+  step1Of4: "Step 1 of 4",
+  creatorsBrandsResults: "Creators. Brands. Results.",
+  brandSignupLead: "The #1 platform to run LinkedIn creator campaigns that drive real business.",
+  brandPanelBody:
+    "Run LinkedIn creator campaigns that drive real business - discover creators, track performance, pay in one click.",
+  builtForB2b: "Built for B2B marketing teams",
+  signUpWithLinkedIn: "Sign up with LinkedIn",
+  signUpWithGoogle: "Sign up with Google",
+  signUpWithEmail: "Sign up with email",
+  signInHere: "Sign in here",
+  backToSignupOptions: "Back",
+  marketplaceCardLabel: "Your Marketplace card",
+  marketplaceCardTitle: "Build a card brands can trust.",
+  marketplaceCardBody: "It updates live with your profile, analytics, positioning and price.",
+  yourName: "Your name",
+  headlinePlaceholder: "Your LinkedIn headline and topics will appear here.",
+  dataLabel: "Data",
+  pending: "Pending",
+  followers: "Followers",
+  estImpressions: "Est. impressions",
+  costPerPost: "Cost / post",
   joinMarketplace: "Join the marketplace.",
   joinMarketplaceBody:
     "Brands book vetted LinkedIn creators at a fixed price per post. Creators get paid within 24h.",
@@ -158,6 +216,36 @@ const authFr: AuthCopy = {
   noAccount: "Pas encore de compte ?",
   createAccount: "Créez votre compte",
   createAccountLead: "Lancez des campagnes créateurs, ou commencez à être payé.",
+  whoAreYou: "D'abord, vous êtes ici en tant que ?",
+  imACreator: "Je suis créateur",
+  creatorRoleLead: "Soyez payé pour créer du contenu LinkedIn pour des marques B2B que vous utilisez vraiment.",
+  imABrand: "Je suis une marque",
+  brandRoleLead: "Trouvez des créateurs, lancez des campagnes et reliez le pipeline réel à chaque post.",
+  onePlatform: "Une plateforme. Deux côtés.",
+  onePlatformBody:
+    "Les créateurs sont payés pour poster. Les marques B2B obtiennent du pipeline réel. Choisissez votre place, on s'occupe du reste en quelques minutes.",
+  joinNaano: "Rejoindre Naano",
+  step1Of4: "Étape 1 sur 4",
+  creatorsBrandsResults: "Créateurs. Marques. Résultats.",
+  brandSignupLead: "La plateforme n°1 pour lancer des campagnes créateurs LinkedIn qui génèrent du business réel.",
+  brandPanelBody:
+    "Lancez des campagnes créateurs LinkedIn qui génèrent du business réel : découvrez des créateurs, suivez la performance, payez en un clic.",
+  builtForB2b: "Conçu pour les équipes marketing B2B",
+  signUpWithLinkedIn: "S'inscrire avec LinkedIn",
+  signUpWithGoogle: "S'inscrire avec Google",
+  signUpWithEmail: "S'inscrire par e-mail",
+  signInHere: "Connectez-vous ici",
+  backToSignupOptions: "Retour",
+  marketplaceCardLabel: "Votre carte marketplace",
+  marketplaceCardTitle: "Créez une carte en laquelle les marques peuvent avoir confiance.",
+  marketplaceCardBody: "Elle se met à jour en direct avec votre profil, vos analytics, votre positionnement et votre tarif.",
+  yourName: "Votre nom",
+  headlinePlaceholder: "Votre titre LinkedIn et vos sujets apparaîtront ici.",
+  dataLabel: "Données",
+  pending: "En attente",
+  followers: "Abonnés",
+  estImpressions: "Impressions est.",
+  costPerPost: "Coût / post",
   joinMarketplace: "Rejoignez la marketplace.",
   joinMarketplaceBody:
     "Les marques réservent des créateurs LinkedIn vérifiés à un tarif fixe par post. Les créateurs sont payés sous 24h.",
