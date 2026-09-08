@@ -202,8 +202,13 @@ def ensure_session(payload: dict[str, Any]) -> dict[str, Any]:
     return meta
 
 
+# Only real log headers at column 0. Indented examples inside a captured
+# prompt (the 8x format spec) must not affect exchange numbering.
+PROMPT_HEADER_RE = re.compile(r"^\[LOG_ENTRY type=PROMPT num=(\d+)", re.M)
+
+
 def next_prompt_num(log_text: str) -> int:
-    nums = [int(n) for n in re.findall(r"\[LOG_ENTRY type=PROMPT num=(\d+)", log_text)]
+    nums = [int(n) for n in PROMPT_HEADER_RE.findall(log_text)]
     return (max(nums) if nums else 0) + 1
 
 
@@ -289,7 +294,7 @@ def append_entries(meta: dict[str, Any], entries: list[str], model: str, prompt_
         path = REPO_ROOT / meta["relpath"]
         text = path.read_text(encoding="utf-8")
 
-    existing_prompts = len(re.findall(r"\[LOG_ENTRY type=PROMPT num=", text))
+    existing_prompts = len(PROMPT_HEADER_RE.findall(text))
     added_prompts = sum(1 for e in entries if e.startswith("[LOG_ENTRY type=PROMPT"))
     total = existing_prompts + added_prompts
     fields: dict[str, Any] = {"model": model, "total_exchanges": total}
@@ -381,7 +386,7 @@ def handle_stop(payload: dict[str, Any]) -> dict[str, Any]:
     entries: list[str] = []
     num = int(pending.get("num") or next_prompt_num(log_text))
     if pending.get("prompt_written"):
-        written_nums = [int(n) for n in re.findall(r"\[LOG_ENTRY type=PROMPT num=(\d+)", log_text)]
+        written_nums = [int(n) for n in PROMPT_HEADER_RE.findall(log_text)]
         if written_nums:
             num = written_nums[-1]
     elif prompt:
