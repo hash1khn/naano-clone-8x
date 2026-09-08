@@ -1,24 +1,24 @@
-import type { IconType } from "react-icons";
+import type { LucideIcon } from "lucide-react";
 import {
-  LuLayoutGrid,
-  LuShoppingBag,
-  LuLayers,
-  LuUsers,
-  LuChartColumn,
-  LuMessageSquare,
-  LuCreditCard,
-} from "react-icons/lu";
+  LayoutGrid,
+  ShoppingBag,
+  Layers,
+  Users,
+  ChartColumn,
+  MessageSquare,
+  CreditCard,
+} from "lucide-react";
 import type { BrandCopy } from "@/lib/i18n/brand";
 import type { BrandTab } from "@/components/brand/useBrandTab";
 
-const NAV: { hash: BrandTab; label: keyof BrandCopy; Icon: IconType }[] = [
-  { hash: "overview", label: "overview", Icon: LuLayoutGrid },
-  { hash: "marketplace", label: "marketplace", Icon: LuShoppingBag },
-  { hash: "campaigns", label: "campaigns", Icon: LuLayers },
-  { hash: "collaborations", label: "collaborations", Icon: LuUsers },
-  { hash: "results", label: "results", Icon: LuChartColumn },
-  { hash: "messages", label: "messages", Icon: LuMessageSquare },
-  { hash: "billing", label: "billing", Icon: LuCreditCard },
+const NAV: { hash: BrandTab; label: keyof BrandCopy; Icon: LucideIcon }[] = [
+  { hash: "overview", label: "overview", Icon: LayoutGrid },
+  { hash: "marketplace", label: "marketplace", Icon: ShoppingBag },
+  { hash: "campaigns", label: "campaigns", Icon: Layers },
+  { hash: "collaborations", label: "collaborations", Icon: Users },
+  { hash: "results", label: "results", Icon: ChartColumn },
+  { hash: "messages", label: "messages", Icon: MessageSquare },
+  { hash: "billing", label: "billing", Icon: CreditCard },
 ];
 
 export function BrandSidebar({ tab, copy, workspace }: { tab: BrandTab; copy: BrandCopy; workspace: string }) {
