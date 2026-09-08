@@ -145,7 +145,7 @@
 .nn-account-toolbar{height:52px;min-height:52px;gap:6px;padding:6px 24px}
 .nn-mcp-header-chip{
   min-height:34px;display:inline-flex;align-items:center;gap:8px;margin-right:auto;padding:0 11px;
-  border:1px solid #DCE2EC;border-radius:9px;background:rgba(255,255,.8);color:#344054;
+  border:1px solid #DCE2EC;border-radius:9px;background:rgba(255,255,255,.8);color:#344054;
   font:700 .67rem/1 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
   letter-spacing:.055em;text-transform:uppercase;white-space:nowrap;cursor:pointer;
   transition:border-color .15s ease,background .15s ease,color .15s ease,transform .15s ease
