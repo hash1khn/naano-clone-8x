@@ -7,6 +7,8 @@ export type CollabTab = "all" | "active" | "received" | "invited" | "action" | "
 
 export type CollabStatusKey = "await" | "accepted" | "live" | "done" | "draft" | "app";
 
+export type CollabRole = "brand" | "creator";
+
 export type CollabRow = {
   id: string;
   kind: "booking" | "application";
@@ -102,21 +104,37 @@ export function dealToCollabRow(
   campaignsById: Map<string, CampaignListItem>,
   copy: CollaborationsCopy,
   locale: Locale,
+  role: CollabRole = "brand",
 ): CollabRow {
   const creator = creatorsById.get(deal.creator_id);
   const campaign = campaignsById.get(deal.campaign_id);
   const statusKey = mapStatus(deal.status);
   const price = Number(deal.price ?? 0);
+  const campaignLabel =
+    campaign?.objective?.trim() || deal.campaign_objective?.trim() || copy.campaignFallback;
+
+  const peer =
+    role === "creator"
+      ? {
+          name: deal.company_name?.trim() || copy.brandFallback,
+          avatar: "",
+          followers: "—",
+        }
+      : {
+          name: creator?.name || copy.creatorFallback,
+          avatar: creator?.avatar_url || "",
+          followers: creator ? compactNumber(creator.follower_count, locale === "fr" ? "fr-FR" : "en-US") : "—",
+        };
 
   return {
     id: deal.id,
     kind: "booking",
     creatorId: deal.creator_id,
     campaignId: deal.campaign_id,
-    name: creator?.name || copy.creatorFallback,
-    avatar: creator?.avatar_url || "",
-    followers: creator ? compactNumber(creator.follower_count, locale === "fr" ? "fr-FR" : "en-US") : "—",
-    campaign: campaign?.objective?.trim() || copy.campaignFallback,
+    name: peer.name,
+    avatar: peer.avatar,
+    followers: peer.followers,
+    campaign: campaignLabel,
     statusKey,
     dealStatus: deal.status,
     next: nextAction(statusKey, copy),

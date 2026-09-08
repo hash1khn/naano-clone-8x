@@ -9,6 +9,7 @@ import {
   isApplication,
   needsBrandAction,
   nextDealStatus,
+  type CollabRole,
   type CollabRow,
   type CollabTab,
 } from "@/lib/collaborations/rows";
@@ -52,11 +53,15 @@ export function CollaborationsPanel({
   locale,
   copy,
   creators,
+  role = "brand",
 }: {
   locale: Locale;
   copy: CollaborationsCopy;
   creators: CreatorListItem[];
+  role?: CollabRole;
 }) {
+  const hashRoot = role === "creator" ? "collabs" : "collaborations";
+  const isBrand = role === "brand";
   const [deals, setDeals] = useState<DealListItem[]>([]);
   const [campaigns, setCampaigns] = useState<CampaignListItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -70,24 +75,42 @@ export function CollaborationsPanel({
   const [copied, setCopied] = useState(false);
 
   const creatorsById = useMemo(() => new Map(creators.map((c) => [c.id, c])), [creators]);
-  const campaignsById = useMemo(() => new Map(campaigns.map((c) => [c.id, c])), [campaigns]);
+  const campaignsById = useMemo(() => {
+    if (campaigns.length > 0) {
+      return new Map(campaigns.map((c) => [c.id, c]));
+    }
+    const derived = new Map<string, CampaignListItem>();
+    for (const deal of deals) {
+      if (!derived.has(deal.campaign_id)) {
+        derived.set(deal.campaign_id, {
+          id: deal.campaign_id,
+          objective: deal.campaign_objective || "",
+          status: "live",
+          created_at: deal.created_at,
+        });
+      }
+    }
+    return derived;
+  }, [campaigns, deals]);
 
   async function load() {
     setLoading(true);
     try {
-      const [dealsRes, campaignsRes] = await Promise.all([
-        fetch("/api/deals?role=brand"),
-        fetch("/api/campaigns"),
-      ]);
+      const dealsRes = await fetch(`/api/deals?role=${role}`);
       if (dealsRes.ok) {
         const data = (await dealsRes.json()) as { deals?: DealListItem[] };
         setDeals(Array.isArray(data.deals) ? data.deals : []);
       } else {
         setDeals([]);
       }
-      if (campaignsRes.ok) {
-        const data = (await campaignsRes.json()) as { campaigns?: CampaignListItem[] };
-        setCampaigns(Array.isArray(data.campaigns) ? data.campaigns : []);
+      if (isBrand) {
+        const campaignsRes = await fetch("/api/campaigns");
+        if (campaignsRes.ok) {
+          const data = (await campaignsRes.json()) as { campaigns?: CampaignListItem[] };
+          setCampaigns(Array.isArray(data.campaigns) ? data.campaigns : []);
+        } else {
+          setCampaigns([]);
+        }
       } else {
         setCampaigns([]);
       }
@@ -98,20 +121,22 @@ export function CollaborationsPanel({
 
   useEffect(() => {
     void load();
-  }, []);
+  }, [role]);
 
   useEffect(() => {
     const hash = window.location.hash.replace(/^#/, "");
     const [first, campaign] = hash.split("/");
-    if (first === "collaborations" && campaign) {
+    if (first === hashRoot && campaign) {
       setCampaignId(campaign);
     }
-  }, []);
+  }, [hashRoot]);
 
   const rows = useMemo(
-    () => deals.map((deal) => dealToCollabRow(deal, creatorsById, campaignsById, copy, locale)),
-    [deals, creatorsById, campaignsById, copy, locale],
+    () => deals.map((deal) => dealToCollabRow(deal, creatorsById, campaignsById, copy, locale, role)),
+    [deals, creatorsById, campaignsById, copy, locale, role],
   );
+
+  const campaignOptions = useMemo(() => [...campaignsById.values()], [campaignsById]);
 
   const scoped = useMemo(
     () => rows.filter((row) => campaignId === "all" || row.campaignId === campaignId),
@@ -208,7 +233,7 @@ export function CollaborationsPanel({
   function openMessages(row: CollabRow) {
     window.location.hash = "messages";
     try {
-      sessionStorage.setItem("naano.messages.openCreator", row.creatorId);
+      sessionStorage.setItem("naano.messages.openDeal", row.id);
     } catch {
       /* ignore */
     }
@@ -306,12 +331,12 @@ export function CollaborationsPanel({
                 window.history.replaceState(
                   null,
                   "",
-                  value === "all" ? "#collaborations" : `#collaborations/${value}`,
+                  value === "all" ? `#${hashRoot}` : `#${hashRoot}/${value}`,
                 );
               }}
             >
               <option value="all">{copy.allCampaigns}</option>
-              {campaigns.map((campaign) => (
+              {campaignOptions.map((campaign) => (
                 <option key={campaign.id} value={campaign.id}>
                   {campaign.objective?.trim() || copy.campaignFallback}
                 </option>
@@ -331,7 +356,7 @@ export function CollaborationsPanel({
             />
           </label>
           <div className="nn-campaign-actions">
-            {campaignId !== "all" ? (
+            {isBrand && campaignId !== "all" ? (
               <button type="button" className="btn btn-ghost" onClick={() => (window.location.hash = "campaigns")}>
                 {copy.openCampaign}
               </button>
@@ -405,7 +430,7 @@ export function CollaborationsPanel({
                     return (
                       <tr
                         key={row.id}
-                        className={`cl2-row${isApplication(row) ? " is-application" : ""}${needsBrandAction(row) ? " needs-review" : ""}${selectedRow ? " sel" : ""}`}
+                        className={`cl2-row${isApplication(row) ? " is-application" : ""}${isBrand && needsBrandAction(row) ? " needs-review" : ""}${selectedRow ? " sel" : ""}`}
                         role="button"
                         tabIndex={0}
                         onClick={() => setSelected(selectedRow ? null : row)}
@@ -421,9 +446,11 @@ export function CollaborationsPanel({
                             <Avatar name={row.name} src={row.avatar} />
                             <div>
                               <b>{row.name}</b>
-                              <span className="muted" style={{ fontSize: "0.78rem" }}>
-                                {row.followers} {copy.followers}
-                              </span>
+                              {isBrand ? (
+                                <span className="muted" style={{ fontSize: "0.78rem" }}>
+                                  {row.followers} {copy.followers}
+                                </span>
+                              ) : null}
                             </div>
                           </div>
                         </td>
@@ -441,7 +468,7 @@ export function CollaborationsPanel({
                         <td className="muted">{row.updated}</td>
                         <td>
                           <div className="cl2-acts ci-table-actions">
-                            {needsBrandAction(row) && row.dealStatus === "live" ? (
+                            {isBrand && needsBrandAction(row) && row.dealStatus === "live" ? (
                               <button
                                 type="button"
                                 className="btn btn-primary btn-sm"
@@ -512,9 +539,11 @@ export function CollaborationsPanel({
               <Avatar name={selected.name} src={selected.avatar} />
               <div>
                 <h2 style={{ margin: 0, fontSize: "1.15rem" }}>{selected.name}</h2>
-                <p className="muted" style={{ margin: "4px 0 0", fontSize: "0.82rem" }}>
-                  {selected.followers} {copy.followers}
-                </p>
+                {isBrand ? (
+                  <p className="muted" style={{ margin: "4px 0 0", fontSize: "0.82rem" }}>
+                    {selected.followers} {copy.followers}
+                  </p>
+                ) : null}
               </div>
             </div>
             <div className="cl2-detail-meta">
@@ -539,7 +568,7 @@ export function CollaborationsPanel({
               ) : null}
             </div>
             <div className="cl2-detail-actions">
-              {selected.dealStatus === "live" ? (
+              {isBrand && selected.dealStatus === "live" ? (
                 <button
                   type="button"
                   className="btn btn-primary"

@@ -49,6 +49,9 @@ export type DealListItem = {
   status: string;
   tracking_link: string;
   created_at: string;
+  company_name: string;
+  company_user_id: string;
+  campaign_objective: string;
 };
 
 export type Message = {

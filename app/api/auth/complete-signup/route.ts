@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  dashboardPath,
   ensurePublicUser,
   getAuthOrigin,
   getPublicUserRole,
   isAppRole,
   safeNextPath,
 } from "@/lib/auth/oauth";
+import { postAuthPathForUser } from "@/lib/creator/require-onboarding";
 import { createRouteSupabaseClient } from "@/lib/supabase/server";
 
 /** Finish first-time OAuth when the user still needs to pick creator vs brand. */
@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL("/register?complete=1&error=oauth", origin));
   }
 
-  const destination = next ?? dashboardPath(role);
+  const destination = next ?? (await postAuthPathForUser(user.id, role));
   const response = NextResponse.redirect(new URL(destination, origin));
   pending.cookies.getAll().forEach((cookie) => {
     response.cookies.set(cookie);

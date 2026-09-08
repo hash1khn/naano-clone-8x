@@ -67,16 +67,20 @@ export function MessagesPanel({
   copy,
   userId,
   creators,
+  role = "brand",
 }: {
   locale: Locale;
   copy: MessagesCopy;
   userId: string;
   creators: CreatorListItem[];
+  role?: "brand" | "creator";
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
   const campaignMenuRef = useRef<HTMLDivElement>(null);
   const emojiRef = useRef<HTMLDivElement>(null);
+  const collabHash = role === "creator" ? "collabs" : "collaborations";
+  const isBrand = role === "brand";
 
   const [deals, setDeals] = useState<DealListItem[]>([]);
   const [campaigns, setCampaigns] = useState<CampaignListItem[]>([]);
@@ -98,24 +102,56 @@ export function MessagesPanel({
   const [mobileChat, setMobileChat] = useState(false);
 
   const creatorsById = useMemo(() => new Map(creators.map((c) => [c.id, c])), [creators]);
-  const campaignsById = useMemo(() => new Map(campaigns.map((c) => [c.id, c])), [campaigns]);
+  const campaignsById = useMemo(() => {
+    if (campaigns.length > 0) {
+      return new Map(campaigns.map((c) => [c.id, c]));
+    }
+    const derived = new Map<string, CampaignListItem>();
+    for (const deal of deals) {
+      if (!derived.has(deal.campaign_id)) {
+        derived.set(deal.campaign_id, {
+          id: deal.campaign_id,
+          objective: deal.campaign_objective || "",
+          status: "live",
+          created_at: deal.created_at,
+        });
+      }
+    }
+    return derived;
+  }, [campaigns, deals]);
+
+  function peerForDeal(deal: DealListItem) {
+    if (isBrand) {
+      const creator = creatorsById.get(deal.creator_id);
+      return {
+        name: creator?.name || "Creator",
+        avatar: creator?.avatar_url || "",
+      };
+    }
+    return {
+      name: deal.company_name?.trim() || "Brand",
+      avatar: "",
+    };
+  }
 
   useEffect(() => {
     let cancelled = false;
     async function load() {
       setLoadingList(true);
       try {
-        const [dealsRes, campaignsRes] = await Promise.all([
-          fetch("/api/deals?role=brand"),
-          fetch("/api/campaigns"),
-        ]);
+        const dealsRes = await fetch(`/api/deals?role=${role}`);
         const dealsJson = dealsRes.ok ? ((await dealsRes.json()) as { deals?: DealListItem[] }) : { deals: [] };
-        const campaignsJson = campaignsRes.ok
-          ? ((await campaignsRes.json()) as { campaigns?: CampaignListItem[] })
-          : { campaigns: [] };
+        let nextCampaigns: CampaignListItem[] = [];
+        if (isBrand) {
+          const campaignsRes = await fetch("/api/campaigns");
+          const campaignsJson = campaignsRes.ok
+            ? ((await campaignsRes.json()) as { campaigns?: CampaignListItem[] })
+            : { campaigns: [] };
+          nextCampaigns = Array.isArray(campaignsJson.campaigns) ? campaignsJson.campaigns : [];
+        }
         if (!cancelled) {
           setDeals(Array.isArray(dealsJson.deals) ? dealsJson.deals : []);
-          setCampaigns(Array.isArray(campaignsJson.campaigns) ? campaignsJson.campaigns : []);
+          setCampaigns(nextCampaigns);
         }
       } catch {
         if (!cancelled) {
@@ -132,7 +168,23 @@ export function MessagesPanel({
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [role, isBrand]);
+
+  useEffect(() => {
+    if (loadingList || deals.length === 0) {
+      return;
+    }
+    try {
+      const openDealId = sessionStorage.getItem("naano.messages.openDeal");
+      if (openDealId && deals.some((d) => d.id === openDealId)) {
+        sessionStorage.removeItem("naano.messages.openDeal");
+        setOpen({ kind: "deal", id: openDealId });
+        setMobileChat(true);
+      }
+    } catch {
+      /* ignore */
+    }
+  }, [loadingList, deals]);
 
   const visibleDeals = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -143,16 +195,16 @@ export function MessagesPanel({
       if (!q) {
         return true;
       }
-      const creator = creatorsById.get(deal.creator_id);
-      const hay = `${creator?.name ?? ""} ${previews[deal.id]?.body ?? copy.bookingPreview}`.toLowerCase();
+      const peer = peerForDeal(deal);
+      const hay = `${peer.name} ${previews[deal.id]?.body ?? copy.bookingPreview}`.toLowerCase();
       return hay.includes(q);
     });
-  }, [deals, campaignFilter, search, creatorsById, previews, copy.bookingPreview]);
+  }, [deals, campaignFilter, search, creatorsById, previews, copy.bookingPreview, isBrand]);
 
   const botVisible = !search.trim() || "naanobot".includes(search.trim().toLowerCase()) || copy.supportPrompt.toLowerCase().includes(search.trim().toLowerCase());
 
   const selectedDeal = open?.kind === "deal" ? deals.find((d) => d.id === open.id) : null;
-  const selectedCreator = selectedDeal ? creatorsById.get(selectedDeal.creator_id) : null;
+  const selectedPeer = selectedDeal ? peerForDeal(selectedDeal) : null;
   const supportOpen = open?.kind === "support";
   const canSend = Boolean(open) && !supportSending && !sending && Boolean(draft.trim());
 
@@ -290,11 +342,15 @@ export function MessagesPanel({
     }
     setSending(true);
     try {
+      const recipientId = isBrand ? selectedDeal.creator_id : selectedDeal.company_user_id;
+      if (!recipientId) {
+        return;
+      }
       const res = await fetch("/api/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          recipient_id: selectedDeal.creator_id,
+          recipient_id: recipientId,
           deal_id: selectedDeal.id,
           body: text,
         }),
@@ -313,7 +369,7 @@ export function MessagesPanel({
 
   function startCompose() {
     if (deals.length === 0) {
-      window.location.hash = "collaborations";
+      window.location.hash = collabHash;
       return;
     }
     setOpen(null);
@@ -335,6 +391,8 @@ export function MessagesPanel({
     }
     return counts;
   }, [deals]);
+
+  const campaignOptions = useMemo(() => [...campaignsById.values()], [campaignsById]);
 
   return (
     <section className="page visible" id="page-messages" data-screen-label={copy.title}>
@@ -409,10 +467,10 @@ export function MessagesPanel({
                 <span>{copy.chooseCampaignHint}</span>
               </div>
               <div className="msg-campaign-options">
-                {campaigns.length === 0 ? (
+                {campaignOptions.length === 0 ? (
                   <div className="msg-campaign-menu-empty">{copy.noCampaigns}</div>
                 ) : (
-                  campaigns.map((campaign) => {
+                  campaignOptions.map((campaign) => {
                     const selected = campaignFilter === campaign.id;
                     const count = dealCountByCampaign.get(campaign.id) ?? 0;
                     return (
@@ -479,8 +537,8 @@ export function MessagesPanel({
               <>
                 <div className="msg-section-lbl">{copy.groupCreators}</div>
                 {visibleDeals.map((deal) => {
-                  const creator = creatorsById.get(deal.creator_id);
-                  const name = creator?.name || "Creator";
+                  const peer = peerForDeal(deal);
+                  const name = peer.name;
                   const preview = previews[deal.id]?.body || copy.bookingPreview;
                   const active = open?.kind === "deal" && open.id === deal.id;
                   return (
@@ -490,9 +548,9 @@ export function MessagesPanel({
                       type="button"
                       onClick={() => openDeal(deal.id)}
                     >
-                      {creator?.avatar_url ? (
+                      {peer.avatar ? (
                         <span className="cav">
-                          <img src={creator.avatar_url} alt="" />
+                          <img src={peer.avatar} alt="" />
                         </span>
                       ) : (
                         <span className="avatar-sm">{initials(name)}</span>
@@ -538,17 +596,17 @@ export function MessagesPanel({
                   </span>
                 </span>
               </div>
-            ) : selectedCreator || selectedDeal ? (
+            ) : selectedPeer || selectedDeal ? (
               <div className="msg-chat-person">
-                {selectedCreator?.avatar_url ? (
+                {selectedPeer?.avatar ? (
                   <span className="cav">
-                    <img src={selectedCreator.avatar_url} alt="" />
+                    <img src={selectedPeer.avatar} alt="" />
                   </span>
                 ) : (
-                  <span className="avatar-sm">{initials(selectedCreator?.name || "C")}</span>
+                  <span className="avatar-sm">{initials(selectedPeer?.name || "C")}</span>
                 )}
                 <span className="msg-chat-person-copy">
-                  <b>{selectedCreator?.name || "Creator"}</b>
+                  <b>{selectedPeer?.name || (isBrand ? "Creator" : "Brand")}</b>
                   <span>{copy.emptyHeadSub}</span>
                 </span>
               </div>
@@ -717,13 +775,14 @@ export function MessagesPanel({
               ) : (
                 messages.map((message) => {
                   const mine = message.sender_id === userId;
+                  const peerName = selectedPeer?.name || (isBrand ? "Creator" : "Brand");
                   return (
                     <div key={message.id} className={`msg${mine ? " me" : ""}`}>
-                      {!mine ? <span className="avatar-sm">{initials(selectedCreator?.name || "C")}</span> : null}
+                      {!mine ? <span className="avatar-sm">{initials(peerName)}</span> : null}
                       <div>
                         <div className="bubble">{message.body}</div>
                         <div className={mine ? "msg-own-meta" : "who"}>
-                          {mine ? formatWhen(message.created_at, locale) : `${selectedCreator?.name || "Creator"} · ${formatWhen(message.created_at, locale)}`}
+                          {mine ? formatWhen(message.created_at, locale) : `${peerName} · ${formatWhen(message.created_at, locale)}`}
                         </div>
                       </div>
                     </div>

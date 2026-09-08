@@ -60,7 +60,7 @@ export function RegisterForm({ role, copy }: { role: AppRole; copy: AuthCopy }) 
         setError(data.error ?? copy.registrationFailed);
         return;
       }
-      router.push(data.user?.role === "creator" ? "/creator" : "/brand");
+      router.push(data.user?.role === "creator" ? "/creator/onboarding?step=2" : "/brand");
     } catch {
       setError(copy.registrationFailed);
     } finally {

@@ -12,6 +12,16 @@ type DealRow = {
   created_at: string | null;
 };
 
+type CampaignMeta = {
+  objective: string;
+  company_id: string;
+};
+
+type CompanyMeta = {
+  name: string;
+  user_id: string;
+};
+
 function iso(value: string | null | undefined): string {
   if (!value) {
     return new Date(0).toISOString();
@@ -36,16 +46,64 @@ async function trackingSlugsByDealId(dealIds: string[]): Promise<Map<string, str
   return slugs;
 }
 
-function toDeal(row: DealRow, slugs: Map<string, string>): DealListItem {
-  return {
-    id: row.id,
-    campaign_id: row.campaign_id,
-    creator_id: row.creator_id,
-    price: Number(row.price ?? 0),
-    status: row.status ?? "draft",
-    tracking_link: slugs.get(row.id) ?? "",
-    created_at: iso(row.created_at),
-  };
+async function campaignMetaById(campaignIds: string[]): Promise<Map<string, CampaignMeta>> {
+  const map = new Map<string, CampaignMeta>();
+  if (campaignIds.length === 0) {
+    return map;
+  }
+  const admin = createAdminSupabaseClient();
+  const { data } = await admin.from("campaigns").select("id, objective, company_id").in("id", campaignIds);
+  for (const row of data ?? []) {
+    if (row.id) {
+      map.set(row.id, {
+        objective: row.objective ?? "",
+        company_id: row.company_id ?? "",
+      });
+    }
+  }
+  return map;
+}
+
+async function companyMetaById(companyIds: string[]): Promise<Map<string, CompanyMeta>> {
+  const map = new Map<string, CompanyMeta>();
+  if (companyIds.length === 0) {
+    return map;
+  }
+  const admin = createAdminSupabaseClient();
+  const { data } = await admin.from("companies").select("id, name, user_id").in("id", companyIds);
+  for (const row of data ?? []) {
+    if (row.id) {
+      map.set(row.id, {
+        name: row.name ?? "",
+        user_id: row.user_id ?? "",
+      });
+    }
+  }
+  return map;
+}
+
+async function toDeals(rows: DealRow[]): Promise<DealListItem[]> {
+  const slugs = await trackingSlugsByDealId(rows.map((row) => row.id));
+  const campaigns = await campaignMetaById([...new Set(rows.map((row) => row.campaign_id))]);
+  const companyIds = [...new Set([...campaigns.values()].map((c) => c.company_id).filter(Boolean))];
+  const companies = await companyMetaById(companyIds);
+
+  return rows.map((row) => {
+    const campaign = campaigns.get(row.campaign_id);
+    const company = campaign ? companies.get(campaign.company_id) : undefined;
+    return {
+      id: row.id,
+      campaign_id: row.campaign_id,
+      creator_id: row.creator_id,
+      price: Number(row.price ?? 0),
+      status: row.status ?? "draft",
+      tracking_link: slugs.get(row.id) ?? "",
+      created_at: iso(row.created_at),
+      company_name: company?.name ?? "",
+      company_user_id: company?.user_id ?? "",
+      campaign_objective: campaign?.objective ?? "",
+    };
+  });
 }
 
 export async function listDealsForUser(user: DashboardUser): Promise<DealListItem[]> {
@@ -69,8 +127,7 @@ export async function listDealsForUser(user: DashboardUser): Promise<DealListIte
     if (error || !data) {
       return [];
     }
-    const slugs = await trackingSlugsByDealId(data.map((row) => row.id));
-    return data.map((row) => toDeal(row, slugs));
+    return toDeals(data);
   }
 
   const { data: profile } = await admin.from("creator_profiles").select("id").eq("user_id", user.id).maybeSingle();
@@ -85,8 +142,7 @@ export async function listDealsForUser(user: DashboardUser): Promise<DealListIte
   if (error || !data) {
     return [];
   }
-  const slugs = await trackingSlugsByDealId(data.map((row) => row.id));
-  return data.map((row) => toDeal(row, slugs));
+  return toDeals(data);
 }
 
 export async function getAccessibleDeal(user: DashboardUser, dealId: string): Promise<DealRow | null> {

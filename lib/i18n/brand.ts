@@ -860,6 +860,7 @@ export type CollaborationsCopy = {
   rowsPerPage: string;
   campaignFallback: string;
   creatorFallback: string;
+  brandFallback: string;
   stAwait: string;
   stAccepted: string;
   stLive: string;
@@ -912,6 +913,7 @@ const collaborationsEn: CollaborationsCopy = {
   rowsPerPage: "Rows per page:",
   campaignFallback: "Campaign",
   creatorFallback: "Creator",
+  brandFallback: "Brand",
   stAwait: "Awaiting creator",
   stAccepted: "Awaiting the post",
   stLive: "Posted",
@@ -964,6 +966,7 @@ const collaborationsFr: CollaborationsCopy = {
   rowsPerPage: "Lignes par page :",
   campaignFallback: "Campagne",
   creatorFallback: "Créateur",
+  brandFallback: "Marque",
   stAwait: "En attente du créateur",
   stAccepted: "En attente du post",
   stLive: "Publié",

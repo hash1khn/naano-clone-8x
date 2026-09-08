@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   OAUTH_ROLE_COOKIE,
-  dashboardPath,
   ensurePublicUser,
   getAuthOrigin,
   getPublicUserRole,
   isAppRole,
   safeNextPath,
 } from "@/lib/auth/oauth";
+import { postAuthPathForUser } from "@/lib/creator/require-onboarding";
 import { createRouteSupabaseClient } from "@/lib/supabase/server";
 
 export async function GET(request: NextRequest) {
@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
     return fail();
   }
 
-  const next = safeNextPath(url.searchParams.get("next")) ?? dashboardPath(role);
+  const next = safeNextPath(url.searchParams.get("next")) ?? (await postAuthPathForUser(user.id, role));
   const response = NextResponse.redirect(new URL(next, origin));
   pending.cookies.getAll().forEach((cookie) => {
     response.cookies.set(cookie);

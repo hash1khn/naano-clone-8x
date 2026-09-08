@@ -12,12 +12,16 @@ import { MessagesPanel } from "@/components/creator/MessagesPanel";
 import { OpportunitiesPanel } from "@/components/creator/OpportunitiesPanel";
 import { ProfilePanel } from "@/components/creator/ProfilePanel";
 import { useCreatorTab } from "@/components/creator/useCreatorTab";
+import type { CollaborationsCopy, MessagesCopy } from "@/lib/i18n/brand";
 import type { CreatorCopy } from "@/lib/i18n/creator";
 import type { Locale } from "@/lib/i18n/locale";
 
 export function CreatorDashboard({
   locale,
   copy,
+  collaborations,
+  messages,
+  userId,
   switchLanguage,
   displayName,
   email,
@@ -26,6 +30,9 @@ export function CreatorDashboard({
 }: {
   locale: Locale;
   copy: CreatorCopy;
+  collaborations: CollaborationsCopy;
+  messages: MessagesCopy;
+  userId: string;
   switchLanguage: string;
   displayName: string;
   email: string;
@@ -53,7 +60,7 @@ export function CreatorDashboard({
         ) : tab === "opportunities" ? (
           <OpportunitiesPanel copy={copy} />
         ) : tab === "collabs" ? (
-          <CollabsPanel copy={copy} />
+          <CollabsPanel locale={locale} copy={collaborations} />
         ) : tab === "analytics" ? (
           <AnalyticsPanel copy={copy} />
         ) : tab === "community" ? (
@@ -61,7 +68,7 @@ export function CreatorDashboard({
         ) : tab === "earnings" ? (
           <EarningsPanel copy={copy} />
         ) : tab === "messages" ? (
-          <MessagesPanel copy={copy} />
+          <MessagesPanel locale={locale} copy={messages} userId={userId} />
         ) : (
           <IntegrationsPanel copy={copy} />
         )}
