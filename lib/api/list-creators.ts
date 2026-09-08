@@ -14,7 +14,7 @@ export async function listCreators(filters: CreatorListFilters = {}): Promise<Cr
     .from("creator_profiles")
     .select("id, slug, name, niche_tags, country, follower_count, price_per_post, avatar_url")
     .order("created_at", { ascending: false })
-    .limit(24);
+    .limit(200);
 
   if (filters.niche) {
     query = query.contains("niche_tags", [filters.niche]);

@@ -1,0 +1,22 @@
+#page-marketplace[data-experience="marketplace"]{padding-bottom:120px;scroll-padding-bottom:120px}
+#page-marketplace .mkt-card-analysis svg:first-child{color:#1652F0}
+#page-marketplace .mkt-card-analysis svg:last-child{color:#69758A}
+#page-marketplace .mkt-experience-nao-mark{width:22px;height:22px;display:grid;place-items:center}
+#page-marketplace .mkt-experience-nao-mark img{width:16px;height:16px;object-fit:contain}
+#page-marketplace .mkt-ranking-note>svg{width:28px;height:28px;display:grid;flex:none;place-items:center;padding:6px;border:1px solid #D9E3F7;border-radius:9px;background:#F2F6FF;color:#1D5BF5}
+#page-marketplace .mkt-search-premium>svg{flex:none;color:#6B7690}
+#page-marketplace .mkt-card-save-top.saved{color:#1D5BF5}
+#page-marketplace .nn-profile-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#page-marketplace .nn-canvas-cta{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 16px;border:1px solid #1652F0;border-radius:13px;background:#1652F0;color:#fff;font:inherit;font-weight:760;cursor:pointer}
+#page-marketplace .nn-canvas-booking-note{display:inline-flex;align-items:center;gap:6px}
+#page-marketplace[data-experience="marketplace"] .mkt-dock{position:fixed;z-index:90;left:50%;bottom:22px;width:min(640px,calc(100vw - 36px));display:flex;align-items:center;gap:10px;padding:8px 12px;border:1px solid #E0E3E8;border-radius:999px;background:rgba(255,255,255,.96);box-shadow:0 18px 50px rgba(17,24,39,.12),0 2px 8px rgba(17,24,39,.05);transform:translateX(-50%);backdrop-filter:blur(22px)}
+#page-marketplace[data-experience="marketplace"] .mkt-dock-mark{width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:50%;background:#F3F6FF;cursor:pointer}
+#page-marketplace[data-experience="marketplace"] .mkt-dock-mark img{width:18px;height:18px;object-fit:contain}
+#page-marketplace[data-experience="marketplace"] .mkt-dock input{flex:1;min-width:0;height:36px;border:0;outline:0;background:transparent;color:#172033;font:inherit;font-size:.84rem}
+#page-marketplace[data-experience="marketplace"] .mkt-dock input::placeholder{color:#8A93A2}
+#page-marketplace[data-experience="ai"] .mkt-lya-orb-core img{width:34px;height:34px;object-fit:contain}
+#modal-creator .nn-profile-avatar{position:relative;overflow:hidden}
+#modal-creator .nn-profile-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#modal-creator .nn-canvas-cta{display:inline-flex;align-items:center;justify-content:center;width:100%;min-height:56px;padding:0 16px;border:1px solid #1652F0;border-radius:13px;background:#1652F0;color:#fff;font:inherit;font-size:14px;font-weight:760;cursor:pointer}
+#modal-creator .nn-canvas-booking-note{display:inline-flex;align-items:center;justify-content:center;gap:6px}
+#modal-creator .nn-linkedin-post-avatar{position:relative;width:36px;height:36px;display:grid;place-items:center;overflow:hidden;border-radius:50%;background:#E8EEF9;color:#1652F0;font-size:12px;font-weight:760}

@@ -2,16 +2,18 @@
 
 import { BrandSidebar } from "@/components/brand/BrandSidebar";
 import { BrandTopBar } from "@/components/brand/BrandTopBar";
+import { MarketplacePanel } from "@/components/brand/MarketplacePanel";
 import { OverviewPanel } from "@/components/brand/OverviewPanel";
 import { useBrandTab, type BrandTab } from "@/components/brand/useBrandTab";
 import type { CompanyResults } from "@/lib/api/company-results";
 import type { CreatorListItem } from "@/lib/api/types";
-import type { BrandCopy } from "@/lib/i18n/brand";
+import type { BrandCopy, MarketplaceCopy } from "@/lib/i18n/brand";
 import type { Locale } from "@/lib/i18n/locale";
 
 export function BrandDashboard({
   locale,
   copy,
+  marketplace,
   switchLanguage,
   firstName,
   displayName,
@@ -23,6 +25,7 @@ export function BrandDashboard({
 }: {
   locale: Locale;
   copy: BrandCopy;
+  marketplace: MarketplaceCopy;
   switchLanguage: string;
   firstName: string;
   displayName: string;
@@ -33,8 +36,7 @@ export function BrandDashboard({
   creators: CreatorListItem[];
 }) {
   const tab = useBrandTab();
-  const titles: Record<Exclude<BrandTab, "overview">, string> = {
-    marketplace: copy.marketplace,
+  const titles: Record<Exclude<BrandTab, "overview" | "marketplace">, string> = {
     campaigns: copy.campaigns,
     "campaign-new": copy.newCampaign,
     collaborations: copy.collaborations,
@@ -60,6 +62,8 @@ export function BrandDashboard({
           <section className="page visible" id="page-overview" data-screen-label={copy.overview}>
             <OverviewPanel copy={copy} firstName={firstName} workspace={workspace} results={results} creators={creators} />
           </section>
+        ) : tab === "marketplace" ? (
+          <MarketplacePanel locale={locale} copy={marketplace} creators={creators} />
         ) : (
           <section className="page visible">
             <div className="page-head">

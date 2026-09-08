@@ -160,6 +160,352 @@ const fr: BrandCopy = {
 
 export const brandCopy: Record<Locale, BrandCopy> = { en, fr };
 
+export type MarketplaceCopy = {
+  title: string;
+  allCreatorsTitle: string;
+  aiTitle: string;
+  aiSub: string;
+  rankedTitle: string;
+  rankedSub: string;
+  experienceAi: string;
+  experienceMarketplace: string;
+  tabAll: string;
+  tabSaved: string;
+  searchPh: string;
+  sortBy: string;
+  sortRel: string;
+  sortPrice: string;
+  sortFol: string;
+  industry: string;
+  country: string;
+  price: string;
+  filters: string;
+  results: string;
+  reset: string;
+  searchIndustry: string;
+  searchCountry: string;
+  priceRange: string;
+  priceRangeHint: string;
+  minPrice: string;
+  maxPrice: string;
+  clear: string;
+  applyPrice: string;
+  minFollowers: string;
+  maxFollowers: string;
+  applyFilters: string;
+  clearFilters: string;
+  performanceFilters: string;
+  filtersHint: string;
+  topRanked: string;
+  topRankedBody: string;
+  emptyFilters: string;
+  emptyShortlist: string;
+  emptyCatalogue: string;
+  viewProfile: string;
+  book: string;
+  star: string;
+  unstar: string;
+  followers: string;
+  medianViews: string;
+  cpm: string;
+  postCost: string;
+  creatorLabel: string;
+  linkedinCreator: string;
+  overview: string;
+  audience: string;
+  content: string;
+  creatorOverview: string;
+  overviewBody: string;
+  audienceSnapshot: string;
+  audienceUnavailable: string;
+  audienceComposition: string;
+  audienceHelp: string;
+  contentPerformance: string;
+  contentUnavailable: string;
+  reachUnavailable: string;
+  professionalProfile: string;
+  aboutCreator: string;
+  contentSignals: string;
+  contentSignalsHelp: string;
+  latestPost: string;
+  cadence: string;
+  typicalRange: string;
+  postsAnalyzed: string;
+  linkedinPosts: string;
+  publicPost: string;
+  openOriginal: string;
+  seeFullPost: string;
+  postPosition: string;
+  notAvailable: string;
+  bookThisCreator: string;
+  singlePost: string;
+  typicalReach: string;
+  estimatedCpm: string;
+  howPricing: string;
+  pricingBody: string;
+  collaborateWith: string;
+  secureBooking: string;
+  selectionTitle: string;
+  creatorRate: string;
+  standardRate: string;
+  selectionBody: string;
+  back: string;
+  negotiate: string;
+  bookPrice: string;
+  close: string;
+  naoEyebrow: string;
+  naoHero: string;
+  naoAccent: string;
+  naoBody: string;
+  naoPlaceholder: string;
+  naoDisclaimer: string;
+  startersLabel: string;
+  starterCompany: string;
+  starterNew: string;
+  starterViews: string;
+  naoSelection: string;
+  naoSelectionTitle: string;
+  naoAnswerTitle: string;
+  naoAnswerBody: string;
+  naoZeroTitle: string;
+  naoZeroBody: string;
+  dockPlaceholder: string;
+  loadingProfile: string;
+};
+
+const marketplaceEn: MarketplaceCopy = {
+  title: "Browse creators",
+  allCreatorsTitle: "All creators",
+  aiTitle: "AI creator matching",
+  aiSub: "Describe the campaign. Nao will search, filter and explain the strongest creator matches.",
+  rankedTitle: "Ranked for your company",
+  rankedSub:
+    "All creators are shown from most to least relevant, using sector fit first and verified performance statistics to refine the order.",
+  experienceAi: "AI Matching",
+  experienceMarketplace: "Creator Marketplace",
+  tabAll: "All creators",
+  tabSaved: "Shortlist",
+  searchPh: "Search for a creator…",
+  sortBy: "Sort by",
+  sortRel: "Best match",
+  sortPrice: "Price: low to high",
+  sortFol: "Most followers",
+  industry: "Industry",
+  country: "Country",
+  price: "Price",
+  filters: "Filters",
+  results: "creators",
+  reset: "Reset",
+  searchIndustry: "Search an industry…",
+  searchCountry: "Search a country…",
+  priceRange: "Price range",
+  priceRangeHint: "Price per sponsored post",
+  minPrice: "Minimum",
+  maxPrice: "Maximum",
+  clear: "Clear",
+  applyPrice: "Apply price",
+  minFollowers: "Minimum followers",
+  maxFollowers: "Maximum followers",
+  applyFilters: "Apply filters",
+  clearFilters: "Clear",
+  performanceFilters: "Performance filters",
+  filtersHint: "These filters hide creators; matching scores stay unchanged.",
+  topRanked: "Top ranked creators",
+  topRankedBody: "Profiles from the catalogue, ordered by the current sort.",
+  emptyFilters: "No creators match these filters. Try removing a filter.",
+  emptyShortlist: "No creators on your shortlist yet. Save profiles with the star.",
+  emptyCatalogue: "No creators to show yet.",
+  viewProfile: "View profile",
+  book: "Book",
+  star: "Save to my list",
+  unstar: "Remove from saved",
+  followers: "Followers",
+  medianViews: "Median views",
+  cpm: "CPM",
+  postCost: "Post cost",
+  creatorLabel: "Creator",
+  linkedinCreator: "LinkedIn creator",
+  overview: "Overview",
+  audience: "Audience",
+  content: "Content",
+  creatorOverview: "Creator overview",
+  overviewBody: "Review this creator's audience and recent content before booking.",
+  audienceSnapshot: "Audience snapshot",
+  audienceUnavailable: "Audience data unavailable",
+  audienceComposition: "Audience composition",
+  audienceHelp: "Top segments by dimension; each bar compares like with like.",
+  contentPerformance: "Content performance",
+  contentUnavailable: "No public post data available",
+  reachUnavailable: "Reach trend unavailable",
+  professionalProfile: "Professional profile",
+  aboutCreator: "About this creator",
+  contentSignals: "Content signals",
+  contentSignalsHelp: "What this creator discusses and how consistently the audience responds.",
+  latestPost: "Latest post",
+  cadence: "Estimated cadence",
+  typicalRange: "Typical range",
+  postsAnalyzed: "Posts analyzed",
+  linkedinPosts: "LinkedIn posts",
+  publicPost: "Public LinkedIn post",
+  openOriginal: "Open original",
+  seeFullPost: "See full post",
+  postPosition: "{current} of {total}",
+  notAvailable: "Not available",
+  bookThisCreator: "Book this creator",
+  singlePost: "Single post",
+  typicalReach: "Typical reach",
+  estimatedCpm: "Estimated CPM",
+  howPricing: "How pricing is calculated",
+  pricingBody: "Post cost comes from the creator's listed price per post. Median views and CPM stay hidden until verified performance data is available.",
+  collaborateWith: "Collaborate with {name}",
+  secureBooking: "Secure booking · Creator approves first.",
+  selectionTitle: "Your selection",
+  creatorRate: "Creator rate",
+  standardRate: "Standard rate",
+  selectionBody: "Book this option at the listed price, or propose a lower price.",
+  back: "Back",
+  negotiate: "Negotiate",
+  bookPrice: "Book · {price}",
+  close: "Close",
+  naoEyebrow: "Nao · Creator intelligence",
+  naoHero: "Who are you looking for?",
+  naoAccent: "Ask Nao.",
+  naoBody: "Describe the audience, geography, creative direction or budget. Nao turns your request into a comparable creator shortlist.",
+  naoPlaceholder: "Tell Nao who you're looking for…",
+  naoDisclaimer: "Nao can make mistakes. Check important information.",
+  startersLabel: "Suggested for you",
+  starterCompany: "Find creators for your company",
+  starterNew: "Show promising new creators",
+  starterViews: "Prioritize median views and efficient CPM",
+  naoSelection: "Nao's selection",
+  naoSelectionTitle: "Creators selected for your request",
+  naoAnswerTitle: "Filtered from the catalogue",
+  naoAnswerBody: "Showing creators whose name, industry or country matches “{query}”.",
+  naoZeroTitle: "No catalogue match",
+  naoZeroBody: "Nothing in the current catalogue matched that request. Try a name, industry or country.",
+  dockPlaceholder: "What would you like to do?",
+  loadingProfile: "Loading audience and performance data…",
+};
+
+const marketplaceFr: MarketplaceCopy = {
+  title: "Parcourir les créateurs",
+  allCreatorsTitle: "Tous les créateurs",
+  aiTitle: "Matching IA",
+  aiSub: "Décrivez la campagne. Nao cherche, filtre et explique les meilleurs profils.",
+  rankedTitle: "Classés pour votre entreprise",
+  rankedSub:
+    "Tous les créateurs sont affichés du plus au moins pertinent, d'abord par secteur puis par statistiques de performance vérifiées.",
+  experienceAi: "Matching IA",
+  experienceMarketplace: "Marketplace créateurs",
+  tabAll: "Tous les créateurs",
+  tabSaved: "Shortlist",
+  searchPh: "Rechercher un créateur…",
+  sortBy: "Trier par",
+  sortRel: "Meilleure correspondance",
+  sortPrice: "Prix : croissant",
+  sortFol: "Plus d'abonnés",
+  industry: "Secteur",
+  country: "Pays",
+  price: "Prix",
+  filters: "Filtres",
+  results: "créateurs",
+  reset: "Réinitialiser",
+  searchIndustry: "Rechercher un secteur…",
+  searchCountry: "Rechercher un pays…",
+  priceRange: "Fourchette de prix",
+  priceRangeHint: "Prix par post sponsorisé",
+  minPrice: "Minimum",
+  maxPrice: "Maximum",
+  clear: "Effacer",
+  applyPrice: "Appliquer le prix",
+  minFollowers: "Abonnés minimum",
+  maxFollowers: "Abonnés maximum",
+  applyFilters: "Appliquer les filtres",
+  clearFilters: "Effacer",
+  performanceFilters: "Filtres de performance",
+  filtersHint: "Ces filtres masquent des créateurs ; les scores de matching ne changent pas.",
+  topRanked: "Créateurs les mieux classés",
+  topRankedBody: "Profils du catalogue, selon le tri actuel.",
+  emptyFilters: "Aucun créateur ne correspond à ces filtres. Essayez d'en retirer un.",
+  emptyShortlist: "Aucun créateur dans votre shortlist. Enregistrez un profil avec l'étoile.",
+  emptyCatalogue: "Aucun créateur à afficher pour le moment.",
+  viewProfile: "Voir le profil",
+  book: "Réserver",
+  star: "Ajouter à ma liste",
+  unstar: "Retirer de la liste",
+  followers: "Abonnés",
+  medianViews: "Vues médianes",
+  cpm: "CPM",
+  postCost: "Prix du post",
+  creatorLabel: "Créateur",
+  linkedinCreator: "Créateur LinkedIn",
+  overview: "Aperçu",
+  audience: "Audience",
+  content: "Contenu",
+  creatorOverview: "Aperçu du créateur",
+  overviewBody: "Consultez l'audience et le contenu récent avant de réserver.",
+  audienceSnapshot: "Instantané d'audience",
+  audienceUnavailable: "Données d'audience indisponibles",
+  audienceComposition: "Composition de l'audience",
+  audienceHelp: "Principaux segments par dimension ; chaque barre compare des données comparables.",
+  contentPerformance: "Performance du contenu",
+  contentUnavailable: "Aucun post public disponible",
+  reachUnavailable: "Tendance de portée indisponible",
+  professionalProfile: "Profil professionnel",
+  aboutCreator: "À propos de ce créateur",
+  contentSignals: "Signaux de contenu",
+  contentSignalsHelp: "Les sujets abordés et la régularité des réponses de l'audience.",
+  latestPost: "Dernier post",
+  cadence: "Cadence estimée",
+  typicalRange: "Fourchette typique",
+  postsAnalyzed: "Posts analysés",
+  linkedinPosts: "Posts LinkedIn",
+  publicPost: "Post LinkedIn public",
+  openOriginal: "Ouvrir l'original",
+  seeFullPost: "Voir le post complet",
+  postPosition: "{current} sur {total}",
+  notAvailable: "Non disponible",
+  bookThisCreator: "Réserver ce créateur",
+  singlePost: "Post unique",
+  typicalReach: "Portée typique",
+  estimatedCpm: "CPM estimé",
+  howPricing: "Comment le prix est calculé",
+  pricingBody: "Le prix vient du tarif au post du créateur. Les vues médianes et le CPM restent masqués tant que les statistiques vérifiées ne sont pas disponibles.",
+  collaborateWith: "Collaborer avec {name}",
+  secureBooking: "Réservation sécurisée · Le créateur valide d'abord.",
+  selectionTitle: "Votre sélection",
+  creatorRate: "Tarif créateur",
+  standardRate: "Tarif standard",
+  selectionBody: "Réservez cette option au prix affiché, ou proposez un prix inférieur.",
+  back: "Retour",
+  negotiate: "Négocier",
+  bookPrice: "Réserver · {price}",
+  close: "Fermer",
+  naoEyebrow: "Nao · Intelligence créateur",
+  naoHero: "Qui cherchez-vous ?",
+  naoAccent: "Demandez à Nao.",
+  naoBody: "Décrivez l'audience, la géographie, la direction créative ou le budget. Nao en fait une shortlist comparable.",
+  naoPlaceholder: "Dites à Nao qui vous cherchez…",
+  naoDisclaimer: "Nao peut se tromper. Vérifiez les informations importantes.",
+  startersLabel: "Suggéré pour vous",
+  starterCompany: "Trouver des créateurs pour votre entreprise",
+  starterNew: "Montrer des créateurs prometteurs",
+  starterViews: "Prioriser les vues médianes et un CPM efficace",
+  naoSelection: "Sélection de Nao",
+  naoSelectionTitle: "Créateurs sélectionnés pour votre demande",
+  naoAnswerTitle: "Filtré depuis le catalogue",
+  naoAnswerBody: "Créateurs dont le nom, le secteur ou le pays correspond à « {query} ».",
+  naoZeroTitle: "Aucune correspondance",
+  naoZeroBody: "Rien dans le catalogue actuel ne correspond. Essayez un nom, un secteur ou un pays.",
+  dockPlaceholder: "Que souhaitez-vous faire ?",
+  loadingProfile: "Chargement de l'audience et des performances…",
+};
+
+export const marketplaceCopy: Record<Locale, MarketplaceCopy> = {
+  en: marketplaceEn,
+  fr: marketplaceFr,
+};
+
 export function fill(template: string, values: Record<string, string>): string {
   return template.replace(/\{(\w+)\}/g, (_, key: string) => values[key] ?? "");
 }
