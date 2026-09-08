@@ -33,3 +33,28 @@ export type Brief = {
   objective_summary: string;
   created_at: string;
 };
+
+export type CampaignListItem = {
+  id: string;
+  objective: string;
+  status: string;
+  created_at: string;
+};
+
+export type DealListItem = {
+  id: string;
+  campaign_id: string;
+  creator_id: string;
+  price: number;
+  status: string;
+  tracking_link: string;
+  created_at: string;
+};
+
+export type Message = {
+  id: string;
+  sender_id: string;
+  recipient_id: string;
+  body: string;
+  created_at: string;
+};

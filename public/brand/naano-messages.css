@@ -1,0 +1,50 @@
+#page-messages .msg-pin-logo img,
+#page-messages .nn-support-head-logo img,
+#page-messages .nn-support-avatar img,
+#page-messages .nn-support-logo-orb img{
+  transform:none;
+}
+#page-messages .msg-list{
+  display:flex;
+  flex-direction:column;
+}
+#page-messages .msg-pin-card.is-active{
+  background:#E8F0FF;
+  box-shadow:inset 3px 0 0 #1652F0;
+  border-radius:0;
+}
+#page-messages .nn-support-action-arrow{
+  width:16px;
+  height:16px;
+  margin-left:auto;
+  flex:none;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  color:#A0AABD;
+}
+#page-messages .nn-support-orbit{
+  border:0;
+  background:transparent;
+}
+#page-messages .send:disabled{
+  opacity:.45;
+  cursor:default;
+}
+#page-messages .conv .avatar-sm,
+#page-messages .msg-chat-person .avatar-sm,
+#page-messages .msg > .avatar-sm{
+  background:#1A2233;
+}
+#page-messages #conv-list.is-compose-picking .conv{
+  outline:1px dashed #C5D4F5;
+}
+@media(max-width:900px){
+  #page-messages .msg-app .msg-list{display:flex;}
+  #page-messages .msg-app .chat{display:none;}
+  #page-messages .msg-app.m-chat-open .msg-list{display:none;}
+  #page-messages .msg-app.m-chat-open .chat{display:flex;}
+}
+

@@ -2,7 +2,7 @@ import { BrandDashboard } from "@/components/brand/BrandDashboard";
 import { EMPTY_COMPANY_RESULTS, getCompanyResults } from "@/lib/api/company-results";
 import { listCreators } from "@/lib/api/list-creators";
 import { requireBrandUser, getCompanyForUser, workspaceLabel } from "@/lib/auth/session";
-import { brandCopy, marketplaceCopy } from "@/lib/i18n/brand";
+import { brandCopy, marketplaceCopy, messagesCopy } from "@/lib/i18n/brand";
 import { getRequestLocale } from "@/lib/i18n/locale";
 import { chromeCopy } from "@/lib/i18n/messages";
 
@@ -24,6 +24,8 @@ export default async function BrandDashboardPage() {
       locale={locale}
       copy={brandCopy[locale]}
       marketplace={marketplaceCopy[locale]}
+      messages={messagesCopy[locale]}
+      userId={user.id}
       switchLanguage={chromeCopy[locale].switchLanguage}
       firstName={firstName}
       displayName={displayName}

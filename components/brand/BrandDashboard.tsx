@@ -3,17 +3,20 @@
 import { BrandSidebar } from "@/components/brand/BrandSidebar";
 import { BrandTopBar } from "@/components/brand/BrandTopBar";
 import { MarketplacePanel } from "@/components/brand/MarketplacePanel";
+import { MessagesPanel } from "@/components/brand/MessagesPanel";
 import { OverviewPanel } from "@/components/brand/OverviewPanel";
 import { useBrandTab, type BrandTab } from "@/components/brand/useBrandTab";
 import type { CompanyResults } from "@/lib/api/company-results";
 import type { CreatorListItem } from "@/lib/api/types";
-import type { BrandCopy, MarketplaceCopy } from "@/lib/i18n/brand";
+import type { BrandCopy, MarketplaceCopy, MessagesCopy } from "@/lib/i18n/brand";
 import type { Locale } from "@/lib/i18n/locale";
 
 export function BrandDashboard({
   locale,
   copy,
   marketplace,
+  messages,
+  userId,
   switchLanguage,
   firstName,
   displayName,
@@ -26,6 +29,8 @@ export function BrandDashboard({
   locale: Locale;
   copy: BrandCopy;
   marketplace: MarketplaceCopy;
+  messages: MessagesCopy;
+  userId: string;
   switchLanguage: string;
   firstName: string;
   displayName: string;
@@ -36,12 +41,11 @@ export function BrandDashboard({
   creators: CreatorListItem[];
 }) {
   const tab = useBrandTab();
-  const titles: Record<Exclude<BrandTab, "overview" | "marketplace">, string> = {
+  const titles: Record<Exclude<BrandTab, "overview" | "marketplace" | "messages">, string> = {
     campaigns: copy.campaigns,
     "campaign-new": copy.newCampaign,
     collaborations: copy.collaborations,
     results: copy.results,
-    messages: copy.messages,
     billing: copy.billing,
     integrations: copy.integrations,
   };
@@ -64,6 +68,8 @@ export function BrandDashboard({
           </section>
         ) : tab === "marketplace" ? (
           <MarketplacePanel locale={locale} copy={marketplace} creators={creators} />
+        ) : tab === "messages" ? (
+          <MessagesPanel locale={locale} copy={messages} userId={userId} creators={creators} />
         ) : (
           <section className="page visible">
             <div className="page-head">

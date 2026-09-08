@@ -506,6 +506,197 @@ export const marketplaceCopy: Record<Locale, MarketplaceCopy> = {
   fr: marketplaceFr,
 };
 
+export type MessagesCopy = {
+  title: string;
+  newMessage: string;
+  searchList: string;
+  messageModeAria: string;
+  allMessages: string;
+  campaignFilter: string;
+  chooseCampaign: string;
+  chooseCampaignHint: string;
+  noCampaigns: string;
+  botName: string;
+  supportPrompt: string;
+  now: string;
+  emptyList: string;
+  emptyCampaign: string;
+  groupCreators: string;
+  conversations: string;
+  emptyHeadSub: string;
+  emptyTitle: string;
+  emptyHint: string;
+  pickConv: string;
+  composerPh: string;
+  composerAria: string;
+  composerSupportPh: string;
+  addAttachment: string;
+  addEmoji: string;
+  chooseEmoji: string;
+  quickReactions: string;
+  emojiCount: string;
+  sendAria: string;
+  helpCenter: string;
+  helpStatus: string;
+  yourSpace: string;
+  howHelp: string;
+  helpBody: string;
+  availableNow: string;
+  orbitAria: string;
+  actionPerf: string;
+  actionPerfSub: string;
+  actionHelp: string;
+  actionHelpSub: string;
+  actionBug: string;
+  actionBugSub: string;
+  actionIdea: string;
+  actionIdeaSub: string;
+  intro: string;
+  you: string;
+  assistantName: string;
+  promptPerf: string;
+  promptHelp: string;
+  promptBug: string;
+  promptIdea: string;
+  localReply: string;
+  noMessages: string;
+  loading: string;
+  startFromCollab: string;
+  chooseConversation: string;
+  bookingPreview: string;
+};
+
+const messagesEn: MessagesCopy = {
+  title: "Messages",
+  newMessage: "New message",
+  searchList: "Search conversations",
+  messageModeAria: "Message display mode",
+  allMessages: "All messages",
+  campaignFilter: "Campaign",
+  chooseCampaign: "Choose a campaign",
+  chooseCampaignHint: "Find every creator associated with a campaign.",
+  noCampaigns: "No campaigns yet.",
+  botName: "NaanoBot",
+  supportPrompt: "Have a question or need help? Click here.",
+  now: "Now",
+  emptyList: "No conversations yet.",
+  emptyCampaign: "No creator conversation for this campaign.",
+  groupCreators: "Creators",
+  conversations: "Conversations",
+  emptyHeadSub: "Threads open with your bookings.",
+  emptyTitle: "No conversations yet.",
+  emptyHint: "Invite a creator - the thread opens as soon as the first booking is accepted.",
+  pickConv: "Select a conversation.",
+  composerPh: "Write a message…",
+  composerAria: "Write a message",
+  composerSupportPh: "Ask Naano a question…",
+  addAttachment: "Add an image, video or PDF",
+  addEmoji: "Add an emoji",
+  chooseEmoji: "Choose an emoji",
+  quickReactions: "Quick reactions",
+  emojiCount: "12 emojis",
+  sendAria: "Send message",
+  helpCenter: "Naano help center",
+  helpStatus: "Instant assistant · team when needed",
+  yourSpace: "Your Naano space",
+  howHelp: "How can we help?",
+  helpBody:
+    "Product question, bug or performance concern: everything stays here and the team steps in when needed.",
+  availableNow: "Available now",
+  orbitAria: "Activate Naano satellite",
+  actionPerf: "Understand my performance",
+  actionPerfSub: "Review your analytics",
+  actionHelp: "Get product help",
+  actionHelpSub: "Get an instant answer",
+  actionBug: "Report a bug",
+  actionBugSub: "Escalated when needed",
+  actionIdea: "Suggest an idea",
+  actionIdeaSub: "Share product feedback",
+  intro:
+    "Hi, I’m the Naano assistant. Ask me a question or choose an option above — the team can step in if needed.",
+  you: "You",
+  assistantName: "Naano",
+  promptPerf: "Why did my latest post perform less well, and what can I test?",
+  promptHelp: "I need help using Naano.",
+  promptBug: "I want to report a bug: ",
+  promptIdea: "I would like to suggest an improvement: ",
+  localReply:
+    "Thanks — I noted that. A live assistant isn’t connected on this workspace yet, so this stays on your screen until the team can reply.",
+  noMessages: "No messages yet - say hello.",
+  loading: "Loading…",
+  startFromCollab: "Choose a collaboration, then message the creator.",
+  chooseConversation: "Choose a creator conversation…",
+  bookingPreview: "Booking conversation",
+};
+
+const messagesFr: MessagesCopy = {
+  title: "Messages",
+  newMessage: "Nouveau message",
+  searchList: "Rechercher des conversations",
+  messageModeAria: "Mode d’affichage des messages",
+  allMessages: "Tous les messages",
+  campaignFilter: "Campagne",
+  chooseCampaign: "Choisir une campagne",
+  chooseCampaignHint: "Retrouvez chaque créateur associé à une campagne.",
+  noCampaigns: "Aucune campagne pour le moment.",
+  botName: "NaanoBot",
+  supportPrompt: "Une question ou besoin d’aide ? Cliquez ici.",
+  now: "Maintenant",
+  emptyList: "Aucune conversation pour le moment.",
+  emptyCampaign: "Aucune conversation créateur pour cette campagne.",
+  groupCreators: "Créateurs",
+  conversations: "Conversations",
+  emptyHeadSub: "Les fils s’ouvrent avec vos bookings.",
+  emptyTitle: "Aucune conversation pour le moment.",
+  emptyHint: "Invitez un créateur — le fil s’ouvre dès que le premier booking est accepté.",
+  pickConv: "Sélectionnez une conversation.",
+  composerPh: "Écrire un message…",
+  composerAria: "Écrire un message",
+  composerSupportPh: "Posez une question à Naano…",
+  addAttachment: "Ajouter une image, une vidéo ou un PDF",
+  addEmoji: "Ajouter un emoji",
+  chooseEmoji: "Choisir un emoji",
+  quickReactions: "Réactions rapides",
+  emojiCount: "12 emojis",
+  sendAria: "Envoyer le message",
+  helpCenter: "Centre d’aide Naano",
+  helpStatus: "Assistant immédiat · équipe si nécessaire",
+  yourSpace: "Ton espace Naano",
+  howHelp: "Comment peut-on t’aider ?",
+  helpBody:
+    "Une question produit, un bug ou un doute sur tes performances : tout reste ici et l’équipe reprend la main si nécessaire.",
+  availableNow: "Disponible maintenant",
+  orbitAria: "Activer le satellite Naano",
+  actionPerf: "Comprendre mes performances",
+  actionPerfSub: "Analyse tes statistiques",
+  actionHelp: "Besoin d’aide",
+  actionHelpSub: "Une réponse immédiate",
+  actionBug: "Signaler un bug",
+  actionBugSub: "Transmis à l’équipe si besoin",
+  actionIdea: "Proposer une idée",
+  actionIdeaSub: "Partage ton retour produit",
+  intro:
+    "Bonjour, je suis l’assistant Naano. Pose-moi une question ou choisis une option ci-dessus — l’équipe prendra le relais si nécessaire.",
+  you: "Vous",
+  assistantName: "Naano",
+  promptPerf: "Pourquoi mon dernier post a-t-il moins performé et que puis-je tester ?",
+  promptHelp: "J’ai besoin d’aide pour utiliser Naano.",
+  promptBug: "Je souhaite signaler un bug : ",
+  promptIdea: "J’aimerais proposer une amélioration : ",
+  localReply:
+    "Merci — c’est noté. Un assistant en direct n’est pas encore connecté sur cet espace, donc le message reste ici jusqu’à une réponse de l’équipe.",
+  noMessages: "Pas encore de messages — dites bonjour.",
+  loading: "Chargement…",
+  startFromCollab: "Choisissez une collaboration, puis écrivez au créateur.",
+  chooseConversation: "Choisir une conversation créateur…",
+  bookingPreview: "Conversation de booking",
+};
+
+export const messagesCopy: Record<Locale, MessagesCopy> = {
+  en: messagesEn,
+  fr: messagesFr,
+};
+
 export function fill(template: string, values: Record<string, string>): string {
   return template.replace(/\{(\w+)\}/g, (_, key: string) => values[key] ?? "");
 }
