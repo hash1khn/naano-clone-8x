@@ -13,6 +13,7 @@ export function CreatorTopBar({
   initials,
   displayName,
   email,
+  avatarUrl,
 }: {
   locale: Locale;
   copy: CreatorCopy;
@@ -20,6 +21,7 @@ export function CreatorTopBar({
   initials: string;
   displayName: string;
   email: string;
+  avatarUrl?: string | null;
 }) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
@@ -116,9 +118,14 @@ export function CreatorTopBar({
           onClick={() => setMenuOpen((value) => !value)}
         >
           <span className="ub-av">
-            <span className="avatar-sm" style={{ background: "#0F1220" }}>
-              {initials}
-            </span>
+            {avatarUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img className="avatar-sm" src={avatarUrl} alt="" />
+            ) : (
+              <span className="avatar-sm" style={{ background: "#0F1220" }}>
+                {initials}
+              </span>
+            )}
           </span>
           <span className="ub-txt">
             <b>{displayName}</b>

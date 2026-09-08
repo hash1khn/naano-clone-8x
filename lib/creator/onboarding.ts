@@ -59,6 +59,7 @@ export const COUNTRIES: { name: string; code: string }[] = [
 
 export type OnboardingProfile = {
   id: string;
+  slug: string | null;
   name: string;
   bio: string | null;
   avatar_url: string | null;
@@ -110,7 +111,11 @@ export function countryCode(name: string | null | undefined): string | null {
   if (!name) {
     return null;
   }
-  return COUNTRIES.find((country) => country.name.toLowerCase() === name.trim().toLowerCase())?.code ?? null;
+  const trimmed = name.trim();
+  if (trimmed.length === 2 && /^[a-zA-Z]{2}$/.test(trimmed)) {
+    return trimmed.toUpperCase();
+  }
+  return COUNTRIES.find((country) => country.name.toLowerCase() === trimmed.toLowerCase())?.code ?? null;
 }
 
 export function flagEmoji(code: string | null | undefined): string | null {

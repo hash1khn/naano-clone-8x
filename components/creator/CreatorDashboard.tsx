@@ -12,13 +12,15 @@ import { MessagesPanel } from "@/components/creator/MessagesPanel";
 import { OpportunitiesPanel } from "@/components/creator/OpportunitiesPanel";
 import { ProfilePanel } from "@/components/creator/ProfilePanel";
 import { useCreatorTab } from "@/components/creator/useCreatorTab";
+import type { OnboardingProfile } from "@/lib/creator/onboarding";
 import type { CollaborationsCopy, MessagesCopy } from "@/lib/i18n/brand";
-import type { CreatorCopy } from "@/lib/i18n/creator";
+import type { CreatorCopy, CreatorHomeCopy } from "@/lib/i18n/creator";
 import type { Locale } from "@/lib/i18n/locale";
 
 export function CreatorDashboard({
   locale,
   copy,
+  home,
   collaborations,
   messages,
   userId,
@@ -27,9 +29,11 @@ export function CreatorDashboard({
   email,
   workspace,
   initials,
+  profile,
 }: {
   locale: Locale;
   copy: CreatorCopy;
+  home: CreatorHomeCopy;
   collaborations: CollaborationsCopy;
   messages: MessagesCopy;
   userId: string;
@@ -38,13 +42,14 @@ export function CreatorDashboard({
   email: string;
   workspace: string;
   initials: string;
+  profile: OnboardingProfile;
 }) {
   const tab = useCreatorTab();
 
   return (
     <div className="app">
       <CreatorSidebar tab={tab} copy={copy} workspace={workspace} />
-      <div className="main">
+      <div className={`main${tab === "home" ? " cr-home-white" : ""}`}>
         <CreatorTopBar
           locale={locale}
           copy={copy}
@@ -52,9 +57,10 @@ export function CreatorDashboard({
           initials={initials}
           displayName={displayName}
           email={email}
+          avatarUrl={profile.avatar_url}
         />
         {tab === "home" ? (
-          <HomePanel copy={copy} />
+          <HomePanel copy={home} profile={profile} />
         ) : tab === "profile" ? (
           <ProfilePanel copy={copy} />
         ) : tab === "opportunities" ? (

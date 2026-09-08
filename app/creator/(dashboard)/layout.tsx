@@ -9,6 +9,7 @@ export default function CreatorDashboardLayout({ children }: { children: ReactNo
       <link rel="stylesheet" href="/brand/naano-brand-toolbar.css" />
       <link rel="stylesheet" href="/brand/naano-messages.css" />
       <link rel="stylesheet" href="/brand/naano-collaborations.css" />
+      <link rel="stylesheet" href="/brand/naano-creator-home.css" />
       {children}
     </>
   );

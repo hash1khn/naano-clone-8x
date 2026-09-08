@@ -9,6 +9,7 @@ import {
 function asProfile(row: Record<string, unknown>): OnboardingProfile {
   return {
     id: String(row.id),
+    slug: typeof row.slug === "string" && row.slug.trim() ? row.slug : null,
     name: typeof row.name === "string" && row.name.trim() ? row.name : "Creator",
     bio: typeof row.bio === "string" ? row.bio : null,
     avatar_url: typeof row.avatar_url === "string" ? row.avatar_url : null,
@@ -26,7 +27,7 @@ export async function getCreatorProfile(userId: string): Promise<OnboardingProfi
   const { data, error } = await admin
     .from("creator_profiles")
     .select(
-      "id, name, bio, avatar_url, country, follower_count, niche_tags, price_per_post, linkedin_url, onboarding_completed_at",
+      "id, slug, name, bio, avatar_url, country, follower_count, niche_tags, price_per_post, linkedin_url, onboarding_completed_at",
     )
     .eq("user_id", userId)
     .maybeSingle();
