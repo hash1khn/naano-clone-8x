@@ -1,8 +1,33 @@
-export default function BrandDashboardPage() {
+import { BrandDashboard } from "@/components/brand/BrandDashboard";
+import { EMPTY_COMPANY_RESULTS, getCompanyResults } from "@/lib/api/company-results";
+import { listCreators } from "@/lib/api/list-creators";
+import { requireBrandUser, getCompanyForUser, workspaceLabel } from "@/lib/auth/session";
+import { brandCopy } from "@/lib/i18n/brand";
+import { getRequestLocale } from "@/lib/i18n/locale";
+import { chromeCopy } from "@/lib/i18n/messages";
+
+export default async function BrandDashboardPage() {
+  const user = await requireBrandUser();
+  const locale = await getRequestLocale();
+  const company = await getCompanyForUser(user.id);
+  const [results, creators] = await Promise.all([
+    company ? getCompanyResults(company.id) : Promise.resolve(EMPTY_COMPANY_RESULTS),
+    listCreators(),
+  ]);
+
+  const firstName = user.first_name?.trim() || user.email.split("@")[0] || "there";
+  const initials = (user.first_name?.trim()?.[0] || user.email[0] || "N").toUpperCase();
+
   return (
-    <main className="mx-auto max-w-3xl px-6 py-16">
-      <h1 className="font-heading text-3xl text-ink">Brand dashboard</h1>
-      <p className="mt-2 text-copy">Signed in. Campaign and marketplace tabs will live here.</p>
-    </main>
+    <BrandDashboard
+      locale={locale}
+      copy={brandCopy[locale]}
+      switchLanguage={chromeCopy[locale].switchLanguage}
+      firstName={firstName}
+      workspace={workspaceLabel(company, user.email)}
+      initials={initials}
+      results={results}
+      creators={creators}
+    />
   );
 }
