@@ -57,6 +57,17 @@ export async function requireBrandUser(): Promise<DashboardUser> {
   return user;
 }
 
+export async function requireCreatorUser(): Promise<DashboardUser> {
+  const user = await getDashboardUser();
+  if (!user) {
+    redirect("/login?reauth=1");
+  }
+  if (user.role !== "creator") {
+    redirect("/brand");
+  }
+  return user;
+}
+
 export async function getCompanyForUser(userId: string): Promise<DashboardCompany | null> {
   const admin = createAdminSupabaseClient();
   const { data, error } = await admin
