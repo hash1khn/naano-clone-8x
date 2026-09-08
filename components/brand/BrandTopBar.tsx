@@ -1,24 +1,30 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import type { BrandCopy } from "@/lib/i18n/brand";
-import type { Locale } from "@/lib/i18n/locale";
 import { fill } from "@/lib/i18n/brand";
+import type { Locale } from "@/lib/i18n/locale";
+import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
 
 export function BrandTopBar({
   locale,
   copy,
   switchLanguage,
   initials,
+  displayName,
+  email,
 }: {
   locale: Locale;
   copy: BrandCopy;
   switchLanguage: string;
   initials: string;
+  displayName: string;
+  email: string;
 }) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   function setLocale(next: Locale) {
     if (pending || next === locale) {
@@ -32,62 +38,95 @@ export function BrandTopBar({
     });
   }
 
+  async function signOut() {
+    const supabase = createBrowserSupabaseClient();
+    await supabase.auth.signOut();
+    router.push("/login");
+    router.refresh();
+  }
+
   return (
-    <header className="flex h-14 shrink-0 items-center justify-between gap-4 border-b border-[#EEF0F3] bg-white px-4">
-      <a
-        href="#integrations"
-        className="hidden items-center rounded-full border border-[#E5E7EB] px-3 py-1 text-[11px] font-semibold tracking-wide text-[#6B7280] uppercase sm:inline-flex"
-      >
-        {copy.connectMcp}
+    <div className="nn-account-toolbar" id="nn-account-toolbar">
+      <a className="nn-mcp-header-chip" href="#integrations" title="Connect Naano to your AI assistant">
+        <span className="nn-mcp-signal" aria-hidden="true" />
+        <span>
+          <span className="nn-mcp-brand">Naano </span>MCP
+        </span>
+        <span className="nn-mcp-divider" aria-hidden="true">
+          /
+        </span>
+        <span className="nn-mcp-action">Connect</span>
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
       </a>
-      <div className="ml-auto flex items-center gap-2 sm:gap-3">
-        <a
-          href="#billing"
-          className="flex items-center gap-2 rounded-xl border border-[#E5E7EB] px-3 py-1.5 text-sm font-semibold text-[#111827]"
-        >
-          <svg className="h-4 w-4 text-[#6B7280]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-            <rect x="3" y="7" width="18" height="12" rx="2" />
-            <path d="M7 7V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1" />
-          </svg>
-          {fill(copy.wallet, { amount: "0.00" })}
-        </a>
-        <div className="flex overflow-hidden rounded-lg border border-[#E5E7EB] text-[11px] font-semibold" role="group" aria-label={switchLanguage}>
-          {(["en", "fr"] as const).map((code) => (
-            <button
-              key={code}
-              type="button"
-              disabled={pending}
-              onClick={() => setLocale(code)}
-              className={`cursor-pointer px-2.5 py-1.5 uppercase ${
-                locale === code ? "bg-[#111827] text-white" : "bg-white text-[#6B7280] hover:bg-[#F9FAFB]"
-              }`}
-            >
-              {code}
+      <a className="wallet-pill" href="#billing" title={copy.availableBalance}>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <rect x="2" y="5" width="20" height="14" rx="2.5" />
+          <path d="M2 10h20" />
+        </svg>
+        <span className="wp-txt">
+          <b id="topbar-balance">{fill(copy.wallet, { amount: "0.00" })}</b>
+          <span>{copy.availableBalance}</span>
+        </span>
+      </a>
+      <div className="lang-seg" role="group" aria-label={switchLanguage}>
+        {(["en", "fr"] as const).map((code) => (
+          <button
+            key={code}
+            type="button"
+            className={`lang-opt${locale === code ? " on" : ""}`}
+            data-loc={code}
+            onClick={() => setLocale(code)}
+          >
+            {code.toUpperCase()}
+          </button>
+        ))}
+      </div>
+      <a className="nn-activation-entry" href="#marketplace">
+        <span className="nn-activation-entry-copy">
+          <small>{copy.getStarted}</small>
+          <b>{copy.getStartedBody}</b>
+        </span>
+      </a>
+      <button type="button" className="bell" aria-label="Notifications">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M10.3 21a2 2 0 0 0 3.4 0" />
+        </svg>
+      </button>
+      <div className="user-slot">
+        {menuOpen ? (
+          <div className="user-menu open" role="menu">
+            <a className="nav-item" href="#marketplace" role="menuitem" onClick={() => setMenuOpen(false)}>
+              <span>{copy.inviteCreators}</span>
+            </a>
+            <a className="nav-item" href="/book" role="menuitem">
+              <span>{copy.bookACall}</span>
+            </a>
+            <a className="nav-item" href="#integrations" role="menuitem" onClick={() => setMenuOpen(false)}>
+              <span>{copy.integrations}</span>
+            </a>
+            <button type="button" className="nav-item" role="menuitem" onClick={() => void signOut()}>
+              <span>{copy.signOut}</span>
             </button>
-          ))}
-        </div>
-        <a
-          href="#marketplace"
-          className="hidden max-w-[180px] items-center gap-2 truncate rounded-xl border border-[#BFDBFE] bg-[#EFF6FF] px-3 py-1.5 text-xs font-semibold text-[#1d4ed8] lg:flex"
-        >
-          <span className="tracking-wide uppercase">{copy.getStarted}</span>
-          <span className="truncate font-medium text-[#3B82F6]">{copy.getStartedBody}</span>
-        </a>
+          </div>
+        ) : null}
         <button
           type="button"
-          className="flex h-9 w-9 items-center justify-center rounded-full text-[#6B7280] hover:bg-[#F3F4F6]"
-          aria-label="Notifications"
+          className={`user-btn${menuOpen ? " open" : ""}`}
+          onClick={() => setMenuOpen((value) => !value)}
         >
-          <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-            <path d="M6 9a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8" />
-            <path d="M10 20a2 2 0 0 0 4 0" />
-          </svg>
+          <span className="ub-av">
+            <span className="avatar-sm" style={{ background: "#0F1220" }}>
+              {initials}
+            </span>
+          </span>
+          <span className="ub-txt">
+            <b>{displayName}</b>
+            <span>{email}</span>
+          </span>
         </button>
-        <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-[#111827] text-xs font-semibold text-white">
-          {initials}
-          <span className="absolute right-0 bottom-0 h-2.5 w-2.5 rounded-full border-2 border-white bg-[#22C55E]" />
-        </span>
       </div>
-    </header>
+    </div>
   );
 }

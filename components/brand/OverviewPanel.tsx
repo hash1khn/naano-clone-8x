@@ -3,9 +3,11 @@ import type { CompanyResults } from "@/lib/api/company-results";
 import type { BrandCopy } from "@/lib/i18n/brand";
 import { fill } from "@/lib/i18n/brand";
 
-function Card({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function Clouds() {
   return (
-    <section className={`rounded-2xl border border-[#EEF0F3] bg-white ${className}`}>{children}</section>
+    <svg className="an-clouds" viewBox="0 0 360 130" preserveAspectRatio="none" aria-hidden="true">
+      <use href="#nnd-clouds" />
+    </svg>
   );
 }
 
@@ -22,144 +24,213 @@ export function OverviewPanel({
   results: CompanyResults;
   creators: CreatorListItem[];
 }) {
-  const metrics = [
-    { label: copy.creatorsActivated, value: 0 },
-    { label: copy.postsPublished, value: 0 },
-    { label: copy.profilesEngaged, value: results.total_leads },
-    { label: copy.impressions, value: results.total_impressions },
-  ];
-
   const todos = [
-    { href: "#billing", label: copy.topUpWallet, tag: copy.blocked, tone: "blocked" as const },
-    { href: "/book", label: copy.bookACall, tag: copy.suggested, tone: "suggested" as const },
-    { href: "#marketplace", label: copy.findCreators, tag: copy.suggested, tone: "suggested" as const },
+    { href: "#billing", label: copy.topUpWallet, tag: copy.blocked, tone: "soon" },
+    { href: "/book", label: copy.bookACall, tag: copy.suggested, tone: "info" },
+    { href: "#marketplace", label: copy.findCreators, tag: copy.suggested, tone: "info" },
   ];
 
   return (
-    <div className="mx-auto max-w-[1200px] space-y-5">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="font-heading text-[28px] leading-tight font-bold tracking-tight text-[#111827]">
-            {fill(copy.hello, { name: firstName })}
-          </h1>
-          <p className="mt-1 text-[15px] text-[#6B7280]">{fill(copy.happeningFor, { workspace })}</p>
+    <div className="nn-dash">
+      <svg aria-hidden="true" width="0" height="0" style={{ position: "absolute", overflow: "hidden" }}>
+        <defs>
+          <symbol id="nnd-clouds" viewBox="0 0 360 130">
+            <path fill="rgba(255,255,255,.22)" d="M-30 91c18-14 39-15 56-5 4-20 25-31 44-24 11-24 45-29 63-9 17-11 40-3 46 17 18-7 40 4 44 21H-30Z" />
+            <path fill="rgba(255,255,255,.5)" d="M-28 108c16-19 43-24 64-12 7-25 33-40 56-31 14-26 52-31 73-8 19-12 44-3 50 20 18-5 39 7 44 29v24H-28Z" />
+            <path fill="rgba(255,255,255,.5)" d="M190 102c12-16 35-20 52-8 8-25 39-35 61-18 18-14 48-4 54 21 14-3 30 4 40 19v14H190Z" />
+            <path fill="rgba(255,255,255,.82)" d="M-26 126c17-22 49-28 72-13 14-25 49-31 72-12 19-17 50-13 64 8 21-10 50-2 60 20H-26Z" />
+            <path fill="rgba(255,255,255,.82)" d="M237 129c14-18 40-23 59-11 14-23 48-28 68-7 12-5 27-2 38 9v10H237Z" />
+          </symbol>
+        </defs>
+      </svg>
+      <main>
+        <div className="wrap">
+          <div className="top">
+            <div>
+              <div className="hello" id="nnd-hello">
+                {fill(copy.hello, { name: firstName })}
+              </div>
+              <h1 id="nnd-title">{fill(copy.happeningFor, { workspace })}</h1>
+            </div>
+            <div className="top-actions">
+              <a className="btn primary" href="#campaign-new">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+                <span>{copy.newCampaign}</span>
+              </a>
+            </div>
+          </div>
+
+          <div className="kpis" id="nnd-kpis">
+            <div className="kpi">
+              <div className="kpi-lbl">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                  <circle cx="9" cy="8" r="3.5" />
+                  <path d="M2.5 20c.8-3.3 3.4-5 6.5-5s5.7 1.7 6.5 5" />
+                </svg>
+                <span>{copy.creatorsActivated}</span>
+              </div>
+              <b>0</b>
+            </div>
+            <div className="kpi">
+              <div className="kpi-lbl">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                  <rect x="4" y="3" width="16" height="18" rx="2" />
+                  <path d="M8 8h8M8 12h8M8 16h5" />
+                </svg>
+                <span>{copy.postsPublished}</span>
+              </div>
+              <b>0</b>
+            </div>
+            <div className="kpi">
+              <div className="kpi-lbl">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                  <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4L3 21l1.1-5.9A8.4 8.4 0 1 1 21 11.5z" />
+                </svg>
+                <span>{copy.profilesEngaged}</span>
+              </div>
+              <b>{results.total_leads}</b>
+            </div>
+            <div className="kpi">
+              <div className="kpi-lbl">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+                <span>{copy.impressions}</span>
+              </div>
+              <b>{results.total_impressions}</b>
+            </div>
+          </div>
+
+          <div className="grid grid-top">
+            <section className="card">
+              <div className="card-head">
+                <h2>{copy.toDo}</h2>
+                <a href="#collaborations">{copy.seeAll}</a>
+              </div>
+              <div className="sub">{copy.priorityActions}</div>
+              <div className="tasks">
+                {todos.map((item) => (
+                  <div className="task" key={item.label}>
+                    <span className="task-check" />
+                    <div className="task-body">
+                      <b>{item.label}</b>
+                    </div>
+                    <span className={`task-tag ${item.tone}`}>{item.tag}</span>
+                    <a className="task-go" href={item.href}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                        <path d="m9 6 6 6-6 6" />
+                      </svg>
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="card">
+              <div className="sky-cover">
+                <Clouds />
+                <div className="sky-copy">
+                  <small>{copy.recentlyEngaged}</small>
+                  <b>{copy.icpAccounts}</b>
+                </div>
+                <a className="sky-link" href="#results">
+                  {copy.seeAll}
+                </a>
+              </div>
+              <div className="people">
+                <div className="person">
+                  <div className="person-main">
+                    <span>{copy.noCompanyEngaged}</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div className="grid grid-bot">
+            <section className="card">
+              <div className="card-head">
+                <h2>{copy.messages}</h2>
+              </div>
+              <div className="sub">{copy.waitingOnReply}</div>
+              <div className="msgs compact">
+                <div className="msg">
+                  <div className="msg-main">
+                    <div className="msg-text">{copy.noConversation}</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section className="card">
+              <div className="card-head">
+                <h2>{copy.newCreators}</h2>
+                {creators.length ? <span className="count">{creators.length}</span> : null}
+                <a href="#marketplace">{copy.explore}</a>
+              </div>
+              <div className="sub">{copy.profilesThatFit}</div>
+              {creators.length === 0 ? (
+                <p className="sub" style={{ padding: "16px 0" }}>
+                  {copy.noCreators}
+                </p>
+              ) : (
+                <div className="strip">
+                  <div className="strip-track" id="nnd-strip">
+                    {creators.slice(0, 8).map((creator, index) => (
+                      <article className="cc" key={creator.id}>
+                        <div className={`cc-cover${index % 3 === 1 ? " t2" : index % 3 === 2 ? " t3" : ""}`}>
+                          <svg className="cc-clouds" viewBox="0 0 360 130" preserveAspectRatio="none" aria-hidden="true">
+                            <use href="#nnd-clouds" />
+                          </svg>
+                        </div>
+                        <div
+                          className="cc-av"
+                          style={creator.avatar_url ? { backgroundImage: `url("${creator.avatar_url}")` } : undefined}
+                        />
+                        <div className="cc-body">
+                          <b>{creator.name}</b>
+                          <div className="cc-role">{creator.niche_tags.slice(0, 3).join(" · ")}</div>
+                          <div className="cc-rate">
+                            <span>{copy.fromPrice}</span>
+                            <b>{creator.price_per_post}€</b>
+                            <span>{copy.perPost}</span>
+                          </div>
+                          <a className="cc-add" href="#marketplace">
+                            {copy.addCreator}
+                          </a>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </section>
+          </div>
+
+          <section className="expert">
+            <div className="expert-faces">
+              <span style={{ backgroundImage: "url(/lp/naano-team-face.jpg)" }} />
+            </div>
+            <div className="expert-body">
+              <span className="expert-tag">
+                <i />
+                <span>{copy.expertTag}</span>
+              </span>
+              <h3>{copy.expertTitle}</h3>
+              <p>{copy.expertBody}</p>
+            </div>
+            <div className="expert-cta">
+              <a className="expert-btn" href="/book">
+                {copy.expertCta}
+              </a>
+              <span className="expert-note">{copy.expertNote}</span>
+            </div>
+          </section>
         </div>
-        <a
-          href="#campaign-new"
-          className="inline-flex h-10 items-center rounded-xl bg-[#2563eb] px-4 text-sm font-semibold text-white"
-          style={{ boxShadow: "0 4px 12px rgba(37,99,235,0.24)" }}
-        >
-          {copy.newCampaign}
-        </a>
-      </div>
-
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        {metrics.map((metric) => (
-          <Card key={metric.label} className="px-5 py-4">
-            <p className="text-sm text-[#6B7280]">{metric.label}</p>
-            <p className="mt-2 font-heading text-3xl font-semibold tracking-tight text-[#111827]">{metric.value}</p>
-          </Card>
-        ))}
-      </div>
-
-      <div className="grid gap-3 lg:grid-cols-2">
-        <Card className="p-5">
-          <div className="flex items-start justify-between">
-            <div>
-              <h2 className="text-base font-semibold text-[#111827]">{copy.toDo}</h2>
-              <p className="text-sm text-[#6B7280]">{copy.priorityActions}</p>
-            </div>
-            <a href="#campaigns" className="text-sm font-medium text-[#2563eb]">
-              {copy.seeAll}
-            </a>
-          </div>
-          <ul className="mt-4 divide-y divide-[#F3F4F6]">
-            {todos.map((item) => (
-              <li key={item.label}>
-                <a href={item.href} className="flex items-center gap-3 py-3">
-                  <span className="h-5 w-5 rounded-full border border-[#D1D5DB]" />
-                  <span className="min-w-0 flex-1 text-sm font-medium text-[#111827]">{item.label}</span>
-                  <span
-                    className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${
-                      item.tone === "blocked" ? "bg-[#FEF3C7] text-[#B45309]" : "bg-[#EFF6FF] text-[#2563eb]"
-                    }`}
-                  >
-                    {item.tag}
-                  </span>
-                  <span className="text-[#9CA3AF]">›</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </Card>
-
-        <Card className="relative overflow-hidden p-5">
-          <div className="flex items-start justify-between">
-            <div>
-              <p className="text-[11px] font-semibold tracking-[0.14em] text-[#6B7280] uppercase">{copy.recentlyEngaged}</p>
-              <h2 className="mt-1 text-base font-semibold text-[#111827]">{copy.icpAccounts}</h2>
-            </div>
-            <a href="#results" className="text-sm font-medium text-[#2563eb]">
-              {copy.seeAll}
-            </a>
-          </div>
-          <div className="relative mt-8 flex min-h-[140px] items-center justify-center">
-            <div
-              className="pointer-events-none absolute inset-x-0 bottom-0 h-28 opacity-70"
-              style={{
-                background: "url(/lp/cloud-layer-bottom-v1.png) center bottom / cover no-repeat",
-              }}
-            />
-            <p className="relative text-sm text-[#6B7280]">{copy.noCompanyEngaged}</p>
-          </div>
-        </Card>
-      </div>
-
-      <div className="grid gap-3 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-        <Card className="p-5">
-          <h2 className="text-base font-semibold text-[#111827]">{copy.messages}</h2>
-          <p className="text-sm text-[#6B7280]">{copy.waitingOnReply}</p>
-          <p className="mt-10 text-sm text-[#6B7280]">{copy.noConversation}</p>
-        </Card>
-
-        <Card className="p-5">
-          <div className="flex items-start justify-between">
-            <div>
-              <h2 className="text-base font-semibold text-[#111827]">{copy.newCreators}</h2>
-              <p className="text-sm text-[#6B7280]">{copy.profilesThatFit}</p>
-            </div>
-            <a href="#marketplace" className="text-sm font-medium text-[#2563eb]">
-              {copy.explore}
-            </a>
-          </div>
-          {creators.length === 0 ? (
-            <p className="mt-10 text-sm text-[#6B7280]">{copy.noCreators}</p>
-          ) : (
-            <div className="mt-4 flex gap-3 overflow-x-auto pb-1">
-              {creators.slice(0, 8).map((creator) => (
-                <a
-                  key={creator.id}
-                  href="#marketplace"
-                  className="w-[148px] shrink-0 rounded-2xl border border-[#EEF0F3] p-3"
-                >
-                  {creator.avatar_url ? (
-                    <img src={creator.avatar_url} alt="" className="h-12 w-12 rounded-full object-cover" />
-                  ) : (
-                    <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#E8F0FE] text-sm font-semibold text-[#2563eb]">
-                      {creator.name.slice(0, 1)}
-                    </span>
-                  )}
-                  <p className="mt-3 truncate text-sm font-semibold text-[#111827]">{creator.name}</p>
-                  <p className="mt-1 truncate text-xs text-[#6B7280]">{creator.niche_tags.slice(0, 3).join(" · ") || creator.country}</p>
-                  <p className="mt-3 text-xs font-semibold text-[#2563eb]">
-                    {fill(copy.fromPrice, { price: String(creator.price_per_post) })}
-                  </p>
-                </a>
-              ))}
-            </div>
-          )}
-        </Card>
-      </div>
+      </main>
     </div>
   );
 }

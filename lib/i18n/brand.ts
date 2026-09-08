@@ -33,6 +33,17 @@ export type BrandCopy = {
   profilesThatFit: string;
   explore: string;
   fromPrice: string;
+  perPost: string;
+  addCreator: string;
+  expertTag: string;
+  expertTitle: string;
+  expertBody: string;
+  expertCta: string;
+  expertNote: string;
+  availableBalance: string;
+  signOut: string;
+  settings: string;
+  inviteCreators: string;
   wallet: string;
   connectMcp: string;
   getStarted: string;
@@ -43,7 +54,7 @@ export type BrandCopy = {
 
 const en: BrandCopy = {
   overview: "Overview",
-  marketplace: "Marketplace",
+  marketplace: "Creators",
   campaigns: "Campaigns",
   collaborations: "Collaborations",
   results: "Results",
@@ -52,7 +63,7 @@ const en: BrandCopy = {
   integrations: "Integrations",
   hello: "Hello {name} 👋",
   happeningFor: "Here is what is happening for {workspace} on Naano.",
-  newCampaign: "+ New campaign",
+  newCampaign: "New campaign",
   creatorsActivated: "Creators activated",
   postsPublished: "Posts published",
   profilesEngaged: "Profiles engaged",
@@ -73,7 +84,19 @@ const en: BrandCopy = {
   newCreators: "New creators",
   profilesThatFit: "Profiles that fit your buyers",
   explore: "Explore",
-  fromPrice: "from €{price}",
+  fromPrice: "from",
+  perPost: "/post",
+  addCreator: "Add",
+  expertTag: "Naano experts available",
+  expertTitle: "Need an expert eye? Book a free call.",
+  expertBody:
+    "15 minutes with a Naano expert to frame your next campaign, sharpen your shortlist or improve the posts already running.",
+  expertCta: "Book a free call →",
+  expertNote: "No commitment · Slot available today",
+  availableBalance: "Available balance",
+  signOut: "Sign out",
+  settings: "Settings",
+  inviteCreators: "Invite Creators",
   wallet: "€{amount}",
   connectMcp: "Naano MCP / Connect →",
   getStarted: "Get started",
@@ -84,7 +107,7 @@ const en: BrandCopy = {
 
 const fr: BrandCopy = {
   overview: "Vue d'ensemble",
-  marketplace: "Marketplace",
+  marketplace: "Créateurs",
   campaigns: "Campagnes",
   collaborations: "Collaborations",
   results: "Résultats",
@@ -93,7 +116,7 @@ const fr: BrandCopy = {
   integrations: "Intégrations",
   hello: "Bonjour {name} 👋",
   happeningFor: "Voici ce qui se passe pour {workspace} sur Naano.",
-  newCampaign: "+ Nouvelle campagne",
+  newCampaign: "Nouvelle campagne",
   creatorsActivated: "Créateurs activés",
   postsPublished: "Posts publiés",
   profilesEngaged: "Profils engagés",
@@ -114,7 +137,19 @@ const fr: BrandCopy = {
   newCreators: "Nouveaux créateurs",
   profilesThatFit: "Profils qui correspondent à vos acheteurs",
   explore: "Explorer",
-  fromPrice: "à partir de {price} €",
+  fromPrice: "à partir de",
+  perPost: "/post",
+  addCreator: "Ajouter",
+  expertTag: "Experts Naano disponibles",
+  expertTitle: "Besoin d'un œil expert ? Réservez un appel gratuit.",
+  expertBody:
+    "15 minutes avec un expert Naano pour cadrer votre prochaine campagne, affiner votre shortlist ou améliorer les posts déjà en ligne.",
+  expertCta: "Réserver un appel gratuit →",
+  expertNote: "Sans engagement · Créneau disponible aujourd'hui",
+  availableBalance: "Solde disponible",
+  signOut: "Déconnexion",
+  settings: "Paramètres",
+  inviteCreators: "Inviter des créateurs",
   wallet: "{amount} €",
   connectMcp: "Naano MCP / Connecter →",
   getStarted: "Démarrer",
