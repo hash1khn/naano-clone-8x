@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import type { Locale } from "@/lib/i18n/locale";
 
-export function ScrapedHydrator({ html }: { html: string }) {
+export function ScrapedHydrator({ html, locale }: { html: string; locale: Locale }) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const root = rootRef.current;
@@ -57,11 +60,33 @@ export function ScrapedHydrator({ html }: { html: string }) {
     };
     playButtons.forEach((button) => button.addEventListener("click", onPlay));
 
+    const localeButtons = Array.from(
+      root.querySelectorAll<HTMLButtonElement>("[data-locale-toggle], button[aria-label='Switch language'], button[aria-label='Changer de langue']"),
+    );
+    const nextLocale: Locale = locale === "en" ? "fr" : "en";
+    const onLocaleClick = (event: Event) => {
+      event.preventDefault();
+      const button = event.currentTarget as HTMLButtonElement;
+      if (button.disabled) {
+        return;
+      }
+      button.disabled = true;
+      void fetch(`/api/locale?locale=${nextLocale}`, { method: "POST" }).then((res) => {
+        if (res.ok) {
+          router.refresh();
+        } else {
+          button.disabled = false;
+        }
+      });
+    };
+    localeButtons.forEach((button) => button.addEventListener("click", onLocaleClick));
+
     return () => {
       observer.disconnect();
       playButtons.forEach((button) => button.removeEventListener("click", onPlay));
+      localeButtons.forEach((button) => button.removeEventListener("click", onLocaleClick));
     };
-  }, [html]);
+  }, [html, locale, router]);
 
   return <div ref={rootRef} dangerouslySetInnerHTML={{ __html: html }} />;
 }

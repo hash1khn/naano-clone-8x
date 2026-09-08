@@ -1,10 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { RegisterForm } from "@/components/auth/RegisterForm";
+import { LocaleToggle } from "@/components/i18n/LocaleToggle";
+import { getRequestLocale } from "@/lib/i18n/locale";
+import { authCopy, chromeCopy } from "@/lib/i18n/messages";
 
 export default async function RegisterPage({ searchParams }: PageProps<"/register">) {
   const query = await searchParams;
   const role = typeof query.role === "string" ? query.role : undefined;
+  const locale = await getRequestLocale();
+  const t = authCopy[locale];
+  const chrome = chromeCopy[locale];
 
   return (
     <div className="flex min-h-screen">
@@ -14,24 +20,23 @@ export default async function RegisterPage({ searchParams }: PageProps<"/registe
             <Link href="/">
               <Image src="/logo.svg" alt="naano" width={96} height={28} className="h-7 w-auto" />
             </Link>
+            <LocaleToggle locale={locale} label={chrome.switchLanguage} />
           </div>
-          <h1 className="text-2xl font-bold text-[#111827]">Create your account</h1>
-          <p className="mt-1 mb-6 text-sm text-[#6B7280]">Start running creator campaigns, or start earning.</p>
-          <RegisterForm presetRole={role} />
+          <h1 className="text-2xl font-bold text-[#111827]">{t.createAccount}</h1>
+          <p className="mt-1 mb-6 text-sm text-[#6B7280]">{t.createAccountLead}</p>
+          <RegisterForm presetRole={role} copy={t} />
           <p className="mt-6 text-center text-xs text-[#6B7280]">
-            Already have an account?{" "}
+            {t.alreadyHaveAccount}{" "}
             <Link href="/login" className="font-medium text-[#2563eb]">
-              Sign in
+              {chrome.signIn}
             </Link>
           </p>
         </div>
       </div>
       <div className="hidden flex-1 items-center justify-center p-12 text-white lg:flex" style={{ background: "#2563eb" }}>
         <div className="max-w-sm">
-          <h2 className="mb-4 text-3xl font-bold">Join the marketplace.</h2>
-          <p className="text-blue-100">
-            Brands book vetted LinkedIn creators at a fixed price per post. Creators get paid within 24h.
-          </p>
+          <h2 className="mb-4 text-3xl font-bold">{t.joinMarketplace}</h2>
+          <p className="text-blue-100">{t.joinMarketplaceBody}</p>
         </div>
       </div>
     </div>

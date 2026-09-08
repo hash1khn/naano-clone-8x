@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import type { AuthCopy } from "@/lib/i18n/messages";
 
 type Role = "brand" | "creator";
 
@@ -18,7 +19,7 @@ function roleFromSearch(role: string | undefined): Role {
   return "brand";
 }
 
-export function RegisterForm({ presetRole }: { presetRole?: string }) {
+export function RegisterForm({ presetRole, copy }: { presetRole?: string; copy: AuthCopy }) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,12 +40,12 @@ export function RegisterForm({ presetRole }: { presetRole?: string }) {
       });
       const data = (await res.json()) as { error?: string; user?: { role: Role } };
       if (!res.ok) {
-        setError(data.error ?? "Registration failed");
+        setError(data.error ?? copy.registrationFailed);
         return;
       }
       router.push(data.user?.role === "creator" ? "/creator" : "/brand");
     } catch {
-      setError("Registration failed");
+      setError(copy.registrationFailed);
     } finally {
       setPending(false);
     }
@@ -54,19 +55,19 @@ export function RegisterForm({ presetRole }: { presetRole?: string }) {
     <form className="space-y-5" noValidate onSubmit={onSubmit}>
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
       <fieldset className="grid grid-cols-2 gap-3">
-        <legend className="sr-only">Account type</legend>
+        <legend className="sr-only">{copy.accountType}</legend>
         <label className={`cursor-pointer rounded-xl border px-4 py-3 text-sm font-semibold ${role === "brand" ? "border-[#2563eb] bg-[#EFF6FF] text-[#1d4ed8]" : "border-[#E5E7EB] text-[#111827]"}`}>
           <input className="sr-only" type="radio" name="role" value="brand" checked={role === "brand"} onChange={() => setRole("brand")} />
-          Brand
+          {copy.brand}
         </label>
         <label className={`cursor-pointer rounded-xl border px-4 py-3 text-sm font-semibold ${role === "creator" ? "border-[#2563eb] bg-[#EFF6FF] text-[#1d4ed8]" : "border-[#E5E7EB] text-[#111827]"}`}>
           <input className="sr-only" type="radio" name="role" value="creator" checked={role === "creator"} onChange={() => setRole("creator")} />
-          Creator
+          {copy.creator}
         </label>
       </fieldset>
       <div>
         <label htmlFor="register-email" className="mb-1.5 ml-1 block text-xs font-semibold tracking-wide text-[#5C5B57] uppercase">
-          Email
+          {copy.email}
         </label>
         <input
           id="register-email"
@@ -74,7 +75,7 @@ export function RegisterForm({ presetRole }: { presetRole?: string }) {
           type="email"
           required
           autoComplete="email"
-          placeholder="john@company.com"
+          placeholder={copy.emailPlaceholder}
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           className="w-full rounded-xl border border-[#D1D5DB] bg-white px-4 py-3.5 text-sm text-[#111827] transition-all placeholder:text-[#9CA3AF] focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/15 focus:outline-none"
@@ -82,7 +83,7 @@ export function RegisterForm({ presetRole }: { presetRole?: string }) {
       </div>
       <div>
         <label htmlFor="register-password" className="mb-1.5 ml-1 block text-xs font-semibold tracking-wide text-[#5C5B57] uppercase">
-          Password
+          {copy.password}
         </label>
         <input
           id="register-password"
@@ -102,7 +103,7 @@ export function RegisterForm({ presetRole }: { presetRole?: string }) {
         className="flex h-11 w-full cursor-pointer items-center justify-center rounded-xl bg-[#2563eb] text-sm font-semibold text-white transition-all hover:bg-[#1d4ed8] disabled:cursor-not-allowed disabled:opacity-40"
         style={{ boxShadow: "0 4px 12px rgba(37,99,235,0.24)" }}
       >
-        {pending ? "Creating account…" : "Create account"}
+        {pending ? copy.creatingAccount : copy.submitCreateAccount}
       </button>
     </form>
   );

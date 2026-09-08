@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import type { AuthCopy } from "@/lib/i18n/messages";
 
 type Role = "brand" | "creator";
 
-export function LoginForm({ reauth }: { reauth: boolean }) {
+export function LoginForm({ reauth, copy }: { reauth: boolean; copy: AuthCopy }) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,12 +27,12 @@ export function LoginForm({ reauth }: { reauth: boolean }) {
       });
       const data = (await res.json()) as { error?: string; user?: { role: Role } };
       if (!res.ok) {
-        setError(data.error ?? "Login failed");
+        setError(data.error ?? copy.loginFailed);
         return;
       }
       router.push(data.user?.role === "creator" ? "/creator" : "/brand");
     } catch {
-      setError("Login failed");
+      setError(copy.loginFailed);
     } finally {
       setPending(false);
     }
@@ -39,12 +40,12 @@ export function LoginForm({ reauth }: { reauth: boolean }) {
 
   return (
     <form className="space-y-5" noValidate onSubmit={onSubmit}>
-      {reauth ? <p className="text-sm text-[#6B7280]">Please sign in again to continue.</p> : null}
+      {reauth ? <p className="text-sm text-[#6B7280]">{copy.pleaseSignInAgain}</p> : null}
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
       <div className="space-y-4 pt-1">
         <div>
           <label htmlFor="login-email" className="mb-1.5 ml-1 block text-xs font-semibold tracking-wide text-[#5C5B57] uppercase">
-            Email
+            {copy.email}
           </label>
           <input
             id="login-email"
@@ -52,7 +53,7 @@ export function LoginForm({ reauth }: { reauth: boolean }) {
             type="email"
             required
             autoComplete="email"
-            placeholder="john@company.com"
+            placeholder={copy.emailPlaceholder}
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             className="w-full rounded-xl border border-[#D1D5DB] bg-white px-4 py-3.5 text-sm text-[#111827] transition-all placeholder:text-[#9CA3AF] focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/15 focus:outline-none"
@@ -60,7 +61,7 @@ export function LoginForm({ reauth }: { reauth: boolean }) {
         </div>
         <div>
           <label htmlFor="login-password" className="mb-1.5 ml-1 block text-xs font-semibold tracking-wide text-[#5C5B57] uppercase">
-            Password
+            {copy.password}
           </label>
           <div className="relative">
             <input
@@ -77,10 +78,10 @@ export function LoginForm({ reauth }: { reauth: boolean }) {
             <button
               type="button"
               className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer rounded-lg p-1 text-[#9B9A97]"
-              aria-label={showPassword ? "Hide password" : "Show password"}
+              aria-label={showPassword ? copy.hidePassword : copy.showPassword}
               onClick={() => setShowPassword((value) => !value)}
             >
-              {showPassword ? "Hide" : "Show"}
+              {showPassword ? copy.hide : copy.show}
             </button>
           </div>
         </div>
@@ -90,7 +91,7 @@ export function LoginForm({ reauth }: { reauth: boolean }) {
           className="flex h-11 w-full cursor-pointer items-center justify-center rounded-xl bg-[#2563eb] text-sm font-semibold text-white transition-all hover:bg-[#1d4ed8] disabled:cursor-not-allowed disabled:opacity-40"
           style={{ boxShadow: "0 4px 12px rgba(37,99,235,0.24)" }}
         >
-          {pending ? "Signing in…" : "Sign in"}
+          {pending ? copy.signingIn : copy.submitSignIn}
         </button>
       </div>
     </form>
