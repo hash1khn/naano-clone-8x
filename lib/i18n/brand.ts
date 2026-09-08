@@ -697,6 +697,140 @@ export const messagesCopy: Record<Locale, MessagesCopy> = {
   fr: messagesFr,
 };
 
+export type BillingCopy = {
+  title: string;
+  sub: string;
+  needHelp: string;
+  availableBalance: string;
+  readyToSpend: string;
+  addBudget: string;
+  addBudgetSub: string;
+  invoices: string;
+  tabAll: string;
+  tabTopups: string;
+  tabBookings: string;
+  colRef: string;
+  colDate: string;
+  colType: string;
+  colAmount: string;
+  colStatus: string;
+  colActions: string;
+  emptyAll: string;
+  emptyTopups: string;
+  emptyBookings: string;
+  secureBadge: string;
+  chooseAmount: string;
+  customAmount: string;
+  minNote: string;
+  youWillCredit: string;
+  currentBalance: string;
+  trustCard: string;
+  trustCardBody: string;
+  trustNoSub: string;
+  trustNoSubBody: string;
+  trustPay: string;
+  trustPayBody: string;
+  addAmount: string;
+  foot: string;
+  demoNote: string;
+  close: string;
+  topupLabel: string;
+  stPaid: string;
+  demoEntry: string;
+  added: string;
+};
+
+const billingEn: BillingCopy = {
+  title: "Billing",
+  sub: "Manage your budget, plan and invoices.",
+  needHelp: "Need help?",
+  availableBalance: "Available balance",
+  readyToSpend: "Ready to spend across your campaigns.",
+  addBudget: "Add budget",
+  addBudgetSub: "One-time deposit to your Naano balance. Use it across all campaigns — no subscription.",
+  invoices: "Invoices",
+  tabAll: "All",
+  tabTopups: "Top-ups",
+  tabBookings: "Bookings",
+  colRef: "Reference",
+  colDate: "Date",
+  colType: "Type",
+  colAmount: "Amount",
+  colStatus: "Status",
+  colActions: "Actions",
+  emptyAll: "No invoices or entries yet.",
+  emptyTopups: "No top-ups yet.",
+  emptyBookings: "No booking entries yet.",
+  secureBadge: "Secure payment",
+  chooseAmount: "Choose an amount",
+  customAmount: "Custom amount",
+  minNote: "Minimum {min} · credited right after payment",
+  youWillCredit: "You will credit",
+  currentBalance: "Current balance",
+  trustCard: "Card payment",
+  trustCardBody: " — entered only on Stripe’s secure checkout (PCI DSS).",
+  trustNoSub: "No subscription",
+  trustNoSubBody: " — funds stay in your Naano balance until used.",
+  trustPay: "Pay on delivery",
+  trustPayBody: " — creators are charged only after the post is delivered.",
+  addAmount: "Add {amount}",
+  foot: "End-to-end encrypted · powered by Stripe",
+  demoNote: "Demo mode — no payment is taken.",
+  close: "Close",
+  topupLabel: "Budget top-up",
+  stPaid: "Paid",
+  demoEntry: "Demo entry",
+  added: "{amount} added to your wallet (demo).",
+};
+
+const billingFr: BillingCopy = {
+  title: "Facturation",
+  sub: "Gérez votre budget, votre offre et vos factures.",
+  needHelp: "Besoin d’aide ?",
+  availableBalance: "Solde disponible",
+  readyToSpend: "Prêt à dépenser sur vos campagnes.",
+  addBudget: "Ajouter du budget",
+  addBudgetSub: "Dépôt unique sur votre solde Naano. Utilisable sur toutes les campagnes — sans abonnement.",
+  invoices: "Factures",
+  tabAll: "Tout",
+  tabTopups: "Recharges",
+  tabBookings: "Bookings",
+  colRef: "Référence",
+  colDate: "Date",
+  colType: "Type",
+  colAmount: "Montant",
+  colStatus: "Statut",
+  colActions: "Actions",
+  emptyAll: "Aucune facture ni écriture pour le moment.",
+  emptyTopups: "Aucune recharge pour le moment.",
+  emptyBookings: "Aucune écriture de booking pour le moment.",
+  secureBadge: "Paiement sécurisé",
+  chooseAmount: "Choisir un montant",
+  customAmount: "Montant libre",
+  minNote: "Minimum {min} · crédité juste après le paiement",
+  youWillCredit: "Vous allez créditer",
+  currentBalance: "Solde actuel",
+  trustCard: "Paiement par carte",
+  trustCardBody: " — saisie uniquement sur le checkout sécurisé Stripe (PCI DSS).",
+  trustNoSub: "Pas d’abonnement",
+  trustNoSubBody: " — les fonds restent sur votre solde Naano jusqu’à utilisation.",
+  trustPay: "Paiement à la livraison",
+  trustPayBody: " — les créateurs sont payés seulement après publication du post.",
+  addAmount: "Ajouter {amount}",
+  foot: "Chiffrement de bout en bout · propulsé par Stripe",
+  demoNote: "Mode démo — aucun paiement n’est prélevé.",
+  close: "Fermer",
+  topupLabel: "Recharge de budget",
+  stPaid: "Payé",
+  demoEntry: "Écriture démo",
+  added: "{amount} ajouté à votre wallet (démo).",
+};
+
+export const billingCopy: Record<Locale, BillingCopy> = {
+  en: billingEn,
+  fr: billingFr,
+};
+
 export function fill(template: string, values: Record<string, string>): string {
   return template.replace(/\{(\w+)\}/g, (_, key: string) => values[key] ?? "");
 }

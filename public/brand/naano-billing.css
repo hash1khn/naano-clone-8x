@@ -1,0 +1,7 @@
+.bb-coin svg{width:22px;height:22px}
+.bb-demo-notice{margin:16px 0 0;color:#1749BE;font-size:.86rem;font-weight:650}
+.bb-demo-foot{margin-top:6px;color:#8A93A5;font-size:.7rem}
+#page-billing .ov3-pill{text-decoration:none;color:inherit;cursor:pointer}
+#page-billing .ov3-pill svg{flex:none}
+#page-billing .bb-money-cta:disabled{opacity:.45;cursor:default;transform:none;filter:none}
+#page-billing .bl2-inv .tabs{margin-top:10px}

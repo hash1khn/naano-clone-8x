@@ -7,6 +7,7 @@ export default function BrandLayout({ children }: LayoutProps<"/brand">) {
       <link rel="stylesheet" href="/brand/naano-brand-toolbar.css" />
       <link rel="stylesheet" href="/brand/naano-marketplace.css" />
       <link rel="stylesheet" href="/brand/naano-messages.css" />
+      <link rel="stylesheet" href="/brand/naano-billing.css" />
       {children}
     </>
   );

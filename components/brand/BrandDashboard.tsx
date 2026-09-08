@@ -1,5 +1,6 @@
 "use client";
 
+import { BillingPanel } from "@/components/brand/BillingPanel";
 import { BrandSidebar } from "@/components/brand/BrandSidebar";
 import { BrandTopBar } from "@/components/brand/BrandTopBar";
 import { MarketplacePanel } from "@/components/brand/MarketplacePanel";
@@ -8,7 +9,7 @@ import { OverviewPanel } from "@/components/brand/OverviewPanel";
 import { useBrandTab, type BrandTab } from "@/components/brand/useBrandTab";
 import type { CompanyResults } from "@/lib/api/company-results";
 import type { CreatorListItem } from "@/lib/api/types";
-import type { BrandCopy, MarketplaceCopy, MessagesCopy } from "@/lib/i18n/brand";
+import type { BillingCopy, BrandCopy, MarketplaceCopy, MessagesCopy } from "@/lib/i18n/brand";
 import type { Locale } from "@/lib/i18n/locale";
 
 export function BrandDashboard({
@@ -16,6 +17,7 @@ export function BrandDashboard({
   copy,
   marketplace,
   messages,
+  billing,
   userId,
   switchLanguage,
   firstName,
@@ -30,6 +32,7 @@ export function BrandDashboard({
   copy: BrandCopy;
   marketplace: MarketplaceCopy;
   messages: MessagesCopy;
+  billing: BillingCopy;
   userId: string;
   switchLanguage: string;
   firstName: string;
@@ -41,12 +44,11 @@ export function BrandDashboard({
   creators: CreatorListItem[];
 }) {
   const tab = useBrandTab();
-  const titles: Record<Exclude<BrandTab, "overview" | "marketplace" | "messages">, string> = {
+  const titles: Record<Exclude<BrandTab, "overview" | "marketplace" | "messages" | "billing">, string> = {
     campaigns: copy.campaigns,
     "campaign-new": copy.newCampaign,
     collaborations: copy.collaborations,
     results: copy.results,
-    billing: copy.billing,
     integrations: copy.integrations,
   };
 
@@ -70,6 +72,8 @@ export function BrandDashboard({
           <MarketplacePanel locale={locale} copy={marketplace} creators={creators} />
         ) : tab === "messages" ? (
           <MessagesPanel locale={locale} copy={messages} userId={userId} creators={creators} />
+        ) : tab === "billing" ? (
+          <BillingPanel locale={locale} copy={billing} />
         ) : (
           <section className="page visible">
             <div className="page-head">

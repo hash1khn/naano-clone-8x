@@ -3160,11 +3160,18 @@ body:has(#page-studio .ci-collab-overlay.open):before{position:fixed;z-index:200
     margin:0 0 4px;padding:0;border:0;border-radius:13px;background:transparent;color:#4E596B;
     font-size:.9rem;font-weight:650;text-align:left;box-shadow:none;transition:background 140ms ease,color 140ms ease
   }
-  body>.app>.sidebar .nav-item>iconify-icon{width:44px;height:44px;display:grid;place-items:center;justify-self:center;border-radius:14px;color:inherit;font-size:22px;transition:background 140ms ease,color 140ms ease}
+  body>.app>.sidebar .nav-item>iconify-icon,
+  body>.app>.sidebar .nav-item>svg{width:44px;height:44px;display:grid;place-items:center;justify-self:center;border-radius:14px;color:inherit;font-size:22px;opacity:1;flex-shrink:0;transition:background 140ms ease,color 140ms ease}
+  body>.app>.sidebar .nav-item>svg{padding:11px;box-sizing:border-box}
   body>.app>.sidebar .nav>.nav-item:hover{background:#F5F7FA;color:#111827}
+  body>.app>.sidebar:not(:is(.is-hover-ready,:focus-within,.is-agency-open)) .nav>.nav-item:hover{background:transparent}
+  body>.app>.sidebar:not(:is(.is-hover-ready,:focus-within,.is-agency-open)) .nav>.nav-item:hover>iconify-icon,
+  body>.app>.sidebar:not(:is(.is-hover-ready,:focus-within,.is-agency-open)) .nav>.nav-item:hover>svg{background:#F5F7FA}
   body>.app>.sidebar .nav>.nav-item.active{background:transparent;color:#1759E8}
   body>.app>.sidebar .nav>.nav-item.active>iconify-icon,
-  body>.app>.sidebar .nav:has(.nav-sub .nav-item.active)>[data-sub-parent]>iconify-icon{background:#ECF2FF;color:#1759E8}
+  body>.app>.sidebar .nav>.nav-item.active>svg,
+  body>.app>.sidebar .nav:has(.nav-sub .nav-item.active)>[data-sub-parent]>iconify-icon,
+  body>.app>.sidebar .nav:has(.nav-sub .nav-item.active)>[data-sub-parent]>svg{background:#ECF2FF;color:#1759E8}
   body>.app>.sidebar .nav-chev{opacity:0;visibility:hidden;transition:opacity 120ms ease,transform 150ms ease}
   body>.app>.sidebar:is(.is-hover-ready,:focus-within) .nav-chev{opacity:1;visibility:visible}
   body>.app>.sidebar .badge-beta{opacity:0;visibility:hidden;transition:opacity 120ms ease}

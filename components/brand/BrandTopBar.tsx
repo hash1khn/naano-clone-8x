@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
+import { formatBillingBalance, readDemoBilling, subscribeDemoBilling } from "@/lib/billing/demo";
 import type { BrandCopy } from "@/lib/i18n/brand";
-import { fill } from "@/lib/i18n/brand";
 import type { Locale } from "@/lib/i18n/locale";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
 
@@ -25,6 +25,15 @@ export function BrandTopBar({
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [wallet, setWallet] = useState(() => formatBillingBalance(0, locale));
+
+  useEffect(() => {
+    function refresh() {
+      setWallet(formatBillingBalance(readDemoBilling().balance, locale));
+    }
+    refresh();
+    return subscribeDemoBilling(refresh);
+  }, [locale]);
 
   function setLocale(next: Locale) {
     if (pending || next === locale) {
@@ -66,7 +75,7 @@ export function BrandTopBar({
           <path d="M2 10h20" />
         </svg>
         <span className="wp-txt">
-          <b id="topbar-balance">{fill(copy.wallet, { amount: "0.00" })}</b>
+          <b id="topbar-balance">{wallet}</b>
           <span>{copy.availableBalance}</span>
         </span>
       </a>
