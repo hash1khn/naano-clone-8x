@@ -17,7 +17,9 @@ import {
 import {
   COUNTRIES,
   CREATOR_INDUSTRIES,
+  emptyProfileLayout,
   formatFollowerCount,
+  type CreatorProfileLayout,
   type OnboardingProfile,
 } from "@/lib/creator/onboarding";
 import { sectorTone } from "@/lib/creator/sector-tone";
@@ -40,6 +42,30 @@ type LayoutState = {
 };
 
 const DEFAULT_ORDER: SectionKey[] = ["about", "audience", "pricing"];
+
+function layoutFromProfile(profile: OnboardingProfile): LayoutState {
+  const saved = profile.profile_layout ?? emptyProfileLayout();
+  const order = (saved.order.length ? saved.order : [...DEFAULT_ORDER]).filter(
+    (key): key is SectionKey =>
+      key === "about" || key === "audience" || key === "pricing" || key.startsWith("custom:"),
+  );
+  for (const key of DEFAULT_ORDER) {
+    if (!order.includes(key)) order.push(key);
+  }
+  return {
+    order,
+    hidden: saved.hidden.filter((key): key is SectionKey => order.includes(key as SectionKey)) as SectionKey[],
+    custom: saved.custom.map((row) => ({ ...row })),
+  };
+}
+
+function toApiLayout(layout: LayoutState): CreatorProfileLayout {
+  return {
+    order: layout.order,
+    hidden: layout.hidden,
+    custom: layout.custom,
+  };
+}
 
 function initialsFromName(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -98,15 +124,12 @@ export function ProfilePanel({
 }) {
   const [mode, setMode] = useState<Mode>("edit");
   const [profile, setProfile] = useState(initialProfile);
-  const [layout, setLayout] = useState<LayoutState>({
-    order: [...DEFAULT_ORDER],
-    hidden: [],
-    custom: [],
-  });
+  const [layout, setLayout] = useState<LayoutState>(() => layoutFromProfile(initialProfile));
   const [audienceOpen, setAudienceOpen] = useState(false);
   const [toast, setToast] = useState("");
   const [refreshing, setRefreshing] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [priceOpen, setPriceOpen] = useState(false);
@@ -120,6 +143,9 @@ export function ProfilePanel({
   const [customBody, setCustomBody] = useState("");
   const dragIndex = useRef<number | null>(null);
   const [draggingKey, setDraggingKey] = useState<SectionKey | null>(null);
+  const photoInputRef = useRef<HTMLInputElement>(null);
+  const layoutReady = useRef(false);
+  const layoutTimer = useRef<number | null>(null);
 
   const preview = mode === "preview";
   const followers = formatFollowerCount(profile.follower_count);
@@ -147,6 +173,54 @@ export function ProfilePanel({
     const timer = window.setTimeout(() => setToast(""), 2200);
     return () => window.clearTimeout(timer);
   }, [toast]);
+
+  useEffect(() => {
+    layoutReady.current = false;
+    setProfile(initialProfile);
+    setLayout(layoutFromProfile(initialProfile));
+    window.setTimeout(() => {
+      layoutReady.current = true;
+    }, 0);
+  }, [initialProfile]);
+
+  async function patchProfile(body: Record<string, unknown>) {
+    const res = await fetch("/api/creator/onboarding", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json().catch(() => null);
+    if (!res.ok) {
+      throw new Error(typeof data?.error === "string" ? data.error : "Save failed");
+    }
+    if (data?.profile) {
+      setProfile(data.profile as OnboardingProfile);
+      // Only resync layout from the server when this request wrote layout
+      // (avoids overwriting an in-progress reorder after a bio/price save).
+      if (body.profile_layout !== undefined) {
+        setLayout(layoutFromProfile(data.profile as OnboardingProfile));
+      }
+    }
+    return data;
+  }
+
+  function queueLayoutSave(next: LayoutState) {
+    if (!layoutReady.current) return;
+    if (layoutTimer.current) window.clearTimeout(layoutTimer.current);
+    layoutTimer.current = window.setTimeout(() => {
+      void patchProfile({ profile_layout: toApiLayout(next) }).catch(() => {
+        setToast(copy.saveError);
+      });
+    }, 450);
+  }
+
+  function applyLayout(updater: (current: LayoutState) => LayoutState) {
+    setLayout((current) => {
+      const next = updater(current);
+      queueLayoutSave(next);
+      return next;
+    });
+  }
 
   function sectionTitle(key: SectionKey): string {
     if (key === "about") return copy.sectionAbout;
@@ -177,28 +251,14 @@ export function ProfilePanel({
   async function saveAbout() {
     setSaving(true);
     try {
-      const res = await fetch("/api/creator/onboarding", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ niche_tags: tagsDraft }),
+      await patchProfile({
+        niche_tags: tagsDraft,
+        bio: aboutDraft.trim() || null,
       });
-      const data = await res.json().catch(() => null);
-      if (res.ok && data?.profile) {
-        setProfile((current) => ({
-          ...current,
-          ...data.profile,
-          bio: aboutDraft.trim() || data.profile.bio,
-          niche_tags: data.profile.niche_tags ?? tagsDraft,
-        }));
-      } else {
-        setProfile((current) => ({
-          ...current,
-          bio: aboutDraft.trim() || null,
-          niche_tags: tagsDraft,
-        }));
-      }
       setAboutOpen(false);
       setToast(copy.savedToast);
+    } catch {
+      setToast(copy.saveError);
     } finally {
       setSaving(false);
     }
@@ -209,33 +269,25 @@ export function ProfilePanel({
     if (!Number.isFinite(next) || next < 0) return;
     setSaving(true);
     try {
-      const res = await fetch("/api/creator/onboarding", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ price_per_post: next }),
-      });
-      const data = await res.json().catch(() => null);
-      if (res.ok && data?.profile) {
-        setProfile((current) => ({ ...current, ...data.profile }));
-      } else {
-        setProfile((current) => ({ ...current, price_per_post: next }));
-      }
+      await patchProfile({ price_per_post: next });
       setPriceOpen(false);
       setToast(copy.savedToast);
+    } catch {
+      setToast(copy.saveError);
     } finally {
       setSaving(false);
     }
   }
 
   function hideSection(key: SectionKey) {
-    setLayout((current) => ({
+    applyLayout((current) => ({
       ...current,
       hidden: current.hidden.includes(key) ? current.hidden : [...current.hidden, key],
     }));
   }
 
   function showSection(key: SectionKey) {
-    setLayout((current) => ({
+    applyLayout((current) => ({
       ...current,
       hidden: current.hidden.filter((item) => item !== key),
     }));
@@ -246,7 +298,7 @@ export function ProfilePanel({
     if (!title) return;
     const id = `s${Date.now().toString(36)}`;
     const key = `custom:${id}` as const;
-    setLayout((current) => ({
+    applyLayout((current) => ({
       order: [...current.order, key],
       hidden: current.hidden,
       custom: [...current.custom, { id, title, body: customBody.trim() }],
@@ -254,15 +306,58 @@ export function ProfilePanel({
     setCustomTitle("");
     setCustomBody("");
     setAddOpen(false);
+    setToast(copy.savedToast);
   }
 
   async function refreshPublic() {
+    if (!profile.linkedin_url) {
+      setToast(copy.syncErrorMissingLinkedInUrl);
+      return;
+    }
     setRefreshing(true);
     try {
-      await new Promise((resolve) => window.setTimeout(resolve, 700));
+      const res = await fetch("/api/creator/onboarding/linkedin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ linkedin_url: profile.linkedin_url }),
+      });
+      const data = await res.json().catch(() => null);
+      if (data?.profile) {
+        setProfile(data.profile as OnboardingProfile);
+      }
+      if (!res.ok) {
+        setToast(typeof data?.error === "string" && data.error !== "import_paused" ? data.error : copy.syncErrorGeneric);
+        return;
+      }
       setToast(copy.syncPublicQueued);
+    } catch {
+      setToast(copy.syncErrorGeneric);
     } finally {
       setRefreshing(false);
+    }
+  }
+
+  async function onPhotoSelected(file: File | null) {
+    if (!file) return;
+    setUploadingPhoto(true);
+    try {
+      const form = new FormData();
+      form.append("file", file);
+      const res = await fetch("/api/creator/avatar", { method: "POST", body: form });
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        setToast(typeof data?.error === "string" ? data.error : copy.photoError);
+        return;
+      }
+      if (data?.profile) {
+        setProfile(data.profile as OnboardingProfile);
+      }
+      setToast(copy.photoSaved);
+    } catch {
+      setToast(copy.photoError);
+    } finally {
+      setUploadingPhoto(false);
+      if (photoInputRef.current) photoInputRef.current.value = "";
     }
   }
 
@@ -293,9 +388,9 @@ export function ProfilePanel({
     const from = dragIndex.current;
     if (from === null || from === index) return;
     dragIndex.current = index;
-    setLayout((current) => {
-      const visible = current.order.filter((key) => !current.hidden.includes(key));
-      const hidden = current.order.filter((key) => current.hidden.includes(key));
+    applyLayout((current) => {
+      const visible = current.order.filter((item) => !current.hidden.includes(item));
+      const hidden = current.order.filter((item) => current.hidden.includes(item));
       const nextVisible = [...visible];
       const [moved] = nextVisible.splice(from, 1);
       nextVisible.splice(index, 0, moved);
@@ -576,12 +671,20 @@ export function ProfilePanel({
                     <div className="cr-mycard-hero-top">
                       <div>
                         <h2 className="cr-mycard-name">{profile.name}</h2>
+                        <input
+                          ref={photoInputRef}
+                          type="file"
+                          accept="image/jpeg,image/png,image/webp,image/gif"
+                          hidden
+                          onChange={(event) => void onPhotoSelected(event.target.files?.[0] ?? null)}
+                        />
                         <button
                           type="button"
                           className="cr-mycard-photo-btn"
-                          onClick={() => setToast(copy.photoToast)}
+                          disabled={uploadingPhoto}
+                          onClick={() => photoInputRef.current?.click()}
                         >
-                          {copy.changePhoto}
+                          {uploadingPhoto ? copy.photoUploading : copy.changePhoto}
                         </button>
                         {profile.bio?.trim() ? <p className="cr-mycard-headline">{profile.bio}</p> : null}
                         <p className="cr-mycard-synced-line">

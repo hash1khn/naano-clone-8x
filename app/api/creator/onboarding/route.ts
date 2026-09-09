@@ -1,11 +1,17 @@
 import { NextResponse } from "next/server";
 import { getDashboardUser } from "@/lib/auth/session";
-import { isCreatorIndustry, isImportOk, isImportPaused, recommendedPrice } from "@/lib/creator/onboarding";
+import {
+  isCreatorIndustry,
+  isImportOk,
+  isImportPaused,
+  normalizeProfileLayout,
+  recommendedPrice,
+} from "@/lib/creator/onboarding";
 import { getCreatorProfile } from "@/lib/creator/require-onboarding";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin";
 
 const PROFILE_SELECT =
-  "id, name, bio, avatar_url, country, follower_count, niche_tags, price_per_post, linkedin_url, onboarding_completed_at";
+  "id, slug, name, bio, avatar_url, country, follower_count, niche_tags, price_per_post, linkedin_url, onboarding_completed_at, profile_layout";
 
 function payload(profile: NonNullable<Awaited<ReturnType<typeof getCreatorProfile>>>) {
   return {
@@ -47,7 +53,10 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
 
-  const { country, niche_tags, price_per_post, complete } = body as Record<string, unknown>;
+  const { country, niche_tags, price_per_post, bio, profile_layout, complete } = body as Record<
+    string,
+    unknown
+  >;
   const patch: Record<string, unknown> = {};
 
   if (country !== undefined) {
@@ -55,6 +64,17 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: "country is invalid" }, { status: 400 });
     }
     patch.country = typeof country === "string" && country.trim() ? country.trim() : null;
+  }
+
+  if (bio !== undefined) {
+    if (bio !== null && typeof bio !== "string") {
+      return NextResponse.json({ error: "bio is invalid" }, { status: 400 });
+    }
+    const next = typeof bio === "string" ? bio.trim() : "";
+    if (next.length > 2000) {
+      return NextResponse.json({ error: "bio is too long" }, { status: 400 });
+    }
+    patch.bio = next || null;
   }
 
   if (niche_tags !== undefined) {
@@ -77,6 +97,26 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: "price_per_post is invalid" }, { status: 400 });
     }
     patch.price_per_post = price;
+  }
+
+  if (profile_layout !== undefined) {
+    if (profile_layout === null) {
+      patch.profile_layout = null;
+    } else {
+      const normalized = normalizeProfileLayout(profile_layout);
+      if (!normalized) {
+        return NextResponse.json({ error: "profile_layout is invalid" }, { status: 400 });
+      }
+      if (normalized.custom.length > 12) {
+        return NextResponse.json({ error: "Too many custom sections" }, { status: 400 });
+      }
+      for (const block of normalized.custom) {
+        if (block.title.length > 80 || block.body.length > 4000) {
+          return NextResponse.json({ error: "Custom section is too long" }, { status: 400 });
+        }
+      }
+      patch.profile_layout = normalized;
+    }
   }
 
   const admin = createAdminSupabaseClient();

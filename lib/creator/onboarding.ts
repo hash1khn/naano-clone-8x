@@ -57,6 +57,18 @@ export const COUNTRIES: { name: string; code: string }[] = [
   { name: "United States", code: "US" },
 ];
 
+export type CreatorProfileLayoutCustom = {
+  id: string;
+  title: string;
+  body: string;
+};
+
+export type CreatorProfileLayout = {
+  order: string[];
+  hidden: string[];
+  custom: CreatorProfileLayoutCustom[];
+};
+
 export type OnboardingProfile = {
   id: string;
   slug: string | null;
@@ -69,7 +81,58 @@ export type OnboardingProfile = {
   price_per_post: number;
   linkedin_url: string | null;
   onboarding_completed_at: string | null;
+  profile_layout: CreatorProfileLayout | null;
 };
+
+const DEFAULT_SECTION_ORDER = ["about", "audience", "pricing"] as const;
+
+export function emptyProfileLayout(): CreatorProfileLayout {
+  return { order: [...DEFAULT_SECTION_ORDER], hidden: [], custom: [] };
+}
+
+export function normalizeProfileLayout(value: unknown): CreatorProfileLayout | null {
+  if (!value || typeof value !== "object") {
+    return null;
+  }
+  const row = value as Record<string, unknown>;
+  const order = Array.isArray(row.order)
+    ? row.order.filter((item): item is string => typeof item === "string" && item.trim().length > 0)
+    : [];
+  const hidden = Array.isArray(row.hidden)
+    ? row.hidden.filter((item): item is string => typeof item === "string" && item.trim().length > 0)
+    : [];
+  const custom = Array.isArray(row.custom)
+    ? row.custom
+        .map((item) => {
+          if (!item || typeof item !== "object") return null;
+          const block = item as Record<string, unknown>;
+          if (typeof block.id !== "string" || !block.id.trim()) return null;
+          if (typeof block.title !== "string" || !block.title.trim()) return null;
+          return {
+            id: block.id.trim(),
+            title: block.title.trim(),
+            body: typeof block.body === "string" ? block.body : "",
+          };
+        })
+        .filter((item): item is CreatorProfileLayoutCustom => Boolean(item))
+    : [];
+
+  const known = new Set<string>([...DEFAULT_SECTION_ORDER, ...custom.map((item) => `custom:${item.id}`)]);
+  const cleanedOrder = order.filter((key) => known.has(key) || key.startsWith("custom:"));
+  for (const key of DEFAULT_SECTION_ORDER) {
+    if (!cleanedOrder.includes(key)) cleanedOrder.push(key);
+  }
+  for (const block of custom) {
+    const key = `custom:${block.id}`;
+    if (!cleanedOrder.includes(key)) cleanedOrder.push(key);
+  }
+
+  return {
+    order: cleanedOrder,
+    hidden: hidden.filter((key) => cleanedOrder.includes(key)),
+    custom,
+  };
+}
 
 export function isCreatorIndustry(value: string): value is CreatorIndustry {
   return (CREATOR_INDUSTRIES as readonly string[]).includes(value);

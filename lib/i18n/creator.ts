@@ -988,6 +988,12 @@ export type CreatorProfileCopy = {
   bookToast: string;
   savedToast: string;
   photoToast: string;
+  photoUploading: string;
+  photoSaved: string;
+  photoError: string;
+  saveError: string;
+  syncErrorMissingLinkedInUrl: string;
+  syncErrorGeneric: string;
   shareCard: string;
   shareToast: string;
   noPostData: string;
@@ -1089,6 +1095,12 @@ const profileEn: CreatorProfileCopy = {
   bookToast: "Booking opens for brands on your public card.",
   savedToast: "Profile updated.",
   photoToast: "Photo upload will connect to storage next.",
+  photoUploading: "Uploading…",
+  photoSaved: "Profile photo updated.",
+  photoError: "Could not upload photo. Try another image.",
+  saveError: "Could not save changes. Try again.",
+  syncErrorMissingLinkedInUrl: "Add your LinkedIn URL in onboarding first.",
+  syncErrorGeneric: "LinkedIn refresh failed. Try again in a moment.",
   shareCard: "Share card",
   shareToast: "Card link copied.",
   noPostData: "No post data available",
@@ -1191,6 +1203,12 @@ const profileFr: CreatorProfileCopy = {
   bookToast: "La réservation s’ouvre pour les marques sur votre carte publique.",
   savedToast: "Profil mis à jour.",
   photoToast: "L’upload photo sera branché au stockage ensuite.",
+  photoUploading: "Upload…",
+  photoSaved: "Photo de profil mise à jour.",
+  photoError: "Impossible d’uploader la photo. Essayez une autre image.",
+  saveError: "Impossible d’enregistrer. Réessayez.",
+  syncErrorMissingLinkedInUrl: "Ajoutez d’abord votre URL LinkedIn à l’onboarding.",
+  syncErrorGeneric: "Échec de l’actualisation LinkedIn. Réessayez dans un moment.",
   shareCard: "Partager la carte",
   shareToast: "Lien de la carte copié.",
   noPostData: "Aucune donnée de post",

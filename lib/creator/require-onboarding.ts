@@ -3,6 +3,7 @@ import type { AppRole } from "@/lib/auth/oauth";
 import {
   CREATOR_ONBOARDING_PATH,
   isCreatorOnboardingComplete,
+  normalizeProfileLayout,
   type OnboardingProfile,
 } from "@/lib/creator/onboarding";
 
@@ -19,6 +20,7 @@ function asProfile(row: Record<string, unknown>): OnboardingProfile {
     price_per_post: Number(row.price_per_post ?? 0) || 0,
     linkedin_url: typeof row.linkedin_url === "string" ? row.linkedin_url : null,
     onboarding_completed_at: typeof row.onboarding_completed_at === "string" ? row.onboarding_completed_at : null,
+    profile_layout: normalizeProfileLayout(row.profile_layout),
   };
 }
 
@@ -27,7 +29,7 @@ export async function getCreatorProfile(userId: string): Promise<OnboardingProfi
   const { data, error } = await admin
     .from("creator_profiles")
     .select(
-      "id, slug, name, bio, avatar_url, country, follower_count, niche_tags, price_per_post, linkedin_url, onboarding_completed_at",
+      "id, slug, name, bio, avatar_url, country, follower_count, niche_tags, price_per_post, linkedin_url, onboarding_completed_at, profile_layout",
     )
     .eq("user_id", userId)
     .maybeSingle();
