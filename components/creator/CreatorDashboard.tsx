@@ -16,6 +16,7 @@ import { useCreatorTab } from "@/components/creator/useCreatorTab";
 import type { OnboardingProfile } from "@/lib/creator/onboarding";
 import type { CollaborationsCopy, MessagesCopy } from "@/lib/i18n/brand";
 import type {
+  CreatorAnalyticsCopy,
   CreatorCopy,
   CreatorCommunityCopy,
   CreatorEarningsCopy,
@@ -30,6 +31,7 @@ export function CreatorDashboard({
   home,
   community,
   earnings,
+  analytics,
   referrals,
   collaborations,
   messages,
@@ -46,6 +48,7 @@ export function CreatorDashboard({
   home: CreatorHomeCopy;
   community: CreatorCommunityCopy;
   earnings: CreatorEarningsCopy;
+  analytics: CreatorAnalyticsCopy;
   referrals: CreatorReferralsCopy;
   collaborations: CollaborationsCopy;
   messages: MessagesCopy;
@@ -81,7 +84,7 @@ export function CreatorDashboard({
         ) : tab === "collabs" ? (
           <CollabsPanel locale={locale} copy={collaborations} />
         ) : tab === "analytics" ? (
-          <AnalyticsPanel copy={copy} />
+          <AnalyticsPanel locale={locale} copy={analytics} profile={profile} />
         ) : tab === "community" ? (
           <CommunityPanel locale={locale} copy={community} home={home} profile={profile} />
         ) : tab === "earnings" ? (

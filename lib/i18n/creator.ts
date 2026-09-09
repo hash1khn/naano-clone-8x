@@ -717,3 +717,108 @@ export function fillEarnings(template: string, vars: Record<string, string>) {
 export function fillReferrals(template: string, vars: Record<string, string>) {
   return Object.entries(vars).reduce((text, [key, value]) => text.replaceAll(`{${key}}`, value), template);
 }
+
+export type CreatorAnalyticsCopy = {
+  title: string;
+  sub: string;
+  periodAria: string;
+  last30: string;
+  last90: string;
+  allTime: string;
+  snapshotEyebrow: string;
+  coverageLabel: string;
+  heroPending: string;
+  heroPendingSub: string;
+  sourceEmpty: string;
+  postsKpi: string;
+  postsKpiHint: string;
+  reachKpi: string;
+  reachPending: string;
+  engagementsKpi: string;
+  engagementsKpiHint: string;
+  followersKpi: string;
+  followersKpiHint: string;
+  pendingValue: string;
+  collabPerformance: string;
+  collabPerformanceSub: string;
+  funnelTitle: string;
+  funnelSub: string;
+  postsWithReach: string;
+  emptyTitle: string;
+  emptyBody: string;
+  qualityPendingTitle: string;
+  qualityPendingBody: string;
+};
+
+const analyticsEn: CreatorAnalyticsCopy = {
+  title: "Analytics",
+  sub: "See the business impact of your paid collaborations.",
+  periodAria: "Analytics period",
+  last30: "Last 30 days",
+  last90: "Last 90 days",
+  allTime: "All time",
+  snapshotEyebrow: "Your creator momentum",
+  coverageLabel: "of published collaborations include performance data",
+  heroPending: "Public LinkedIn posts are being imported",
+  heroPendingSub:
+    "The profile is ready. Post history and reach will appear after the public-data job completes.",
+  sourceEmpty: "No public post found yet",
+  postsKpi: "Public posts",
+  postsKpiHint: "Original LinkedIn posts found",
+  reachKpi: "Public post reach",
+  reachPending: "Waiting for public post data",
+  engagementsKpi: "Public engagements",
+  engagementsKpiHint: "Reactions, comments and reposts",
+  followersKpi: "LinkedIn followers",
+  followersKpiHint: "Imported from the public profile",
+  pendingValue: "Pending",
+  collabPerformance: "Top collaborations",
+  collabPerformanceSub: "Open a collaboration to review its full delivery details.",
+  funnelTitle: "Your opportunity journey",
+  funnelSub: "From applications to completed work.",
+  postsWithReach: "Posts with reach data",
+  emptyTitle: "Public post import in progress",
+  emptyBody: "The first public LinkedIn posts will appear here automatically.",
+  qualityPendingTitle: "Public LinkedIn data is being prepared",
+  qualityPendingBody:
+    "Naano is collecting the creator’s recent public posts. No personal LinkedIn connection is required.",
+};
+
+const analyticsFr: CreatorAnalyticsCopy = {
+  title: "Analytique",
+  sub: "Mesurez l’impact business de vos collaborations payées.",
+  periodAria: "Période d’analytique",
+  last30: "30 derniers jours",
+  last90: "90 derniers jours",
+  allTime: "Tout le temps",
+  snapshotEyebrow: "Votre momentum créateur",
+  coverageLabel: "des collaborations publiées incluent des données de performance",
+  heroPending: "Les posts LinkedIn publics sont en cours d’import",
+  heroPendingSub:
+    "Le profil est prêt. L’historique des posts et la portée apparaîtront une fois le job de données publiques terminé.",
+  sourceEmpty: "Aucun post public trouvé pour le moment",
+  postsKpi: "Posts publics",
+  postsKpiHint: "Posts LinkedIn originaux trouvés",
+  reachKpi: "Portée des posts publics",
+  reachPending: "En attente des données de posts publics",
+  engagementsKpi: "Engagements publics",
+  engagementsKpiHint: "Réactions, commentaires et partages",
+  followersKpi: "Abonnés LinkedIn",
+  followersKpiHint: "Importés du profil public",
+  pendingValue: "En attente",
+  collabPerformance: "Meilleures collaborations",
+  collabPerformanceSub: "Ouvrez une collaboration pour revoir tous les détails de livraison.",
+  funnelTitle: "Votre parcours d’opportunités",
+  funnelSub: "Des candidatures au travail livré.",
+  postsWithReach: "Posts avec données de portée",
+  emptyTitle: "Import des posts publics en cours",
+  emptyBody: "Les premiers posts LinkedIn publics apparaîtront ici automatiquement.",
+  qualityPendingTitle: "Les données LinkedIn publiques sont en préparation",
+  qualityPendingBody:
+    "Naano collecte les posts publics récents du créateur. Aucune connexion LinkedIn personnelle n’est requise.",
+};
+
+export const creatorAnalyticsCopy: Record<Locale, CreatorAnalyticsCopy> = {
+  en: analyticsEn,
+  fr: analyticsFr,
+};

@@ -4,6 +4,7 @@ import { CREATOR_ONBOARDING_PATH, isCreatorOnboardingComplete } from "@/lib/crea
 import { getCreatorProfile } from "@/lib/creator/require-onboarding";
 import { collaborationsCopy, messagesCopy } from "@/lib/i18n/brand";
 import {
+  creatorAnalyticsCopy,
   creatorCommunityCopy,
   creatorCopy,
   creatorEarningsCopy,
@@ -34,6 +35,7 @@ export default async function CreatorDashboardPage() {
       home={creatorHomeCopy[locale]}
       community={creatorCommunityCopy[locale]}
       earnings={creatorEarningsCopy[locale]}
+      analytics={creatorAnalyticsCopy[locale]}
       referrals={creatorReferralsCopy[locale]}
       collaborations={collaborationsCopy[locale]}
       messages={messagesCopy[locale]}
