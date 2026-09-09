@@ -933,3 +933,184 @@ export const creatorOpportunitiesCopy: Record<Locale, CreatorOpportunitiesCopy> 
 export function fillOpportunities(template: string, vars: Record<string, string>) {
   return Object.entries(vars).reduce((text, [key, value]) => text.replaceAll(`{${key}}`, value), template);
 }
+
+export type CreatorProfileCopy = {
+  viewModeAria: string;
+  tabEdit: string;
+  tabPreview: string;
+  changePhoto: string;
+  syncedSuffix: string;
+  marketplacePrivate: string;
+  marketplacePrivateHint: string;
+  sectionAbout: string;
+  sectionAudience: string;
+  sectionPricing: string;
+  dragToReorderTitle: string;
+  editDescriptionAria: string;
+  hideSectionAria: string;
+  showSectionAgainTitle: string;
+  addASection: string;
+  hiddenSectionsHeading: string;
+  hiddenSectionsEmpty: string;
+  followers: string;
+  basedIn: string;
+  pricePerPost: string;
+  priceNotSet: string;
+  bundleLabel: string;
+  bundleNoneSet: string;
+  bookCtaButton: string;
+  editPriceAndBundles: string;
+  setMyPrice: string;
+  syncCardTitle: string;
+  syncStatusPublicProfile: string;
+  syncLastUpdate: string;
+  syncPublicRefreshCta: string;
+  syncRefreshing: string;
+  syncPublicQueued: string;
+  syncBecomeVerifiedTitle: string;
+  syncBecomeVerifiedBody: string;
+  syncBecomeVerifiedCta: string;
+  syncExtensionComingSoonBadge: string;
+  modalEditDescriptionTitle: string;
+  aboutTextareaPlaceholder: string;
+  yourIndustries: string;
+  maxThree: string;
+  modalEditPriceTitle: string;
+  modalAddSectionTitle: string;
+  titleLabel: string;
+  titleInputPlaceholder: string;
+  contentLabel: string;
+  sectionBodyDefaultPlaceholder: string;
+  cancel: string;
+  save: string;
+  addSection: string;
+  emptySection: string;
+  bookToast: string;
+  savedToast: string;
+  photoToast: string;
+};
+
+const profileEn: CreatorProfileCopy = {
+  viewModeAria: "View mode",
+  tabEdit: "Edit",
+  tabPreview: "Preview",
+  changePhoto: "Change profile photo",
+  syncedSuffix: " · synced {date}",
+  marketplacePrivate: "Private Marketplace card",
+  marketplacePrivateHint:
+    "You can complete your card and price now. It becomes bookable after commercial approval and professional setup.",
+  sectionAbout: "About",
+  sectionAudience: "Audience & average metrics",
+  sectionPricing: "Pricing",
+  dragToReorderTitle: "Drag to reorder",
+  editDescriptionAria: "Edit description",
+  hideSectionAria: "Hide section",
+  showSectionAgainTitle: "Show this section again",
+  addASection: "Add a section",
+  hiddenSectionsHeading: "Hidden sections",
+  hiddenSectionsEmpty: "Sections you hide move here. Click one to add it back.",
+  followers: "Followers",
+  basedIn: "Based in",
+  pricePerPost: "Price per post",
+  priceNotSet: "Not set",
+  bundleLabel: "Bundle",
+  bundleNoneSet: "None set",
+  bookCtaButton: "Book a post",
+  editPriceAndBundles: "Edit price & bundles",
+  setMyPrice: "Set my price",
+  syncCardTitle: "LinkedIn data",
+  syncStatusPublicProfile: "Public profile · unverified",
+  syncLastUpdate: "Last update",
+  syncPublicRefreshCta: "Refresh profile and followers",
+  syncRefreshing: "Refreshing…",
+  syncPublicQueued: "Update started. Your card’s public information will refresh shortly.",
+  syncBecomeVerifiedTitle: "Become Naano Verified",
+  syncBecomeVerifiedBody:
+    "Public profile refresh is fine for basic card data. To unlock Naano Verified analytics, connect with the Naano browser extension.",
+  syncBecomeVerifiedCta: "Use the extension",
+  syncExtensionComingSoonBadge: "Extension coming soon",
+  modalEditDescriptionTitle: "Edit description",
+  aboutTextareaPlaceholder: "Describe yourself for companies — your story, what you create, results…",
+  yourIndustries: "Your industries",
+  maxThree: "max 3",
+  modalEditPriceTitle: "Edit price & bundles",
+  modalAddSectionTitle: "Add a section",
+  titleLabel: "Title",
+  titleInputPlaceholder: "e.g. Why brands work with me",
+  contentLabel: "Content",
+  sectionBodyDefaultPlaceholder: "Add anything you want companies to see — your pitch, formats, results, links…",
+  cancel: "Cancel",
+  save: "Save",
+  addSection: "Add section",
+  emptySection: "Empty section.",
+  bookToast: "Booking opens for brands on your public card.",
+  savedToast: "Profile updated.",
+  photoToast: "Photo upload will connect to storage next.",
+};
+
+const profileFr: CreatorProfileCopy = {
+  viewModeAria: "Mode d’affichage",
+  tabEdit: "Éditer",
+  tabPreview: "Aperçu",
+  changePhoto: "Changer la photo de profil",
+  syncedSuffix: " · synchronisé le {date}",
+  marketplacePrivate: "Carte Marketplace privée",
+  marketplacePrivateHint:
+    "Vous pouvez compléter votre carte et votre prix maintenant. Elle devient réservable après validation commerciale.",
+  sectionAbout: "À propos",
+  sectionAudience: "Audience & métriques moyennes",
+  sectionPricing: "Tarification",
+  dragToReorderTitle: "Glisser pour réordonner",
+  editDescriptionAria: "Modifier la description",
+  hideSectionAria: "Masquer la section",
+  showSectionAgainTitle: "Réafficher cette section",
+  addASection: "Ajouter une section",
+  hiddenSectionsHeading: "Sections masquées",
+  hiddenSectionsEmpty: "Les sections masquées apparaissent ici. Cliquez pour les réafficher.",
+  followers: "Abonnés",
+  basedIn: "Basé à",
+  pricePerPost: "Prix par post",
+  priceNotSet: "Non défini",
+  bundleLabel: "Pack",
+  bundleNoneSet: "Aucun",
+  bookCtaButton: "Réserver un post",
+  editPriceAndBundles: "Modifier prix & packs",
+  setMyPrice: "Définir mon prix",
+  syncCardTitle: "Données LinkedIn",
+  syncStatusPublicProfile: "Profil public · non vérifié",
+  syncLastUpdate: "Dernière mise à jour",
+  syncPublicRefreshCta: "Actualiser le profil et les abonnés",
+  syncRefreshing: "Actualisation…",
+  syncPublicQueued: "Mise à jour lancée. Les infos publiques de votre carte se rafraîchiront bientôt.",
+  syncBecomeVerifiedTitle: "Devenir Naano Verified",
+  syncBecomeVerifiedBody:
+    "L’actualisation publique suffit pour la carte de base. Pour débloquer les analytics Naano Verified, connectez l’extension navigateur.",
+  syncBecomeVerifiedCta: "Utiliser l’extension",
+  syncExtensionComingSoonBadge: "Extension bientôt disponible",
+  modalEditDescriptionTitle: "Modifier la description",
+  aboutTextareaPlaceholder: "Présentez-vous aux marques — votre histoire, ce que vous créez, vos résultats…",
+  yourIndustries: "Vos industries",
+  maxThree: "max 3",
+  modalEditPriceTitle: "Modifier prix & packs",
+  modalAddSectionTitle: "Ajouter une section",
+  titleLabel: "Titre",
+  titleInputPlaceholder: "ex. Pourquoi les marques travaillent avec moi",
+  contentLabel: "Contenu",
+  sectionBodyDefaultPlaceholder: "Ajoutez ce que les marques doivent voir — pitch, formats, résultats, liens…",
+  cancel: "Annuler",
+  save: "Enregistrer",
+  addSection: "Ajouter",
+  emptySection: "Section vide.",
+  bookToast: "La réservation s’ouvre pour les marques sur votre carte publique.",
+  savedToast: "Profil mis à jour.",
+  photoToast: "L’upload photo sera branché au stockage ensuite.",
+};
+
+export const creatorProfileCopy: Record<Locale, CreatorProfileCopy> = {
+  en: profileEn,
+  fr: profileFr,
+};
+
+export function fillProfile(template: string, vars: Record<string, string>) {
+  return Object.entries(vars).reduce((text, [key, value]) => text.replaceAll(`{${key}}`, value), template);
+}

@@ -14,6 +14,7 @@ export default function CreatorDashboardLayout({ children }: { children: ReactNo
       <link rel="stylesheet" href="/brand/naano-analytics.css" />
       <link rel="stylesheet" href="/brand/naano-opportunities.css" />
       <link rel="stylesheet" href="/brand/naano-referrals.css" />
+      <link rel="stylesheet" href="/brand/naano-mycard.css" />
       {children}
     </>
   );

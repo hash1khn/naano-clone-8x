@@ -22,6 +22,7 @@ import type {
   CreatorEarningsCopy,
   CreatorHomeCopy,
   CreatorOpportunitiesCopy,
+  CreatorProfileCopy,
   CreatorReferralsCopy,
 } from "@/lib/i18n/creator";
 import type { Locale } from "@/lib/i18n/locale";
@@ -34,6 +35,7 @@ export function CreatorDashboard({
   earnings,
   analytics,
   opportunities,
+  profileCopy,
   referrals,
   collaborations,
   messages,
@@ -52,6 +54,7 @@ export function CreatorDashboard({
   earnings: CreatorEarningsCopy;
   analytics: CreatorAnalyticsCopy;
   opportunities: CreatorOpportunitiesCopy;
+  profileCopy: CreatorProfileCopy;
   referrals: CreatorReferralsCopy;
   collaborations: CollaborationsCopy;
   messages: MessagesCopy;
@@ -81,7 +84,7 @@ export function CreatorDashboard({
         {tab === "home" ? (
           <HomePanel copy={home} profile={profile} />
         ) : tab === "profile" ? (
-          <ProfilePanel copy={copy} />
+          <ProfilePanel locale={locale} copy={profileCopy} profile={profile} />
         ) : tab === "opportunities" ? (
           <OpportunitiesPanel locale={locale} copy={opportunities} />
         ) : tab === "collabs" ? (
