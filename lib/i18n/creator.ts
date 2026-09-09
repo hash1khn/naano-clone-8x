@@ -988,6 +988,38 @@ export type CreatorProfileCopy = {
   bookToast: string;
   savedToast: string;
   photoToast: string;
+  shareCard: string;
+  shareToast: string;
+  noPostData: string;
+  dataLabel: string;
+  dataPending: string;
+  impressions: string;
+  chosenCost: string;
+  engagement: string;
+  performanceTitle: string;
+  performanceSub: string;
+  publicDataNote: string;
+  audiencePending: string;
+  flipToBack: string;
+  flipToFront: string;
+  cardFrontAria: string;
+  cardBackAria: string;
+  storefrontEyebrow: string;
+  storefrontTitle: string;
+  storefrontSub: string;
+  dealLinkEyebrow: string;
+  dealLinkTitle: string;
+  dealLinkBody: string;
+  dealLinkLinkedInTitle: string;
+  dealLinkLinkedInBody: string;
+  dealLinkSendTitle: string;
+  dealLinkSendBody: string;
+  dealLinkShare: string;
+  yourShare: string;
+  rewardPeriod: string;
+  shareValue: string;
+  rewardValue: string;
+  copyDealLinkToast: string;
 };
 
 const profileEn: CreatorProfileCopy = {
@@ -1046,6 +1078,39 @@ const profileEn: CreatorProfileCopy = {
   bookToast: "Booking opens for brands on your public card.",
   savedToast: "Profile updated.",
   photoToast: "Photo upload will connect to storage next.",
+  shareCard: "Share card",
+  shareToast: "Card link copied.",
+  noPostData: "No post data available",
+  dataLabel: "Data",
+  dataPending: "Pending",
+  impressions: "Impressions",
+  chosenCost: "Chosen cost",
+  engagement: "Engagement rate",
+  performanceTitle: "Performance & ICP",
+  performanceSub: "Public LinkedIn reach and audience signals for brands.",
+  publicDataNote: "Public LinkedIn data estimated by Naano",
+  audiencePending: "Audience stats unlock after more public post data lands.",
+  flipToBack: "Flip to performance",
+  flipToFront: "Flip to card front",
+  cardFrontAria: "Preview of {name}'s Marketplace card",
+  cardBackAria: "{name}'s LinkedIn performance and audience",
+  storefrontEyebrow: "Your creator storefront",
+  storefrontTitle: "Your Naano card, ready to travel.",
+  storefrontSub:
+    "Share clear proof of your positioning, audience and offers. Every improvement makes the card more useful to brands.",
+  dealLinkEyebrow: "Your card is your Deal Link",
+  dealLinkTitle: "Put it on LinkedIn. Earn when a brand joins through it.",
+  dealLinkBody: "Your public card presents your profile and keeps you selected when a brand creates its account.",
+  dealLinkLinkedInTitle: "Add it as a LinkedIn experience",
+  dealLinkLinkedInBody: "Keep your card visible on your profile so brands can discover and book you.",
+  dealLinkSendTitle: "Send it when a brand contacts you",
+  dealLinkSendBody: "When you receive a collaboration request, share your card so the deal runs through Naano.",
+  dealLinkShare: "Copy or share my Deal Link",
+  yourShare: "Your share",
+  rewardPeriod: "Reward period",
+  shareValue: "25%",
+  rewardValue: "3 months",
+  copyDealLinkToast: "Deal Link copied.",
 };
 
 const profileFr: CreatorProfileCopy = {
@@ -1104,6 +1169,39 @@ const profileFr: CreatorProfileCopy = {
   bookToast: "La réservation s’ouvre pour les marques sur votre carte publique.",
   savedToast: "Profil mis à jour.",
   photoToast: "L’upload photo sera branché au stockage ensuite.",
+  shareCard: "Partager la carte",
+  shareToast: "Lien de la carte copié.",
+  noPostData: "Aucune donnée de post",
+  dataLabel: "Données",
+  dataPending: "En attente",
+  impressions: "Impressions",
+  chosenCost: "Prix choisi",
+  engagement: "Taux d’engagement",
+  performanceTitle: "Performance & ICP",
+  performanceSub: "Portée LinkedIn publique et signaux d’audience pour les marques.",
+  publicDataNote: "Données LinkedIn publiques estimées par Naano",
+  audiencePending: "Les stats d’audience se débloquent avec plus de posts publics.",
+  flipToBack: "Voir la performance",
+  flipToFront: "Revenir à la carte",
+  cardFrontAria: "Aperçu de la carte Marketplace de {name}",
+  cardBackAria: "Performance LinkedIn et audience de {name}",
+  storefrontEyebrow: "Votre vitrine créateur",
+  storefrontTitle: "Votre carte Naano, prête à voyager.",
+  storefrontSub:
+    "Partagez une preuve claire de votre positionnement, audience et offres. Chaque amélioration rend la carte plus utile aux marques.",
+  dealLinkEyebrow: "Votre carte est votre Deal Link",
+  dealLinkTitle: "Mettez-la sur LinkedIn. Gagnez quand une marque rejoint via ce lien.",
+  dealLinkBody: "Votre carte publique présente votre profil et vous garde sélectionné quand une marque crée son compte.",
+  dealLinkLinkedInTitle: "Ajoutez-la comme expérience LinkedIn",
+  dealLinkLinkedInBody: "Gardez votre carte visible sur votre profil pour que les marques vous découvrent.",
+  dealLinkSendTitle: "Envoyez-la quand une marque vous contacte",
+  dealLinkSendBody: "Quand vous recevez une demande de collab, partagez votre carte pour que le deal passe par Naano.",
+  dealLinkShare: "Copier ou partager mon Deal Link",
+  yourShare: "Votre part",
+  rewardPeriod: "Période de reward",
+  shareValue: "25 %",
+  rewardValue: "3 mois",
+  copyDealLinkToast: "Deal Link copié.",
 };
 
 export const creatorProfileCopy: Record<Locale, CreatorProfileCopy> = {

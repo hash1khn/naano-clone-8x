@@ -2,7 +2,9 @@
 
 import { useEffect, useMemo, useRef, useState, type DragEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import { CreatorFlipCard } from "@/components/creator/CreatorFlipCard";
 import {
+  Briefcase,
   ChevronDown,
   EyeOff,
   GripVertical,
@@ -10,6 +12,8 @@ import {
   Pencil,
   Plus,
   RefreshCw,
+  Send,
+  Share2,
   ShieldCheck,
 } from "lucide-react";
 import {
@@ -388,6 +392,21 @@ export function ProfilePanel({
     );
   }
 
+  async function copyDealLink() {
+    const url =
+      typeof window !== "undefined"
+        ? profile.slug
+          ? `${window.location.origin}/creators/${profile.slug}`
+          : window.location.href.split("#")[0] + "#profile"
+        : "";
+    try {
+      if (url) await navigator.clipboard.writeText(url);
+      setToast(copy.copyDealLinkToast);
+    } catch {
+      setToast(copy.copyDealLinkToast);
+    }
+  }
+
   const modal =
     mounted && (aboutOpen || priceOpen || addOpen)
       ? createPortal(
@@ -501,6 +520,15 @@ export function ProfilePanel({
     <section className="page visible" id="page-profile" data-screen-label={copy.tabEdit}>
       <div className={`cr-mycard${preview ? " is-preview" : ""}`}>
         <div className="cr-mycard-mode">
+          {!preview ? (
+            <div className="cr-mycard-storefront" style={{ flex: 1, marginBottom: 0 }}>
+              <p className="eyebrow">{copy.storefrontEyebrow}</p>
+              <h1>{copy.storefrontTitle}</h1>
+              <p>{copy.storefrontSub}</p>
+            </div>
+          ) : (
+            <div style={{ flex: 1 }} />
+          )}
           <div className="cr-mycard-tabs" role="tablist" aria-label={copy.viewModeAria}>
             <button type="button" role="tab" aria-selected={!preview} onClick={() => setMode("edit")}>
               {copy.tabEdit}
@@ -511,156 +539,214 @@ export function ProfilePanel({
           </div>
         </div>
 
-        <div className="cr-mycard-wrap">
-          <div className="cr-mycard-main">
-            <article className="cr-mycard-hero">
-              <div className="cr-mycard-hero-row">
-                <div className="cr-mycard-avatar">
-                  {profile.avatar_url ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={profile.avatar_url} alt={profile.name} />
-                  ) : (
-                    initialsFromName(profile.name)
-                  )}
-                </div>
-                <div className="cr-mycard-hero-copy">
-                  <div className="cr-mycard-hero-top">
-                    <div>
-                      <h2 className="cr-mycard-name">{profile.name}</h2>
-                      {!preview ? (
-                        <button
-                          type="button"
-                          className="cr-mycard-photo-btn"
-                          onClick={() => setToast(copy.photoToast)}
-                        >
-                          {copy.changePhoto}
-                        </button>
-                      ) : null}
-                      {profile.bio?.trim() ? <p className="cr-mycard-headline">{profile.bio}</p> : null}
-                      {!preview ? (
-                        <button type="button" className="cr-mycard-synced">
-                          {fillProfile(copy.syncedSuffix, { date: synced }).trim()}
-                          <Info size={13} aria-hidden="true" />
-                        </button>
-                      ) : null}
-                    </div>
-                    {!preview ? (
-                      <span className="cr-mycard-badge" title={copy.marketplacePrivateHint}>
-                        <i aria-hidden="true" />
-                        {copy.marketplacePrivate}
-                      </span>
-                    ) : null}
+        {preview ? (
+          <div className="cr-mycard-stage">
+            <CreatorFlipCard copy={copy} profile={profile} onShare={copyDealLink} />
+          </div>
+        ) : null}
+
+        {!preview ? (
+          <>
+            <article className="cr-mycard-deal">
+              <div className="cr-mycard-deal-grid">
+                <div className="cr-mycard-deal-copy">
+                  <div className="cr-mycard-deal-kicker">
+                    <i aria-hidden="true" />
+                    {copy.dealLinkEyebrow}
                   </div>
-                  <div className="cr-mycard-stats">
-                    <div className="cr-mycard-stat">
-                      <b>{followers}</b>
-                      <span>{copy.followers}</span>
+                  <h2>{copy.dealLinkTitle}</h2>
+                  <p>{copy.dealLinkBody}</p>
+                  <div className="cr-mycard-deal-cards">
+                    <div className="cr-mycard-deal-card">
+                      <span className="cr-mycard-deal-icon">
+                        <Briefcase size={16} />
+                      </span>
+                      <b>{copy.dealLinkLinkedInTitle}</b>
+                      <span>{copy.dealLinkLinkedInBody}</span>
                     </div>
+                    <div className="cr-mycard-deal-card">
+                      <span className="cr-mycard-deal-icon">
+                        <Send size={16} />
+                      </span>
+                      <b>{copy.dealLinkSendTitle}</b>
+                      <span>{copy.dealLinkSendBody}</span>
+                    </div>
+                  </div>
+                  <button type="button" className="cr-mycard-deal-cta" onClick={copyDealLink}>
+                    <Share2 size={15} />
+                    {copy.dealLinkShare}
+                  </button>
+                </div>
+                <div className="cr-mycard-deal-stats">
+                  <div>
+                    <small>{copy.yourShare}</small>
+                    <b>{copy.shareValue}</b>
+                  </div>
+                  <div>
+                    <small>{copy.rewardPeriod}</small>
+                    <b style={{ fontSize: "1.15rem" }}>{copy.rewardValue}</b>
                   </div>
                 </div>
               </div>
             </article>
 
-            {visibleKeys.map((key, index) => (
-              <div
-                key={key}
-                className={`cr-mycard-section${draggingKey === key ? " is-dragging" : ""}`}
-                draggable={!preview}
-                onDragStart={() => onDragStart(index, key)}
-                onDragOver={(event) => onDragOver(event, index)}
-                onDragEnd={onDragEnd}
-              >
-                <div className="cr-mycard-section-head">
-                  {!preview ? (
-                    <span className="cr-mycard-grab" title={copy.dragToReorderTitle} aria-hidden="true">
-                      <GripVertical size={16} />
-                    </span>
-                  ) : null}
-                  <h3>{sectionTitle(key)}</h3>
-                  {!preview && key === "about" ? (
-                    <IconBtn label={copy.editDescriptionAria} onClick={openAboutEditor}>
-                      <Pencil size={14} />
-                    </IconBtn>
-                  ) : null}
-                  {!preview && key === "pricing" ? (
-                    <IconBtn label={copy.editPriceAndBundles} onClick={openPriceEditor}>
-                      <Pencil size={14} />
-                    </IconBtn>
-                  ) : null}
-                  {!preview ? (
-                    <IconBtn label={copy.hideSectionAria} onClick={() => hideSection(key)}>
-                      <EyeOff size={14} />
-                    </IconBtn>
-                  ) : null}
-                </div>
-                {renderSectionBody(key)}
-              </div>
-            ))}
-          </div>
+            <div className="cr-mycard-stage" style={{ marginTop: 18 }}>
+              <CreatorFlipCard copy={copy} profile={profile} onShare={copyDealLink} />
+            </div>
 
-          {!preview ? (
-            <aside className="cr-mycard-rail">
-              <section className="cr-mycard-sync" aria-label={copy.syncCardTitle}>
-                <div className="cr-mycard-sync-head">
-                  <span className="cr-mycard-sync-icon">
-                    <ShieldCheck size={17} strokeWidth={2.2} />
-                  </span>
-                  <div style={{ minWidth: 0, flex: 1 }}>
-                    <div className="cr-mycard-sync-title">{copy.syncCardTitle}</div>
-                    <div className="cr-mycard-sync-status">{copy.syncStatusPublicProfile}</div>
+            <div className="cr-mycard-wrap" style={{ marginTop: 8 }}>
+              <div className="cr-mycard-main">
+                <article className="cr-mycard-hero">
+                  <div className="cr-mycard-hero-row">
+                    <div className="cr-mycard-avatar">
+                      {profile.avatar_url ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={profile.avatar_url} alt={profile.name} />
+                      ) : (
+                        initialsFromName(profile.name)
+                      )}
+                    </div>
+                    <div className="cr-mycard-hero-copy">
+                      <div className="cr-mycard-hero-top">
+                        <div>
+                          <h2 className="cr-mycard-name">{profile.name}</h2>
+                          <button
+                            type="button"
+                            className="cr-mycard-photo-btn"
+                            onClick={() => setToast(copy.photoToast)}
+                          >
+                            {copy.changePhoto}
+                          </button>
+                          {profile.bio?.trim() ? <p className="cr-mycard-headline">{profile.bio}</p> : null}
+                          <button type="button" className="cr-mycard-synced">
+                            {fillProfile(copy.syncedSuffix, { date: synced }).trim()}
+                            <Info size={13} aria-hidden="true" />
+                          </button>
+                        </div>
+                        <span className="cr-mycard-badge" title={copy.marketplacePrivateHint}>
+                          <i aria-hidden="true" />
+                          {copy.marketplacePrivate}
+                        </span>
+                      </div>
+                      <div className="cr-mycard-stats">
+                        <div className="cr-mycard-stat">
+                          <b>{followers}</b>
+                          <span>{copy.followers}</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <IconBtn label={copy.syncCardTitle} onClick={() => undefined}>
-                    <Info size={15} />
-                  </IconBtn>
-                </div>
-                <div className="cr-mycard-sync-meta">
-                  <span>{copy.syncLastUpdate}</span>
-                  <strong>{synced}</strong>
-                </div>
-                <button type="button" className="cr-mycard-refresh" disabled={refreshing} onClick={refreshPublic}>
-                  <RefreshCw size={14} className={refreshing ? "flat-profile-spin" : undefined} />
-                  {refreshing ? copy.syncRefreshing : copy.syncPublicRefreshCta}
+                </article>
+
+                {visibleKeys.map((key, index) => (
+                  <div
+                    key={key}
+                    className={`cr-mycard-section${draggingKey === key ? " is-dragging" : ""}`}
+                    draggable
+                    onDragStart={() => onDragStart(index, key)}
+                    onDragOver={(event) => onDragOver(event, index)}
+                    onDragEnd={onDragEnd}
+                  >
+                    <div className="cr-mycard-section-head">
+                      <span className="cr-mycard-grab" title={copy.dragToReorderTitle} aria-hidden="true">
+                        <GripVertical size={16} />
+                      </span>
+                      <h3>{sectionTitle(key)}</h3>
+                      {key === "about" ? (
+                        <IconBtn label={copy.editDescriptionAria} onClick={openAboutEditor}>
+                          <Pencil size={14} />
+                        </IconBtn>
+                      ) : null}
+                      {key === "pricing" ? (
+                        <IconBtn label={copy.editPriceAndBundles} onClick={openPriceEditor}>
+                          <Pencil size={14} />
+                        </IconBtn>
+                      ) : null}
+                      <IconBtn label={copy.hideSectionAria} onClick={() => hideSection(key)}>
+                        <EyeOff size={14} />
+                      </IconBtn>
+                    </div>
+                    {renderSectionBody(key)}
+                  </div>
+                ))}
+              </div>
+
+              <aside className="cr-mycard-rail">
+                <section className="cr-mycard-sync" aria-label={copy.syncCardTitle}>
+                  <div className="cr-mycard-sync-head">
+                    <span className="cr-mycard-sync-icon">
+                      <ShieldCheck size={17} strokeWidth={2.2} />
+                    </span>
+                    <div style={{ minWidth: 0, flex: 1 }}>
+                      <div className="cr-mycard-sync-title">{copy.syncCardTitle}</div>
+                      <div className="cr-mycard-sync-status">{copy.syncStatusPublicProfile}</div>
+                    </div>
+                    <IconBtn label={copy.syncCardTitle} onClick={() => undefined}>
+                      <Info size={15} />
+                    </IconBtn>
+                  </div>
+                  <div className="cr-mycard-sync-meta">
+                    <span>{copy.syncLastUpdate}</span>
+                    <strong>{synced}</strong>
+                  </div>
+                  <button type="button" className="cr-mycard-refresh" disabled={refreshing} onClick={refreshPublic}>
+                    <RefreshCw size={14} className={refreshing ? "flat-profile-spin" : undefined} />
+                    {refreshing ? copy.syncRefreshing : copy.syncPublicRefreshCta}
+                  </button>
+                </section>
+
+                <section className="cr-mycard-verified">
+                  <h4>{copy.syncBecomeVerifiedTitle}</h4>
+                  <p>{copy.syncBecomeVerifiedBody}</p>
+                  <button
+                    type="button"
+                    className="cr-mycard-verified-cta"
+                    onClick={() => setToast(copy.syncExtensionComingSoonBadge)}
+                  >
+                    {copy.syncBecomeVerifiedCta}
+                  </button>
+                </section>
+
+                <button type="button" className="cr-mycard-add" onClick={() => setAddOpen(true)}>
+                  <Plus size={16} style={{ display: "inline", verticalAlign: "-3px", marginRight: 6 }} />
+                  {copy.addASection}
                 </button>
-              </section>
 
-              <section className="cr-mycard-verified">
-                <h4>{copy.syncBecomeVerifiedTitle}</h4>
-                <p>{copy.syncBecomeVerifiedBody}</p>
-                <button
-                  type="button"
-                  className="cr-mycard-verified-cta"
-                  onClick={() => setToast(copy.syncExtensionComingSoonBadge)}
-                >
-                  {copy.syncBecomeVerifiedCta}
-                </button>
-              </section>
-
-              <button type="button" className="cr-mycard-add" onClick={() => setAddOpen(true)}>
-                <Plus size={16} style={{ display: "inline", verticalAlign: "-3px", marginRight: 6 }} />
-                {copy.addASection}
-              </button>
-
-              <div className="cr-mycard-hidden-label">{copy.hiddenSectionsHeading}</div>
-              {hiddenKeys.length ? (
-                <div className="cr-mycard-hidden-list">
-                  {hiddenKeys.map((key) => (
-                    <button
-                      key={key}
-                      type="button"
-                      className="cr-mycard-hidden-item"
-                      title={copy.showSectionAgainTitle}
-                      onClick={() => showSection(key)}
-                    >
-                      {sectionTitle(key)}
-                    </button>
-                  ))}
+                <div className="cr-mycard-hidden-label">{copy.hiddenSectionsHeading}</div>
+                {hiddenKeys.length ? (
+                  <div className="cr-mycard-hidden-list">
+                    {hiddenKeys.map((key) => (
+                      <button
+                        key={key}
+                        type="button"
+                        className="cr-mycard-hidden-item"
+                        title={copy.showSectionAgainTitle}
+                        onClick={() => showSection(key)}
+                      >
+                        {sectionTitle(key)}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="cr-mycard-hidden-empty">{copy.hiddenSectionsEmpty}</p>
+                )}
+              </aside>
+            </div>
+          </>
+        ) : (
+          <div className="cr-mycard-wrap">
+            <div className="cr-mycard-main">
+              {visibleKeys.map((key) => (
+                <div key={key} className="cr-mycard-section">
+                  <div className="cr-mycard-section-head">
+                    <h3>{sectionTitle(key)}</h3>
+                  </div>
+                  {renderSectionBody(key)}
                 </div>
-              ) : (
-                <p className="cr-mycard-hidden-empty">{copy.hiddenSectionsEmpty}</p>
-              )}
-            </aside>
-          ) : null}
-        </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
       {modal}
       {toast ? <div className="cr-mycard-toast">{toast}</div> : null}

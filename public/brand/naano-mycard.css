@@ -13,8 +13,9 @@
 
 .cr-mycard-mode {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
   margin-bottom: 16px;
 }
 
@@ -743,4 +744,327 @@
     width: 100%;
     position: static;
   }
+}
+
+/* Swappable physical marketplace card */
+.cr-mycard-stage{
+  display:grid;
+  place-items:center;
+  width:100%;
+  margin:8px 0 22px;
+  padding:28px 18px 34px;
+  border:1px solid #E4E8EF;
+  border-radius:20px;
+  background:#F6F8FB;
+  background-image:radial-gradient(circle at 50% 0,rgba(29,91,245,.055),transparent 36%);
+}
+.cr-mycard.is-preview .cr-mycard-stage{
+  min-height:min(72vh,720px);
+  margin-top:0;
+}
+.cr-flip-scene{
+  width:100%;
+  max-width:390px;
+  min-height:520px;
+  perspective:1600px;
+}
+.cr-flip-card{
+  position:relative;
+  width:100%;
+  min-height:520px;
+  transform-style:preserve-3d;
+  transition:transform .52s cubic-bezier(.2,.72,.2,1);
+}
+.cr-flip-card.is-flipped{transform:rotateY(180deg)}
+.cr-flip-face{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  border:1px solid rgba(218,225,235,.96);
+  border-radius:24px;
+  background:#fff;
+  box-shadow:0 24px 54px rgba(35,62,100,.18);
+  color:#172033;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+}
+.cr-flip-front{transform:rotateY(0)}
+.cr-flip-back{transform:rotateY(180deg)}
+.cr-flip-face .cr-profile-preview-body{flex:1;padding-bottom:48px}
+.cr-flip-data-bar{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:14px 8px 0;
+  color:#8A94A8;
+  font-size:.62rem;
+  font-weight:700;
+  letter-spacing:.02em;
+}
+.cr-flip-data-bar i{
+  flex:1;
+  height:3px;
+  border-radius:99px;
+  background:linear-gradient(90deg,#E8ECF2 0%,#EEF1F6 100%);
+}
+.cr-flip-toggle{
+  position:absolute;
+  left:50%;
+  bottom:10px;
+  z-index:4;
+  transform:translateX(-50%);
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border:1px solid #E1E6ED;
+  border-radius:50%;
+  background:#fff;
+  color:#667085;
+  box-shadow:0 6px 16px rgba(23,34,57,.1);
+  cursor:pointer;
+}
+.cr-flip-toggle:hover{border-color:#B9C9F5;color:#1D5BF5}
+.cr-flip-back-cover{
+  position:relative;
+  height:88px;
+  background:linear-gradient(90deg,#1d4ed8 0%,#3b82f6 100%);
+}
+.cr-flip-back-avatar{
+  position:absolute;
+  left:50%;
+  bottom:0;
+  transform:translate(-50%,50%);
+  margin:0!important;
+}
+.cr-flip-back-body{
+  flex:1;
+  padding:52px 20px 52px;
+  text-align:center;
+}
+.cr-flip-back-body h3{
+  margin:0;
+  font-size:1.15rem;
+  letter-spacing:-.03em;
+}
+.cr-flip-back-body>p{
+  margin:6px 0 0;
+  color:#657188;
+  font-size:.76rem;
+  line-height:1.45;
+}
+.cr-flip-back-metrics{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin:18px 0 0;
+}
+.cr-flip-back-metrics>div{
+  padding:12px 8px;
+  border:1px solid #E6EAF0;
+  border-radius:12px;
+  background:#F8FAFD;
+}
+.cr-flip-back-metrics dt{
+  color:#8790A0;
+  font-size:.55rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+.cr-flip-back-metrics dd{
+  margin:6px 0 0;
+  font-size:.95rem;
+  font-weight:800;
+  letter-spacing:-.02em;
+}
+.cr-flip-back-note{
+  display:inline-flex;
+  margin-top:14px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#F3F5F9;
+  color:#737B89;
+  font-size:.62rem;
+  font-weight:700;
+}
+.cr-flip-back-panel{
+  margin-top:14px;
+  padding:14px;
+  border:1px solid #E4E8F1;
+  border-radius:16px;
+  background:#fff;
+  text-align:left;
+}
+.cr-flip-back-panel h4{
+  margin:0;
+  font-size:.78rem;
+  font-weight:750;
+}
+.cr-flip-back-panel p{
+  margin:8px 0 0;
+  color:#8B929F;
+  font-size:.72rem;
+  line-height:1.45;
+}
+.cr-flip-back-tag{
+  display:inline-flex;
+  margin:8px 6px 0 0;
+  padding:4px 10px;
+  border-radius:999px;
+  background:#F5F8FD;
+  color:#50617A;
+  font-size:.62rem;
+  font-weight:700;
+}
+.cr-mycard-storefront{
+  margin-bottom:18px;
+}
+.cr-mycard-storefront .eyebrow{
+  margin:0;
+  color:#1D5BF5;
+  font-size:.62rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.cr-mycard-storefront h1{
+  margin:10px 0 0;
+  max-width:640px;
+  font-size:1.85rem;
+  letter-spacing:-.035em;
+  line-height:1.15;
+}
+.cr-mycard-storefront>p{
+  margin:10px 0 0;
+  max-width:620px;
+  color:#5F6B7D;
+  font-size:.92rem;
+  line-height:1.5;
+}
+.cr-mycard-deal{
+  margin-top:18px;
+  padding:22px;
+  border:1px solid #D5E4EC;
+  border-radius:24px;
+  background:linear-gradient(135deg,#EFF9FE,#FFFFFF 70%);
+}
+.cr-mycard-deal-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 180px;
+  gap:18px;
+  align-items:start;
+}
+.cr-mycard-deal-kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:#54778A;
+  font-size:.62rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.cr-mycard-deal-kicker i{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#92CBE5;
+}
+.cr-mycard-deal h2{
+  margin:12px 0 0;
+  max-width:620px;
+  font-size:1.45rem;
+  letter-spacing:-.035em;
+  line-height:1.15;
+}
+.cr-mycard-deal>div>p,
+.cr-mycard-deal-copy>p{
+  margin:10px 0 0;
+  max-width:590px;
+  color:#5F6B7D;
+  font-size:.84rem;
+  line-height:1.5;
+}
+.cr-mycard-deal-cards{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:18px;
+}
+.cr-mycard-deal-card{
+  padding:14px;
+  border:1px solid #E1E8F0;
+  border-radius:16px;
+  background:rgba(255,255,255,.82);
+}
+.cr-mycard-deal-card b{
+  display:block;
+  margin-top:10px;
+  font-size:.84rem;
+}
+.cr-mycard-deal-card span{
+  display:block;
+  margin-top:6px;
+  color:#667085;
+  font-size:.72rem;
+  line-height:1.45;
+}
+.cr-mycard-deal-icon{
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border-radius:11px;
+  background:#EAF4FF;
+  color:#1D5BF5;
+}
+.cr-mycard-deal-stats{
+  padding:16px;
+  border:1px solid #E1E8F0;
+  border-radius:16px;
+  background:#fff;
+}
+.cr-mycard-deal-stats>div+div{margin-top:16px}
+.cr-mycard-deal-stats small{
+  display:block;
+  color:#7B8798;
+  font-size:.58rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.cr-mycard-deal-stats b{
+  display:block;
+  margin-top:6px;
+  font-size:1.55rem;
+  letter-spacing:-.03em;
+}
+.cr-mycard-deal-cta{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-top:18px;
+  min-height:42px;
+  padding:0 16px;
+  border:0;
+  border-radius:12px;
+  background:#111827;
+  color:#fff;
+  font:inherit;
+  font-size:.84rem;
+  font-weight:700;
+  cursor:pointer;
+}
+@media(max-width:880px){
+  .cr-mycard-deal-grid{grid-template-columns:1fr}
+  .cr-mycard-deal-cards{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  .cr-flip-card{transition:none}
+  .cr-flip-card.is-flipped{transform:none}
+  .cr-flip-front[aria-hidden="true"],.cr-flip-back[aria-hidden="true"]{display:none}
+  .cr-flip-back{transform:none}
 }
