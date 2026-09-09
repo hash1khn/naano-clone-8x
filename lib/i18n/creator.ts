@@ -822,3 +822,114 @@ export const creatorAnalyticsCopy: Record<Locale, CreatorAnalyticsCopy> = {
   en: analyticsEn,
   fr: analyticsFr,
 };
+
+export type CreatorOpportunitiesCopy = {
+  title: string;
+  sub: string;
+  filterEmpty: string;
+  allChannels: string;
+  allIndustries: string;
+  searchIndustry: string;
+  industriesSelected: string;
+  noIndustryMatch: string;
+  allCountries: string;
+  searchCountry: string;
+  countriesSelected: string;
+  noCountryMatch: string;
+  sortRelevance: string;
+  sortMatch: string;
+  sortNewest: string;
+  searchPh: string;
+  apply: string;
+  applied: string;
+  bookingInProgress: string;
+  match: string;
+  channel: string;
+  postDeadline: string;
+  tenDays: string;
+  escrowLine: string;
+  seeBrief: string;
+  viewBrief: string;
+  briefComingSoon: string;
+  worldwide: string;
+  relevance: string;
+  close: string;
+  appliedToast: string;
+};
+
+const opportunitiesEn: CreatorOpportunitiesCopy = {
+  title: "Opportunities",
+  sub: "Open brand campaigns - apply, the brand accepts, and the booking is created on your terms.",
+  filterEmpty: "No campaign matches these filters. Remove a filter.",
+  allChannels: "All channels",
+  allIndustries: "All industries",
+  searchIndustry: "Search an industry…",
+  industriesSelected: "{n} industries",
+  noIndustryMatch: "No industry matches.",
+  allCountries: "All countries",
+  searchCountry: "Search a country…",
+  countriesSelected: "{n} countries",
+  noCountryMatch: "No country matches.",
+  sortRelevance: "Relevance (default)",
+  sortMatch: "Match: high to low",
+  sortNewest: "Newest",
+  searchPh: "Search for a campaign or a brand…",
+  apply: "Apply",
+  applied: "Application sent",
+  bookingInProgress: "Booking in progress",
+  match: "match",
+  channel: "Channel",
+  postDeadline: "Post deadline",
+  tenDays: "6 days",
+  escrowLine: "Your net is held in escrow when the brand accepts, and released at publication.",
+  seeBrief: "See Brief",
+  viewBrief: "View the brief",
+  briefComingSoon: "Brief coming soon",
+  worldwide: "Worldwide",
+  relevance: "Audience relevance",
+  close: "Close",
+  appliedToast: "Application sent — demo only.",
+};
+
+const opportunitiesFr: CreatorOpportunitiesCopy = {
+  title: "Opportunités",
+  sub: "Campagnes de marques ouvertes — candidatez, la marque accepte, et la réservation se crée selon vos conditions.",
+  filterEmpty: "Aucune campagne ne correspond à ces filtres. Retirez un filtre.",
+  allChannels: "Tous les canaux",
+  allIndustries: "Toutes les industries",
+  searchIndustry: "Rechercher une industrie…",
+  industriesSelected: "{n} industries",
+  noIndustryMatch: "Aucune industrie ne correspond.",
+  allCountries: "Tous les pays",
+  searchCountry: "Rechercher un pays…",
+  countriesSelected: "{n} pays",
+  noCountryMatch: "Aucun pays ne correspond.",
+  sortRelevance: "Pertinence (défaut)",
+  sortMatch: "Match : du plus élevé",
+  sortNewest: "Plus récentes",
+  searchPh: "Rechercher une campagne ou une marque…",
+  apply: "Postuler",
+  applied: "Candidature envoyée",
+  bookingInProgress: "Réservation en cours",
+  match: "match",
+  channel: "Canal",
+  postDeadline: "Délai de publication",
+  tenDays: "6 jours",
+  escrowLine: "Votre net est placé en séquestre quand la marque accepte, et libéré à la publication.",
+  seeBrief: "Voir le brief",
+  viewBrief: "Voir le brief",
+  briefComingSoon: "Brief bientôt disponible",
+  worldwide: "Monde entier",
+  relevance: "Pertinence d’audience",
+  close: "Fermer",
+  appliedToast: "Candidature envoyée — démo uniquement.",
+};
+
+export const creatorOpportunitiesCopy: Record<Locale, CreatorOpportunitiesCopy> = {
+  en: opportunitiesEn,
+  fr: opportunitiesFr,
+};
+
+export function fillOpportunities(template: string, vars: Record<string, string>) {
+  return Object.entries(vars).reduce((text, [key, value]) => text.replaceAll(`{${key}}`, value), template);
+}

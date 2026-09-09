@@ -9,6 +9,7 @@ import {
   creatorCopy,
   creatorEarningsCopy,
   creatorHomeCopy,
+  creatorOpportunitiesCopy,
   creatorReferralsCopy,
 } from "@/lib/i18n/creator";
 import { getRequestLocale } from "@/lib/i18n/locale";
@@ -36,6 +37,7 @@ export default async function CreatorDashboardPage() {
       community={creatorCommunityCopy[locale]}
       earnings={creatorEarningsCopy[locale]}
       analytics={creatorAnalyticsCopy[locale]}
+      opportunities={creatorOpportunitiesCopy[locale]}
       referrals={creatorReferralsCopy[locale]}
       collaborations={collaborationsCopy[locale]}
       messages={messagesCopy[locale]}
