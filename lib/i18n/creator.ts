@@ -1020,6 +1020,17 @@ export type CreatorProfileCopy = {
   shareValue: string;
   rewardValue: string;
   copyDealLinkToast: string;
+  headingEdit: string;
+  headingPreview: string;
+  introEdit: string;
+  introPreview: string;
+  dealLinkShareShort: string;
+  flipHint: string;
+  companySees: string;
+  sectionsHeading: string;
+  sectionsHint: string;
+  liveCardLabel: string;
+  syncRefreshShort: string;
 };
 
 const profileEn: CreatorProfileCopy = {
@@ -1111,6 +1122,17 @@ const profileEn: CreatorProfileCopy = {
   shareValue: "25%",
   rewardValue: "3 months",
   copyDealLinkToast: "Deal Link copied.",
+  headingEdit: "Edit your card",
+  headingPreview: "Brand preview",
+  introEdit: "Update your profile on the left. Your live card updates on the right.",
+  introPreview: "This is how brands see your card. Flip it for performance details.",
+  dealLinkShareShort: "Copy Deal Link",
+  flipHint: "Tap the arrow under the card to flip between profile and performance.",
+  companySees: "What brands see below the card",
+  sectionsHeading: "Profile sections",
+  sectionsHint: "Drag to reorder. Hide anything you don’t want brands to see.",
+  liveCardLabel: "Live card",
+  syncRefreshShort: "Refresh",
 };
 
 const profileFr: CreatorProfileCopy = {
@@ -1202,6 +1224,17 @@ const profileFr: CreatorProfileCopy = {
   shareValue: "25 %",
   rewardValue: "3 mois",
   copyDealLinkToast: "Deal Link copié.",
+  headingEdit: "Modifier votre carte",
+  headingPreview: "Aperçu marque",
+  introEdit: "Modifiez votre profil à gauche. La carte se met à jour à droite.",
+  introPreview: "Voici comment les marques voient votre carte. Retournez-la pour la performance.",
+  dealLinkShareShort: "Copier le Deal Link",
+  flipHint: "Touchez la flèche sous la carte pour basculer profil / performance.",
+  companySees: "Ce que les marques voient sous la carte",
+  sectionsHeading: "Sections du profil",
+  sectionsHint: "Glissez pour réordonner. Masquez ce que les marques ne doivent pas voir.",
+  liveCardLabel: "Carte en direct",
+  syncRefreshShort: "Actualiser",
 };
 
 export const creatorProfileCopy: Record<Locale, CreatorProfileCopy> = {
